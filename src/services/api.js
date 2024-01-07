@@ -12,3 +12,8 @@ export const fetchAdminList = () => {
 export const fetchTaskDetail = (taskId) => {
     return axiosInstance.get(`/Tasks/taskdetail?taskId=${taskId}`);
 };
+
+
+export const fetchTasksCategoryDPList = () => {
+    return axiosInstance.get('/Tasks/gettaskscategorydplist');
+};

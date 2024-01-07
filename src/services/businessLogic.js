@@ -35,3 +35,15 @@ export const getTaskDetail = async (taskId) => {
         throw error;
     }
 };
+
+
+export const getTasksCategoryDPList = async () => {
+    try {
+        const response = await api.fetchTasksCategoryDPList();
+        // Additional business logic can be added here
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching tasks category list:', error);
+        throw error;
+    }
+};
