@@ -47,3 +47,14 @@ export const getTasksCategoryDPList = async () => {
         throw error;
     }
 };
+
+export const getUserDropdownList = async () => {
+    try {
+        const response = await api.fetchUserDropdownList();
+        // Additional business logic can be added here
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching user dropdown list:', error);
+        throw error;
+    }
+};

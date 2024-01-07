@@ -17,3 +17,8 @@ export const fetchTaskDetail = (taskId) => {
 export const fetchTasksCategoryDPList = () => {
     return axiosInstance.get('/Tasks/gettaskscategorydplist');
 };
+
+
+export const fetchUserDropdownList = () => {
+    return axiosInstance.get('/Tasks/getuserdropdownlist');
+};
