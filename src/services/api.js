@@ -8,3 +8,7 @@ export const fetchEmployeeList = () => {
 export const fetchAdminList = () => {
     return axiosInstance.get('/Tasks/getadminlist');
 };
+
+export const fetchTaskDetail = (taskId) => {
+    return axiosInstance.get(`/Tasks/taskdetail?taskId=${taskId}`);
+};

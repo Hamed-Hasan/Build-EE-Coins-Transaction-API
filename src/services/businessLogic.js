@@ -22,3 +22,16 @@ export const getAdminList = async () => {
         throw error;
     }
 };
+
+
+export const getTaskDetail = async (taskId) => {
+    try {
+        const response = await api.fetchTaskDetail(taskId);
+        // Add any additional business logic here
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching task details:', error);
+        // Handle the error appropriately
+        throw error;
+    }
+};
