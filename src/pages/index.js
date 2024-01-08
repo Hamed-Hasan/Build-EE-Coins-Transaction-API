@@ -1,5 +1,5 @@
 
-import SidebarTaskTable from '@/components/SidebarTaskTable';
+import SidebarTaskTable from '@/components/TaskTable/SidebarTaskTable';
 import React from 'react';
 
 const HomePage = () => {
