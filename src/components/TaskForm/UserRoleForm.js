@@ -1,14 +1,10 @@
-import AdminForm from "./AdminForm";
+
+import CategoryForm from "./CategoryForm";
 import EmployeeForm from "./EmployeeForm";
 
 // const { default: EmployeeForm } = require("./EmployeeForm");
 
 const UserRoleForm = ({ role }) => {
-
-    // const handleFormSubmit = (formData) => {
-    //     console.log('Form Data:', formData);
-    //     // Here you would typically send the form data to the backend via an API call
-    //   };
 
     const handleFormClick = (event) => {
         event.stopPropagation();
@@ -17,7 +13,7 @@ const UserRoleForm = ({ role }) => {
     return (
         <div onClick={handleFormClick}>
             {role === 'employee' && <EmployeeForm   />}
-            {role === 'admin' && <AdminForm />} 
+            {role === 'admin' && <CategoryForm />} 
         </div>
     );
 };

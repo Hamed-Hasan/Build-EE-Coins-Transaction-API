@@ -15,7 +15,7 @@ export default function SwipeableTemporaryDrawer() {
 
 
   // Assuming you have a way to get the current user's role
-  const userRole = 'employee'; // employee | admin
+  const userRole = 'admin'; // employee | admin
 
   const isRoleAllowed = ['admin', 'employee'].includes(userRole);
 
