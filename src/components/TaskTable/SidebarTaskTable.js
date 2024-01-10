@@ -72,7 +72,7 @@ export default function SidebarTaskTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   // Assuming you have a way to get the current user's role
-  const userRole = "employee";
+  const userRole = "admin";
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -95,7 +95,7 @@ export default function SidebarTaskTable() {
 
   return (
     <Paper sx={{ width: "100%" }}>
-      {userRole === "employee" && <TaskTabs />}
+      <TaskTabs />
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -120,7 +120,7 @@ export default function SidebarTaskTable() {
               </TableCell>
 
               <TableCell align="center" colSpan={3} sx={{ padding: "0px" }}>
-                <SwipeableTemporaryDrawer />
+                <SwipeableTemporaryDrawer userRole={userRole} />
               </TableCell>
             </TableRow>
             <TableRow>

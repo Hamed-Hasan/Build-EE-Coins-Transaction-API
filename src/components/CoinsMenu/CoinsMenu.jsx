@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "./styles.module.css";
 
 const CoinsMenu = ({ isOpen }) => {
-  const role = "user";
+  const role = "employee";
   return (
     <Card className={`${styles.coinsMenu} ${isOpen && styles.animate}`}>
       <CardContent>
