@@ -1,11 +1,9 @@
-
-import SidebarTaskTable from '@/components/TaskTable/SidebarTaskTable';
-import React from 'react';
+import CoinsButton from "@/components/CoinsButton/CoinsButton";
 
 const HomePage = () => {
   return (
     <div>
-      <SidebarTaskTable />
+      <CoinsButton />
     </div>
   );
 };

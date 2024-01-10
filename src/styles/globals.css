@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: roboto;
+  height: 100vh;
+}
+span {
+  font-weight: bold;
+}
+@keyframes spin3d {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.spin-container-3d {
+  perspective: 1000px;
+  display: inline-block;
+}
+
+.spin-image {
+  width: 30px;
+  height: 30px;
+  height: auto;
+  transform-style: preserve-3d;
+  animation: spin3d 1s linear infinite;
+  cursor: pointer;
+}
+.css-mhc70k-MuiGrid-root {
+  margin: 0;
+  padding: 10px;
+  width: 100%;
+}
