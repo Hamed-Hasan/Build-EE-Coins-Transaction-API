@@ -1,78 +1,78 @@
-import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import { InputBase, IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import SwipeableTemporaryDrawer from './SwipeableTemporaryDrawer';
-import TaskTabs from '../TaskTabs/TaskTabs';
-
+import { getEmployeeList } from "@/services/businessLogic";
+import SearchIcon from "@mui/icons-material/Search";
+import { IconButton, InputBase } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import * as React from "react";
+import TaskTabs from "../TaskTabs/TaskTabs";
+import SwipeableTemporaryDrawer from "./SwipeableTemporaryDrawer";
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+  { id: "title", label: "Task Name", minWidth: 170 },
+  { id: "createdBy", label: "Created By", minWidth: 100 },
   {
-    id: 'population',
-    label: 'Population',
+    id: "assignedUser",
+    label: "Assigned To",
     minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
+    align: "right",
+    format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
+    id: "description",
+    label: "Description",
     minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
+    align: "right",
+    format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: 'density',
-    label: 'Density',
+    id: "status",
+    label: "status",
     minWidth: 170,
-    align: 'right',
+    align: "right",
     format: (value) => value.toFixed(2),
   },
-
+  {
+    id: "startTime",
+    label: "Start Time",
+    minWidth: 170,
+    align: "right",
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: "dueTime",
+    label: "Due Time",
+    minWidth: 170,
+    align: "right",
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: "totalCoins",
+    label: "Coins",
+    minWidth: 170,
+    align: "right",
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: "actions",
+    label: "Actions",
+    minWidth: 170,
+    align: "right",
+    format: (value) => value.toFixed(2),
+  },
 ];
-
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
-];
-
-
-
-
-
-
 
 export default function SidebarTaskTable() {
+  const [tasks, setTasks] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+  // Assuming you have a way to get the current user's role
+  const userRole = "employee";
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -82,9 +82,20 @@ export default function SidebarTaskTable() {
     setPage(0);
   };
 
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const res = await getEmployeeList();
+      if (res) {
+        setTasks(res);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log(tasks);
+
   return (
-    <Paper sx={{ width: '100%' }}>
-      <TaskTabs/>
+    <Paper sx={{ width: "100%" }}>
+      {userRole === "employee" && <TaskTabs />}
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -92,27 +103,25 @@ export default function SidebarTaskTable() {
               <TableCell align="center" colSpan={4}>
                 <Paper
                   component="form"
-                  sx={{ display: 'flex', alignItems: 'center', width: 250 }}
+                  sx={{ display: "flex", alignItems: "center", width: 250 }}
                 >
                   <InputBase
                     sx={{ ml: 1, flex: 1 }}
                     placeholder="Search..."
-                    inputProps={{ 'aria-label': 'search' }}
-                  // value={searchTerm}
-                  // onChange={handleInputChange}
-                  // onKeyDown={handleKeyDown}
+                    inputProps={{ "aria-label": "search" }}
+                    // value={searchTerm}
+                    // onChange={handleInputChange}
+                    // onKeyDown={handleKeyDown}
                   />
-                  <IconButton sx={{ p: '10px' }} aria-label="search" >
+                  <IconButton sx={{ p: "10px" }} aria-label="search">
                     <SearchIcon />
                   </IconButton>
                 </Paper>
               </TableCell>
 
-              <TableCell align="center" colSpan={3} sx={{ padding: '0px' }}>
-
+              <TableCell align="center" colSpan={3} sx={{ padding: "0px" }}>
                 <SwipeableTemporaryDrawer />
               </TableCell>
-
             </TableRow>
             <TableRow>
               {columns.map((column) => (
@@ -127,31 +136,35 @@ export default function SidebarTaskTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+            {tasks?.data?.length >= 1 &&
+              tasks.data
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((task) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={task.code}
+                    >
+                      {columns.map((column) => {
+                        const value = task[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={tasks.count}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

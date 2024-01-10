@@ -44,8 +44,8 @@ export const sendAddOrEditCategory = (formData) => {
   return axiosInstance.post("/Tasks/addoreditcategory", formData);
 };
 
-export const sendAddTask = (formData) => {
-  return axiosInstance.post("/Tasks/addtask", formData);
+export const sendAddTask = async (formData) => {
+  return await axiosInstance.post("/Tasks/addtask", formData);
 };
 
 export const sendManagerUpdateTaskCoin = (formData) => {
