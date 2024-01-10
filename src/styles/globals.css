@@ -1,0 +1,131 @@
+
+
+/* .animation-searchBar {
+position: absolute;
+margin: auto;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+width: 300px;
+height: 100px;
+} */
+.parent-searchBar{
+    position: relative;
+    
+    }
+    .search-icon {
+    /* position: absolute; */
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    background: #FFA001;
+    border-radius: 50%;
+    transition: all 1s;
+    z-index: 4;
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
+    margin-bottom: -7px!important;
+    }
+    
+    .search-icon:hover {
+    cursor: pointer;
+    }
+    
+    .search-icon::before {
+    content: "";
+    position: absolute;
+    margin: auto;
+    top: 22px;
+    right: 0;
+    bottom: 0;
+    left: 22px;
+    width: 12px;
+    height: 2px;
+    background: white;
+    transform: rotate(45deg);
+    transition: all .5s;
+    }
+    
+    .search-icon::after {
+    content: "";
+    position: absolute;
+    margin: auto;
+    top: -5px;
+    right: 0;
+    bottom: 0;
+    left: -5px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid white;
+    transition: all .5s;
+    }
+    
+    .animation-searchBar input {
+    font-family: 'Inconsolata', monospace;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    outline: none;
+    border: none;
+    background: #FFA001;
+    color: white;
+    text-shadow: 0 0 10px #FFA001;
+    padding: 0 80px 0 20px;
+    border-radius: 30px;
+    box-shadow: 0 0 25px 0 #FFA001, 0 20px 25px 0 rgba(0, 0, 0, 0.2);
+    transition: all 1s;
+    opacity: 0;
+    z-index: 5;
+    font-weight: bolder;
+    letter-spacing: 0.1em;
+    }
+    
+    .animation-searchBar input:hover {
+    cursor: pointer;
+    }
+    
+    .animation-searchBar input:focus {
+    width: 270px;
+    opacity: 1;
+    cursor: text;
+    }
+    
+    /* .animation-searchBar input:focus ~ .search-icon {
+    right: -250px;
+    background: #151515;
+    z-index: 6;
+    } */
+    
+    .animation-searchBar input:focus ~ .search-icon::before {
+    top: 0;
+    left: 0;
+    width: 25px;
+    }
+    
+    .animation-searchBar input:focus ~ .search-icon::after {
+    top: 0;
+    left: 0;
+    width: 25px;
+    height: 2px;
+    border: none;
+    background: white;
+    border-radius: 0%;
+    transform: rotate(-45deg);
+    }
+    
+    .animation-searchBar input::placeholder {
+    color: white;
+    opacity: 0.5;
+    font-weight: bolder;
+    }
+    

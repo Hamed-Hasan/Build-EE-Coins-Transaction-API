@@ -1,24 +1,24 @@
 import axiosInstance from './axiosInstance';
 
 export const fetchEmployeeList = () => {
-    return axiosInstance.get('/Tasks/getemployeelist');
+    return axiosInstance.get('/getemployeelist');
 };
 
 
 export const fetchAdminList = () => {
-    return axiosInstance.get('/Tasks/getadminlist');
+    return axiosInstance.get('/getadminlist');
 };
 
 export const fetchTaskDetail = (taskId) => {
-    return axiosInstance.get(`/Tasks/taskdetail?taskId=${taskId}`);
+    return axiosInstance.get(`/taskdetail?taskId=${taskId}`);
 };
 
 
 export const fetchTasksCategoryDPList = () => {
-    return axiosInstance.get('/Tasks/gettaskscategorydplist');
+    return axiosInstance.get('/gettaskscategorydplist');
 };
 
 
 export const fetchUserDropdownList = () => {
-    return axiosInstance.get('/Tasks/getuserdropdownlist');
+    return axiosInstance.get('/getuserdropdownlist');
 };

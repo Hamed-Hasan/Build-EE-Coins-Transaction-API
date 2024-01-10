@@ -15,7 +15,7 @@ export default function SwipeableTemporaryDrawer() {
 
 
   // Assuming you have a way to get the current user's role
-  const userRole = 'admin'; // employee | admin
+  const userRole = 'employee'; // employee | admin
 
   const isRoleAllowed = ['admin', 'employee'].includes(userRole);
 
@@ -35,7 +35,7 @@ export default function SwipeableTemporaryDrawer() {
           <ListItem onClick={handleItemClick} onKeyDown={handleItemClick}>
             <UserRoleForm role="admin" />
           </ListItem>
-          {/* ... other items */}
+    
         </>
       );
     } else if (userRole === 'employee') {
@@ -52,7 +52,7 @@ export default function SwipeableTemporaryDrawer() {
 
 
   const list = (anchor) => (
-    <Box sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }} role="presentation">
+    <Box sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 550 }} role="presentation">
       <List>
         {renderListItems()}
       </List>
