@@ -1,5 +1,6 @@
 import SidebarTaskTable from "@/components/TaskTable/SidebarTaskTable";
 import { Typography } from "@mui/material";
+import Link from "next/link";
 
 const TasksCoinsManagement = () => {
   return (
@@ -57,6 +58,9 @@ const TasksCoinsManagement = () => {
           </span>
         </Typography>
       </div>
+      <Link href={`/admin/tasks-coins-management/${1245}`}>
+        Navigate to Task Details
+      </Link>
       <SidebarTaskTable />
     </>
   );
