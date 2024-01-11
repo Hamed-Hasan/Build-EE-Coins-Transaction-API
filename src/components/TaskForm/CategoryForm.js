@@ -28,7 +28,7 @@ const CategoryForm = ({ defaultValues, onFormFocus }) => {
       console.log('Server Response:', response);
 
       reset();
-  
+
     } catch (error) {
       console.error('Error submitting category:', error);
       setError('Failed to save category. Please try again.');
@@ -61,11 +61,11 @@ const CategoryForm = ({ defaultValues, onFormFocus }) => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            {...register("name", { 
-              required: "Name is required", 
+            {...register("name", {
+              required: "Name is required",
               pattern: {
-                value: /^[a-zA-Z\s]*$/, 
-                message: "Name can only include letters and spaces"
+                value: /^[a-zA-Z0-9\s_-]*$/,
+                message: "Name can only include letters, digits, spaces, hyphens, slashes, and underscores"
               }
             })}
             label="Name"
@@ -74,13 +74,18 @@ const CategoryForm = ({ defaultValues, onFormFocus }) => {
             error={!!errors.name}
             helperText={errors.name ? errors.name.message : ""}
           />
+
+
         </Grid>
         <Grid item xs={12}>
           <TextField
-            {...register("coins", { 
-              required: "Coins are required", 
+            {...register("coins", {
+              required: "Coins are required",
               valueAsNumber: true,
-              validate: value => value >= 0 || "Coins cannot be negative"
+              validate: value => {
+                const isValid = /^[1-9]\d*$/.test(value) && !/^0\d+$/.test(value);
+                return isValid || "Coins should be a non-zero integer without leading zeros";
+              }
             })}
             label="Coins"
             variant="outlined"
@@ -89,18 +94,19 @@ const CategoryForm = ({ defaultValues, onFormFocus }) => {
             error={!!errors.coins}
             helperText={errors.coins ? errors.coins.message : ""}
           />
+
         </Grid>
         <Grid item xs={12}>
           <LoadingButton
-              type="submit"
-              loading={loading}
-              loadingPosition="start"
-              startIcon={<CategoryIcon />} 
-              variant="contained"
-              color="primary"
-              fullWidth
+            type="submit"
+            loading={loading}
+            loadingPosition="start"
+            startIcon={<CategoryIcon />}
+            variant="contained"
+            color="primary"
+            fullWidth
           >
-              Save Category
+            Save Category
           </LoadingButton>
         </Grid>
       </Grid>
