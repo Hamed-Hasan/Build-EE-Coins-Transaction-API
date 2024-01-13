@@ -1,10 +1,8 @@
-const TasksCoinsManagement = () => {
-  return <></>;
 import SidebarTaskTable from "@/components/TaskTable/SidebarTaskTable";
 import { Typography } from "@mui/material";
 import Link from "next/link";
 
-const TasksCoinsManagement = () => {
+const TasksCoinsManagement = ({ userRole }) => {
   return (
     <>
       <h1
@@ -60,10 +58,10 @@ const TasksCoinsManagement = () => {
           </span>
         </Typography>
       </div>
-      <Link href={`/admin/tasks-coins-management/${1245}`}>
+      <Link href={`/${userRole}/tasks-coins-management`}>
         Navigate to Task Details
       </Link>
-      <SidebarTaskTable />
+      <SidebarTaskTable userRole={userRole} />
     </>
   );
 };

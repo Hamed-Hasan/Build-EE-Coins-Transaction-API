@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "./styles.module.css";
 
 const CoinsMenu = ({ isOpen }) => {
-  const role = "employee";
+  const userRole = "user";
   return (
     <Card className={`${styles.coinsMenu} ${isOpen && styles.animate}`}>
       <CardContent>
@@ -49,9 +49,9 @@ const CoinsMenu = ({ isOpen }) => {
       <CardActions>
         <Link
           href={`${
-            role === "admin"
-              ? "/admin/tasks-coins-management"
-              : "/user/tasks-coins-management"
+            userRole === "admin"
+              ? `/${userRole}/tasks-coins-management`
+              : `/${userRole}/tasks-coins-management`
           }`}
           size="small"
         >
