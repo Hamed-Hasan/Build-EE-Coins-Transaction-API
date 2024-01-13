@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 
 const DetailsPage = () => {
-  const imageNames = ["logo1.png", "logo2.png", "logo3.png", "logo4.png"];
   const [taskDetails, setTaskDetails] = useState(null);
 console.log("fetch data: ", taskDetails)
   const params = useParams();
@@ -52,7 +51,7 @@ console.log("fetch data: ", taskDetails)
        <Paper
          elevation={3}
          sx={{
-           padding: { xs: 2, sm: 3, md: 4 },
+           padding: { xs: 2, sm: 3, md: 4},
            backgroundColor: "#1F2541",
            height: "100%",
            width: "100%",
@@ -154,14 +153,7 @@ console.log("fetch data: ", taskDetails)
                    marginRight: "20px",
                    color: "white",
                    textTransform: "none",
-                   //  borderRadius: "20px",
-                  //  background:
-                  //    "linear-gradient(to right, #F9AE57 30%, #E9702F 90%)",
-                  //  "&:hover": {
-                  //    background:
-                  //      "linear-gradient(to right, #F9AE57 30%, #E9702F 90%)",
-                  //    opacity: 0.9,
-                  //  },
+              
                  }}
                >
                 <span style={{opacity: '.5'}}> Category: </span> {taskDetails.tasks.categoryName}
