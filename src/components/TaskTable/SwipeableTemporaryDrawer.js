@@ -1,13 +1,13 @@
+import { ListItem } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import * as React from "react";
 import CategoryForm from "../TaskForm/CategoryForm";
 import TaskForm from "../TaskForm/TaskForm";
 
-export default function SwipeableTemporaryDrawer({ userRole }) {
+export default function SwipeableTemporaryDrawer({ buttons, task }) {
   const [state, setState] = React.useState({
     right: false,
   });
@@ -20,14 +20,9 @@ export default function SwipeableTemporaryDrawer({ userRole }) {
     return (
       <>
         <ListItem>
-          {userRole === "admin" ? (
-            <>
-              {anchor === "ADD TASK" && <TaskForm />}
-              {anchor === "ADD CATEGORY" && <CategoryForm />}
-            </>
-          ) : (
-            <TaskForm />
-          )}
+          {anchor === "Edit" && <TaskForm task={task} />}
+          {anchor === "Add Task" && <TaskForm />}
+          {anchor === "Add Category" && <CategoryForm />}
         </ListItem>
       </>
     );
@@ -44,33 +39,19 @@ export default function SwipeableTemporaryDrawer({ userRole }) {
 
   return (
     <div>
-      {userRole === "admin"
-        ? ["ADD TASK", "ADD CATEGORY"].map((anchor) => (
-            <React.Fragment key={anchor}>
-              <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-              <SwipeableDrawer
-                anchor={"right"}
-                open={state[anchor]}
-                onClose={toggleDrawer(anchor, false)}
-                onOpen={toggleDrawer(anchor, true)}
-              >
-                {list(anchor)}
-              </SwipeableDrawer>
-            </React.Fragment>
-          ))
-        : ["ADD TASK"].map((anchor) => (
-            <React.Fragment key={anchor}>
-              <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-              <SwipeableDrawer
-                anchor={"right"}
-                open={state[anchor]}
-                onClose={toggleDrawer(anchor, false)}
-                onOpen={toggleDrawer(anchor, true)}
-              >
-                {list(anchor)}
-              </SwipeableDrawer>
-            </React.Fragment>
-          ))}
+      {[...buttons].map((anchor) => (
+        <React.Fragment key={anchor}>
+          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+          <SwipeableDrawer
+            anchor={"right"}
+            open={state[anchor]}
+            onClose={toggleDrawer(anchor, false)}
+            onOpen={toggleDrawer(anchor, true)}
+          >
+            {list(anchor)}
+          </SwipeableDrawer>
+        </React.Fragment>
+      ))}
     </div>
   );
 }

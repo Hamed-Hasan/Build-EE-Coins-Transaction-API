@@ -37,3 +37,13 @@ span {
   padding: 10px;
   width: 100%;
 }
+.css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop {
+  background-color: #0000001a;
+}
+.css-1wnsr1i {
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  border-radius: 12px;
+}

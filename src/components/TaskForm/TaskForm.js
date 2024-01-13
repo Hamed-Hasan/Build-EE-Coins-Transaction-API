@@ -3,6 +3,7 @@ import {
   getTasksCategoryDPList,
   getUserDropdownList,
   postAddTask,
+  postEditTask,
 } from "@/services/businessLogic";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
@@ -23,7 +24,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-const TaskForm = ({ defaultValues, onSubmitProp }) => {
+const TaskForm = ({ defaultValues, onSubmitProp, task }) => {
   const [loading, setLoading] = useState(false);
   const { alert, setSuccess, setError, clearAlert } = useAlert();
   const [categories, setCategories] = useState([]);
@@ -87,9 +88,14 @@ const TaskForm = ({ defaultValues, onSubmitProp }) => {
       for (const [key, value] of Object.entries(data)) {
         formData.append(key, value instanceof File ? value : value || "");
       }
-      const res = await postAddTask(formData);
+      let res;
+      if (task) {
+        formData.append("taskId", task.id);
+        res = await postEditTask(formData);
+      }
+      res = await postAddTask(formData);
       if (res) {
-        console.error("Response:", res);
+        console.log("Response:", res);
       }
     } catch (error) {
       console.error("Error submitting Task:", error);
@@ -121,6 +127,19 @@ const TaskForm = ({ defaultValues, onSubmitProp }) => {
       return () => clearTimeout(timer);
     }
   }, [alert, loading, clearAlert]);
+
+  useEffect(() => {
+    if (task) {
+      setValue("title", task["title"]);
+      setValue("description", task["description"]);
+      setValue("startTime", dayjs(task["startTime"]) || dayjs());
+      setValue("dueTime", dayjs(task["dueTime"]) || dayjs());
+      setCategory(task["categoryName"]);
+      setCoins(task["categoryCoins"]);
+      setUser(task?.taskAssignedEmp?.assignedUser);
+      setFKUID(task?.taskAssignedEmp?.assignedUserId);
+    }
+  }, [task]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">

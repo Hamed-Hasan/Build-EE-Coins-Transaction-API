@@ -10,12 +10,12 @@ export const fetchCoinsTransactionsList = () => {
   return axiosInstance.get("/Coins/getcoinstransactionslist");
 };
 
-export const fetchEmployeeList = () => {
-  return axiosInstance.get("/Tasks/getemployeelist");
+export const fetchEmployeeList = (queryParams) => {
+  return axiosInstance.get(`/Tasks/getemployeelist?${queryParams}`);
 };
 
-export const fetchAdminList = () => {
-  return axiosInstance.get("/Tasks/getadminlist");
+export const fetchAdminList = (queryParams) => {
+  return axiosInstance.get(`/Tasks/getadminlist??${queryParams}`);
 };
 
 export const fetchTaskDetail = (taskId) => {
@@ -46,6 +46,10 @@ export const sendAddOrEditCategory = (formData) => {
 
 export const sendAddTask = async (formData) => {
   return await axiosInstance.post("/Tasks/addtask", formData);
+};
+
+export const sendEditTask = async (formData) => {
+  return await axiosInstance.post("/Tasks/edittask", formData);
 };
 
 export const sendManagerUpdateTaskCoin = (formData) => {
