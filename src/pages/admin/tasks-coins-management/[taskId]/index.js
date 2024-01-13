@@ -1,7 +1,7 @@
 import dollar from "@/assets/dollar.png";
 import { getTaskDetail } from "@/services/businessLogic";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import { Button, Grid, Paper, Typography } from "@mui/material";
+import { Box, Button, Divider, Grid, Paper, Typography } from "@mui/material";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -90,6 +90,7 @@ console.log("fetch data: ", taskDetails)
              position: "absolute",
              bottom: "-20px",
              right: "-20px",
+             zIndex: "100",
            }}
          >
            <Image
@@ -103,29 +104,6 @@ console.log("fetch data: ", taskDetails)
 
          {/* Inner Grid items */}
          <Grid container spacing={3}>
-
-         {/* {taskDetails && taskDetails.tasks && (
-       <Grid item xs={12} md={6}>
-         <Typography variant="h4" sx={{ color: "white" }}>
-           Task Title: {taskDetails.tasks.title}
-         </Typography>
-         <Typography variant="body1" sx={{ color: "white" }}>
-           Description: {taskDetails.tasks.description}
-         </Typography>
-         <Typography variant="body1" sx={{ color: "white" }}>
-           Category: {taskDetails.tasks.categoryName}
-         </Typography>
-         <Typography variant="body1" sx={{ color: "white" }}>
-           Start Time: {taskDetails.tasks.startTime}
-         </Typography>
-         <Typography variant="body1" sx={{ color: "white" }}>
-           Due Time: {taskDetails.tasks.dueTime}
-         </Typography>
-         
-       </Grid>
-     )} */}
-
-
            <Grid
              item
              xs={12}
@@ -241,29 +219,39 @@ console.log("fetch data: ", taskDetails)
                </div>
              </div>
            </Grid>
-           <Grid container spacing={3} justifyContent="center">
-             {imageNames.map((imageName, index) => (
-               <Grid
-                 item
-                 xs={6}
-                 md={3}
-                 key={index}
-                 sx={{
-                   display: "flex",
-                   justifyContent: "center",
-                   alignItems: "center",
-                 }}
-               >
-                 <Image
-                   src={`/${imageName}`}
-                   alt={`Image ${index + 1}`}
-                   width={210}
-                   height={50}
-                   layout="fixed"
-                 />
-               </Grid>
-             ))}
-           </Grid>
+       
+
+
+           <Grid container spacing={3} justifyContent="center" sx={{
+            position: 'relative',
+            zIndex: '1000'
+           }}>
+      <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 2 }}>
+        
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography variant="body2" sx={{ opacity: 0.8, color: 'gray' }}>
+            StartTime:
+          </Typography>
+          <Typography variant="body2" sx={{ ml: 1, whiteSpace: 'nowrap', color: 'white' }}>
+            {taskDetails.tasks.startTime}
+          </Typography>
+        </Box>
+        <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white' }} />
+        {/* <Divider sx={{ width: '10%', bgcolor: 'white', my: 2 }} /> */}
+
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography variant="body2" sx={{ opacity: 0.8, color: 'gray' }}>
+          dueTime:
+          </Typography>
+          <Typography variant="body2" sx={{ ml: 1, whiteSpace: 'nowrap', color: 'white' }}>
+            {taskDetails.tasks.dueTime}
+          </Typography>
+        </Box>
+
+      </Grid>
+    </Grid>
+
+
            
          </Grid>
        </Paper>
