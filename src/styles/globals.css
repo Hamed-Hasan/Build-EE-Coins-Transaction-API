@@ -1,3 +1,7 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Rubik+Maps&display=swap');
+
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -32,18 +36,32 @@ span {
   animation: spin3d 1s linear infinite;
   cursor: pointer;
 }
+@keyframes spin3d-details {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.spin-container-3d-details {
+  perspective: 1000px;
+  display: inline-block;
+}
+
+.spin-image-details {
+  width: 240px !important;
+  height: 30px;
+  height: auto;
+  transform-style: preserve-3d;
+  animation: spin3d-details 1.5s linear infinite;
+  cursor: pointer;
+  padding-top: 20px;
+  margin-bottom: 20px;
+}
 .css-mhc70k-MuiGrid-root {
   margin: 0;
   padding: 10px;
   width: 100%;
-}
-.css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop {
-  background-color: #0000001a;
-}
-.css-1wnsr1i {
-  box-shadow: none;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  border-radius: 12px;
 }
