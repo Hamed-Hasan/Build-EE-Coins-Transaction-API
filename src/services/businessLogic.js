@@ -1,8 +1,8 @@
 import * as api from "./api";
 
-export const getEmployeeList = async () => {
+export const getEmployeeList = async (queryParams) => {
   try {
-    const response = await api.fetchEmployeeList();
+    const response = await api.fetchEmployeeList(queryParams);
     // Add any additional business logic if needed
     return response.data;
   } catch (error) {
@@ -70,6 +70,17 @@ export const postAddOrEditCategory = async (formData) => {
 export const postAddTask = async (formData) => {
   try {
     const response = await api.sendAddTask(formData);
+    // Additional business logic can be added here
+    return response.data;
+  } catch (error) {
+    console.error("Error sending task data:", error);
+    throw error;
+  }
+};
+
+export const postEditTask = async (formData) => {
+  try {
+    const response = await api.sendEditTask(formData);
     // Additional business logic can be added here
     return response.data;
   } catch (error) {

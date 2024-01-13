@@ -65,12 +65,3 @@ span {
   padding: 10px;
   width: 100%;
 }
-
-.button-for-coins-detail{
-  padding-bottom: 100px !important;
-}
-/* Use a more specific selector */
-div.count-up {
-  font-weight: bold;
-  font-family: 'Rubik Maps', system-ui;
-}

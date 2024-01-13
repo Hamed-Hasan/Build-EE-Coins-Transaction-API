@@ -1,9 +1,11 @@
 import { Card, CardActions, CardContent, Typography } from "@mui/material";
 import Link from "next/link";
 import styles from "./styles.module.css";
+import { useUser } from "@/context/UserContext";
 
 const CoinsMenu = ({ isOpen }) => {
-  const role = "employee";
+  // const userRole = "admin";
+  const { userRole, setUserRole } = useUser();
   return (
     <Card className={`${styles.coinsMenu} ${isOpen && styles.animate}`}>
       <CardContent>
@@ -49,9 +51,9 @@ const CoinsMenu = ({ isOpen }) => {
       <CardActions>
         <Link
           href={`${
-            role === "admin"
-              ? "/admin/tasks-coins-management"
-              : "/user/tasks-coins-management"
+            userRole === "admin"
+              ? `/${userRole}/tasks-coins-management`
+              : `/${userRole}/tasks-coins-management`
           }`}
           size="small"
         >
