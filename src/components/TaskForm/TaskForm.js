@@ -1,3 +1,4 @@
+import { useAlert } from "@/hooks/useAlert";
 import {
   getTasksCategoryDPList,
   getUserDropdownList,
@@ -5,6 +6,7 @@ import {
 } from "@/services/businessLogic";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
+  Alert,
   Box,
   Button,
   FormControl,
@@ -21,7 +23,9 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-const EmployeeForm = ({ defaultValues, onSubmitProp }) => {
+const TaskForm = ({ defaultValues, onSubmitProp }) => {
+  const [loading, setLoading] = useState(false);
+  const { alert, setSuccess, setError, clearAlert } = useAlert();
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
   const [coins, setCoins] = useState(0);
@@ -36,6 +40,7 @@ const EmployeeForm = ({ defaultValues, onSubmitProp }) => {
     register,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: defaultValues || {
@@ -76,16 +81,24 @@ const EmployeeForm = ({ defaultValues, onSubmitProp }) => {
   };
 
   const onSubmit = async (data) => {
-    const formData = new FormData();
-    for (const [key, value] of Object.entries(data)) {
-      formData.append(key, value instanceof File ? value : value || "");
-    }
-    const res = await postAddTask(formData);
-    if (res) {
-      alert("Success..!");
+    setLoading(true);
+    try {
+      const formData = new FormData();
       for (const [key, value] of Object.entries(data)) {
-        setValue(key, "");
+        formData.append(key, value instanceof File ? value : value || "");
       }
+      const res = await postAddTask(formData);
+      if (res) {
+        console.error("Response:", res);
+      }
+    } catch (error) {
+      console.error("Error submitting Task:", error);
+      setError("Failed to save Task. Please try again.");
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+        setSuccess("Task successfully saved!");
+      }, 2000);
     }
   };
 
@@ -99,8 +112,25 @@ const EmployeeForm = ({ defaultValues, onSubmitProp }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (alert.message && !loading) {
+      const timer = setTimeout(() => {
+        clearAlert();
+        reset();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert, loading, clearAlert]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+      {!loading && alert.message && (
+        <Grid item xs={12}>
+          <Alert severity={alert.severity} style={{ marginBottom: "20px" }}>
+            {alert.message}
+          </Alert>
+        </Grid>
+      )}
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -277,4 +307,4 @@ const EmployeeForm = ({ defaultValues, onSubmitProp }) => {
   );
 };
 
-export default EmployeeForm;
+export default TaskForm;
