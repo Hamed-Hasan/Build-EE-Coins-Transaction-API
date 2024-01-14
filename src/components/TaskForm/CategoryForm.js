@@ -31,21 +31,22 @@ const CategoryForm = ({ defaultValues, onFormFocus, category }) => {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("coins", data.coins);
-      let res;
-      if (category) {
-        formData.append("id", category.id);
-        res = await postAddOrEditCategory(formData);
-      } else {
-        res = await postAddOrEditCategory(formData);
-      }
-      console.log("Server Response:", res);
+      formData.append("Name", data.name);
+      formData.append("Coins", data.coins);
+
+      const response = await postAddOrEditCategory(formData);
+      console.log("Server Response:", response);
+
+      // Call setSuccess only when the request is successful.
+      setSuccess("Category successfully saved!");
       reset();
     } catch (error) {
       console.error("Error submitting category:", error);
+
+      // Call setError with the specific error message.
       setError("Failed to save category. Please try again.");
     } finally {
+      // Remove the setSuccess call from here
       setTimeout(() => {
         setLoading(false);
         setSuccess("Category successfully saved!");

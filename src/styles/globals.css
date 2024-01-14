@@ -66,3 +66,16 @@ span {
 .css-1p823my-MuiListItem-root {
   flex-direction: column;
 }
+
+.button-for-coins-detail {
+  padding-bottom: 60px !important;
+}
+.css-1wnsr1i {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: none;
+}
+.css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop {
+  background-color: #0000000d;
+}

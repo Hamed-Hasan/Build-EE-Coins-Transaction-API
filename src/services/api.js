@@ -69,9 +69,9 @@ export const sendAssignedEmpSubmitTask = (formData) => {
 };
 
 export const sendAssignerEmpSubmitTask = (formData) => {
-  return axiosInstance.post("/Tasks/assignerempsubmittask", formData);
+  return axiosInstance.post("/Tasks/assignrdempsubmittask", formData);
 };
 
 export const sendAssignerEmpObjectTask = (formData) => {
-  return axiosInstance.post("/Tasks/assignerempobjecttask", formData);
+  return axiosInstance.post("/Tasks/assignrdemprejecttask", formData);
 };
