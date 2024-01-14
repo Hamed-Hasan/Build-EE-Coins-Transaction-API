@@ -136,6 +136,9 @@ const DetailsPage = () => {
                   zIndex: "1000",
                 }}
               >
+                <div className="_title_for_task_details">
+                  Task Info
+                </div>
                 {/* Splitting and rendering the title in two colors */}
                 {taskDetails.tasks.title && (
                   <>
@@ -220,6 +223,9 @@ const DetailsPage = () => {
                   zIndex: "1000",
                 }}
               >
+                <div className="_title_for_task_details">
+                Task Created By
+                </div>
                 {/* Splitting and rendering the title in two colors */}
                 {taskDetails.tasks.title && (
                   <>
@@ -317,6 +323,9 @@ const DetailsPage = () => {
                   zIndex: "1000",
                 }}
               >
+                 <div className="_title_for_task_details">
+                Task Assigned By
+                </div>
                 {/* Splitting and rendering the title in two colors */}
                 {taskDetails.tasks.title && (
                   <>

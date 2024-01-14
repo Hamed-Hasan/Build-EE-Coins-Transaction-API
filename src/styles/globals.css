@@ -70,3 +70,9 @@ span {
 .css-1p823my-MuiListItem-root {
   flex-direction: column;
 }
+
+._title_for_task_details {
+  color: #ffffff52;
+  font-weight: bold;
+  font-family: system-ui;
+}
