@@ -1,9 +1,9 @@
+import { userRole } from "@/constant";
 import { Card, CardActions, CardContent, Typography } from "@mui/material";
 import Link from "next/link";
 import styles from "./styles.module.css";
 
 const CoinsMenu = ({ isOpen }) => {
-  const userRole = "user";
   return (
     <Card className={`${styles.coinsMenu} ${isOpen && styles.animate}`}>
       <CardContent>

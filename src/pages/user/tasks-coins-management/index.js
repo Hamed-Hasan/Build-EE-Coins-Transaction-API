@@ -1,4 +1,5 @@
 import SidebarTaskTable from "@/components/TaskTable/SidebarTaskTable";
+import { userRole } from "@/constant";
 import { Typography } from "@mui/material";
 
 const TasksCoinsManagement = () => {
@@ -57,7 +58,7 @@ const TasksCoinsManagement = () => {
           </span>
         </Typography>
       </div>
-      <SidebarTaskTable />
+      <SidebarTaskTable userRole={userRole} />
     </>
   );
 };

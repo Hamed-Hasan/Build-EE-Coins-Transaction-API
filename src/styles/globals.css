@@ -1,6 +1,4 @@
-
-  @import url('https://fonts.googleapis.com/css2?family=Rubik+Maps&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Maps&display=swap");
 
 * {
   box-sizing: border-box;
@@ -64,4 +62,7 @@ span {
   margin: 0;
   padding: 10px;
   width: 100%;
+}
+.css-1p823my-MuiListItem-root {
+  flex-direction: column;
 }
