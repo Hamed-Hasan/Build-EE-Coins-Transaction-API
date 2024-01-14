@@ -7,7 +7,7 @@ import * as React from "react";
 import CategoryForm from "../TaskForm/CategoryForm";
 import TaskForm from "../TaskForm/TaskForm";
 
-export default function SwipeableTemporaryDrawer({ buttons, task }) {
+export default function SwipeableTemporaryDrawer({ buttons, task, category }) {
   const [state, setState] = React.useState({
     right: false,
   });
@@ -20,9 +20,14 @@ export default function SwipeableTemporaryDrawer({ buttons, task }) {
     return (
       <>
         <ListItem>
-          {anchor === "Edit" && <TaskForm task={task} />}
+          {anchor === "Edit" && task ? <TaskForm task={task} /> : ""}
           {anchor === "Add Task" && <TaskForm />}
           {anchor === "Add Category" && <CategoryForm />}
+          {anchor === "Edit" && category ? (
+            <CategoryForm category={category} />
+          ) : (
+            ""
+          )}
         </ListItem>
       </>
     );

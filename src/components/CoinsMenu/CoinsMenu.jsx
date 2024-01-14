@@ -1,11 +1,10 @@
+import { userRole } from "@/constant";
 import { Card, CardActions, CardContent, Typography } from "@mui/material";
 import Link from "next/link";
 import styles from "./styles.module.css";
 import { useUser } from "@/context/UserContext";
 
 const CoinsMenu = ({ isOpen }) => {
-  // const userRole = "admin";
-  const { userRole, setUserRole } = useUser();
   return (
     <Card className={`${styles.coinsMenu} ${isOpen && styles.animate}`}>
       <CardContent>

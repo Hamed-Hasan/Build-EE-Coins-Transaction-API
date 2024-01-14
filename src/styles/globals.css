@@ -1,6 +1,4 @@
-
-  @import url('https://fonts.googleapis.com/css2?family=Rubik+Maps&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Maps&display=swap");
 
 * {
   box-sizing: border-box;
@@ -68,4 +66,7 @@ span {
 
 .button-for-coins-detail{
   padding-bottom: 60px !important;
+}
+.css-1p823my-MuiListItem-root {
+  flex-direction: column;
 }
