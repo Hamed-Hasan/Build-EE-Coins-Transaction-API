@@ -7,8 +7,15 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CancelIcon from '@mui/icons-material/Cancel';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
-const fileBaseURL = process.env.REACT_APP_API_FILE_BASE_URL;
+
+
 const DetailsPage = () => {
   const [taskDetails, setTaskDetails] = useState(null);
   console.log("fetch data: ", taskDetails)
@@ -50,6 +57,24 @@ const DetailsPage = () => {
     }
     return `${description?.substring(0, 140)}... `;
   };
+  const getStatusIcon = (status, fontSize = 'default') => {
+    switch (status) {
+      case 'Times Out':
+        return <HourglassEmptyIcon fontSize={fontSize} />;
+      case 'On Hold':
+        return <PauseCircleOutlineIcon fontSize={fontSize} />;
+      case 'In Progressing':
+      case 'Under Reviewing':
+        return <AutorenewIcon fontSize={fontSize} />;
+      case 'Finished':
+        return <CheckCircleOutlineIcon fontSize={fontSize} />;
+      case 'Terminated':
+        return <CancelIcon fontSize={fontSize} />;
+      default:
+        return <ErrorOutlineIcon fontSize={fontSize} />;
+    }
+  };
+
 
 
 
@@ -145,9 +170,9 @@ const DetailsPage = () => {
                     {splitTitle(taskDetails.tasks.title).map((word, index) => (
                       <Typography
                         key={index}
-                        variant="h3"
-                        component="h3"
-                        sx={{ color: index === 0 ? "white" : "#706AF6", fontWeight: "bold", paddingTop: index === 0 ? "30px" : 0 }}
+                        // variant="h3"
+                        // component="h3"
+                        sx={{ color: index === 0 ? "white" : "#706AF6", fontWeight: "bold", paddingTop: index === 0 ? "30px" : 0, fontSize: '2.4rem' }}
                       >
                         {word}
                       </Typography>
@@ -194,22 +219,26 @@ const DetailsPage = () => {
                   </Typography>
 
 
-                  <Typography
-                    variant="outlined"
-                    sx={{
-                      color: "white",
-                      borderColor: "white",
-                      //  borderRadius: "20px",
-                      textTransform: "none",
-                      "&:hover": {
-                        borderColor: "lightgray",
-                        color: "lightgray",
-                      },
-                    }}
-                  //  endIcon={<PlayCircleOutlineIcon />}
-                  >
-                    <span style={{ opacity: '.5' }}>status: </span> {taskDetails.tasks.status}
-                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <span style={{ opacity: '.5', color: 'white' }}>status:</span>
+                    <span className="_status-icon">{getStatusIcon(taskDetails.tasks.status, 'inherit')}</span>
+                    <Typography
+                      variant="outlined"
+                      sx={{
+                        color: "white",
+                        borderColor: "white",
+                        textTransform: "none",
+                        "&:hover": {
+                          borderColor: "lightgray",
+                          color: "lightgray",
+                        },
+                      }}
+                    >
+                      {taskDetails.tasks.status}
+                    </Typography>
+                  </Box>
+
+
                 </Box>
               </Grid>
 
@@ -224,7 +253,7 @@ const DetailsPage = () => {
                 }}
               >
                 <div className="_title_for_task_details">
-                Task Created By
+                  Task Created By
                 </div>
                 {/* Splitting and rendering the title in two colors */}
                 {taskDetails.tasks.title && (
@@ -232,9 +261,9 @@ const DetailsPage = () => {
                     {splitTitle(taskDetails.tasks.taskCreatedEmp.createdBy).map((word, index) => (
                       <Typography
                         key={index}
-                        variant="h3"
-                        component="h3"
-                        sx={{ color: index === 0 ? "white" : "#706AF6", fontWeight: "bold", paddingTop: index === 0 ? "30px" : 0 }}
+                        // variant="h3"
+                        // component="h3"
+                        sx={{ color: index === 0 ? "white" : "#706AF6", fontWeight: "bold", paddingTop: index === 0 ? "30px" : 0, fontSize: '2.4rem' }}
                       >
                         {word}
                       </Typography>
@@ -293,22 +322,26 @@ const DetailsPage = () => {
                   </Typography>
 
 
-                  <Typography
-                    variant="outlined"
-                    sx={{
-                      color: "white",
-                      borderColor: "white",
-                      //  borderRadius: "20px",
-                      textTransform: "none",
-                      "&:hover": {
-                        borderColor: "lightgray",
-                        color: "lightgray",
-                      },
-                    }}
-                  //  endIcon={<PlayCircleOutlineIcon />}
-                  >
-                    <span style={{ opacity: '.5' }}>status: </span> {taskDetails.tasks.taskCreatedEmp.assignerStatus}
-                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <span style={{ opacity: '.5', color: 'white' }}>status:</span>
+                    <span className="_status-icon">{getStatusIcon(taskDetails.tasks.status, 'inherit')}</span>
+                    <Typography
+                      variant="outlined"
+                      sx={{
+                        color: "white",
+                        borderColor: "white",
+                        textTransform: "none",
+                        "&:hover": {
+                          borderColor: "lightgray",
+                          color: "lightgray",
+                        },
+                      }}
+                    >
+                      {taskDetails.tasks.status}
+                    </Typography>
+                  </Box>
+
+
                 </Box>
               </Grid>
 
@@ -323,8 +356,8 @@ const DetailsPage = () => {
                   zIndex: "1000",
                 }}
               >
-                 <div className="_title_for_task_details">
-                Task Assigned By
+                <div className="_title_for_task_details">
+                  Task Assigned By
                 </div>
                 {/* Splitting and rendering the title in two colors */}
                 {taskDetails.tasks.title && (
@@ -332,9 +365,9 @@ const DetailsPage = () => {
                     {splitTitle(taskDetails.tasks.taskAssignedEmp.assignedUser).map((word, index) => (
                       <Typography
                         key={index}
-                        variant="h3"
-                        component="h3"
-                        sx={{ color: index === 0 ? "white" : "#706AF6", fontWeight: "bold", paddingTop: index === 0 ? "30px" : 0 }}
+                        // variant="h3"
+                        // component="h3"
+                        sx={{ color: index === 0 ? "white" : "#706AF6", fontWeight: "bold", paddingTop: index === 0 ? "30px" : 0, fontSize: '2.4rem' }}
                       >
                         {word}
                       </Typography>
