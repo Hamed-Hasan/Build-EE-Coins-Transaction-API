@@ -105,11 +105,11 @@ const CategoryForm = ({ defaultValues, onFormFocus, category }) => {
                   required: "Coins are required",
                   valueAsNumber: true,
                   validate: (value) => {
-                    const isValid =
-                      /^[1-9]\d*$/.test(value) && !/^0\d+$/.test(value);
+                    // This regex allows only positive integers without leading zeros and disallows '0'
+                    const isValid = /^[1-9]\d*$/.test(value);
                     return (
                       isValid ||
-                      "Coins should be a non-zero integer without leading zeros"
+                      "Coins should be a positive integer without leading zeros"
                     );
                   },
                 })}

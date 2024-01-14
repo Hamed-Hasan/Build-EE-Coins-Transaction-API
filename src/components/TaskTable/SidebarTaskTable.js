@@ -224,9 +224,10 @@ export default function SidebarTaskTable({ userRole }) {
   };
 
   const handleObjectTask = async (assignTaskId, objectReason) => {
+    const formData = new FormData();
     formData.append("assignTaskId", assignTaskId);
-    formData.append("isObjected ", true);
     formData.append("objectReason", objectReason);
+    formData.append("isObjected ", true);
     const res = await postAssignedEmpObjectTask(formData);
     console.log(res);
   };
@@ -313,7 +314,8 @@ export default function SidebarTaskTable({ userRole }) {
                                 gap: "10px",
                               }}
                             >
-                              {task.createdBy === username ? (
+                              {task.status !== "Terminated" &&
+                              task.createdBy === username ? (
                                 <>
                                   {!task.isAccepted && (
                                     <Button style={{ ...buttonStyles }}>
@@ -387,28 +389,42 @@ export default function SidebarTaskTable({ userRole }) {
                                 </>
                               ) : (
                                 <>
-                                  {!task.isAccepted && (
+                                  {!task.isAccepted ? (
                                     <Button
                                       style={{ ...buttonStyles }}
                                       onClick={() => handleAcceptTask(task.id)}
                                     >
                                       Accept
                                     </Button>
+                                  ) : (
+                                    ""
                                   )}
-                                  {!task.isAccepted && (
-                                    <Button style={{ ...buttonStyles }}>
+                                  {(!task.isObjected || !task.isAccepted) &&
+                                  !task.isAccepted ? (
+                                    <Button
+                                      style={{ ...buttonStyles }}
+                                      onClick={() =>
+                                        handleObjectTask(
+                                          task.id,
+                                          "i can't do it right now"
+                                        )
+                                      }
+                                    >
                                       Object
                                     </Button>
+                                  ) : (
+                                    ""
                                   )}
                                   {task.isAccepted &&
-                                  !task.isAssignedEmpSubmit ? (
+                                  !task.isAssignedEmpSubmit &&
+                                  !task.isObjected ? (
                                     <Button
                                       style={{ ...buttonStyles }}
                                       onClick={() =>
                                         handleSubmitTask(
                                           task.id,
                                           task.id,
-                                          "hgjguh"
+                                          "file"
                                         )
                                       }
                                     >
