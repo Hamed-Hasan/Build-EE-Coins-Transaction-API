@@ -7,21 +7,9 @@ import {
   postAssignerEmpSubmitTask,
   postManagerUpdateTaskCoin,
 } from "@/services/businessLogic";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import {
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputBase,
-  InputLabel,
-  MenuItem,
-  Modal,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Button, IconButton, InputBase } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -33,7 +21,7 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { userRole } from "../../constant";
+import SimpleModal from "../SimpleModal/Modal";
 import TaskTabs from "../TaskTabs/TaskTabs";
 import SwipeableTemporaryDrawer from "./SwipeableTemporaryDrawer";
 
@@ -119,10 +107,8 @@ const buttonStyles = {
   cursor: "pointer",
 };
 
-export default function SidebarTaskTable() {
+export default function SidebarTaskTable({ userRole }) {
   const username = "Sayed Imam";
-  const [file, setFile] = useState({});
-  const [objectReason, setObjectReason] = useState("");
   const [task, setTask] = useState({});
   const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
@@ -185,7 +171,7 @@ export default function SidebarTaskTable() {
     setRejectStatus(e.target.value);
   };
 
-  const handleUpdateTaskCoins = async (taskId, taskCoin) => {
+  const handleApproveTask = async (assignerTaskId, assignerStatus) => {
     const formData = new FormData();
     formData.append("taskId", taskId);
     formData.append("taskCoin ", taskCoin);
@@ -248,114 +234,6 @@ export default function SidebarTaskTable() {
     }, 1000);
     fetchData();
   };
-
-  const RejectModel = () => (
-    <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">
-              Choose Reject Status
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={rejectStatus}
-              label="Choose Reject Status"
-              onChange={handleChangeRejectStatus}
-            >
-              <MenuItem value="revise">Revise</MenuItem>
-              <MenuItem value="terminate">Terminate</MenuItem>
-            </Select>
-          </FormControl>
-          {rejectStatus === "terminate" && (
-            <TextField
-              id="outlined-basic"
-              label="Reason"
-              variant="outlined"
-              value={terminateReason}
-              onChange={(e) => setTerminateReason(e.target.value)}
-            />
-          )}
-          <Button
-            variant="contained"
-            onClick={() => handleAssignerReject(task.id, task.id)}
-          >
-            Submit
-          </Button>
-        </Box>
-      </Modal>
-    </div>
-  );
-
-  const ObjectModel = () => (
-    <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <TextField
-            id="outlined-basic"
-            variant="outlined"
-            label="Object Reason"
-            value={objectReason}
-            onChange={(e) => setObjectReason(e.target.value)}
-          />
-          <Button
-            onClick={() => {
-              handleObjectTask(task.id);
-            }}
-          >
-            Send
-          </Button>
-        </Box>
-      </Modal>
-    </div>
-  );
-
-  const SubmitModel = () => (
-    <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Button
-            component="label"
-            variant="contained"
-            startIcon={<CloudUploadIcon />}
-          >
-            Upload file
-            <VisuallyHiddenInput
-              type="file"
-              onChange={(e) => {
-                setFile(e.target.files[0]);
-              }}
-            />
-          </Button>
-          {file.name && file.name}
-          <Button
-            onClick={() => {
-              handleSubmitTask(task.id, task.id, "file");
-              return handleClose();
-            }}
-          >
-            Send
-          </Button>
-        </Box>
-      </Modal>
-    </div>
-  );
 
   return (
     <Paper sx={{ width: "100%" }}>
@@ -494,6 +372,12 @@ export default function SidebarTaskTable() {
                                       onClick={handleOpen}
                                     >
                                       Submit
+                                      {open && (
+                                        <SimpleModal
+                                          type="SUBMIT_MODAL"
+                                          setOpen={setOpen}
+                                        />
+                                      )}
                                     </Button>
                                   ) : (
                                     ""
