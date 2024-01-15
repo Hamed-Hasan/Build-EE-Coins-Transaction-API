@@ -7,6 +7,7 @@ import {
   postAssignerEmpSubmitTask,
   postManagerUpdateTaskCoin,
 } from "@/services/businessLogic";
+import { createModalContent } from "@/utils/modalUtils";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Button, IconButton, InputBase } from "@mui/material";
@@ -21,6 +22,7 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import ReusableModal from "../AlertDialogSlide/ReusableModal";
 import TaskTabs from "../TaskTabs/TaskTabs";
 import SwipeableTemporaryDrawer from "./SwipeableTemporaryDrawer";
 
@@ -123,6 +125,24 @@ export default function SidebarTaskTable({ userRole }) {
   const [orderBy, setOrderBy] = useState("");
   const [filter, setFilter] = useState("");
   const [cusSearch, setCusSearch] = useState("");
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
+  const [modalTitle, setModalTitle] = useState("");
+
+  const handleModalOpen = (content, title) => {
+    setModalContent(content);
+    setModalTitle(title);
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
+  const handleButtonClick = (buttonType) => {
+    createModalContent(buttonType, handleModalOpen);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -246,8 +266,16 @@ export default function SidebarTaskTable({ userRole }) {
     fetchData();
   };
 
+  console.log(tasks);
+
   return (
     <Paper sx={{ width: "100%" }}>
+      <ReusableModal
+        open={modalOpen}
+        handleClose={handleModalClose}
+        title={modalTitle}
+        content={modalContent}
+      />
       <TaskTabs />
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
@@ -311,97 +339,85 @@ export default function SidebarTaskTable({ userRole }) {
                               )}
                             </>
                           ) : (
-                            <>
-                              {userRole === "admin" ? (
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "10px",
+                              }}
+                            >
+                              {!statusArray.includes(task.status) &&
+                              task.createdBy === username ? (
                                 <>
-                                  <Button style={{ ...buttonStyles }}>
-                                    Update Coins
-                                  </Button>
-                                </>
-                              ) : (
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    gap: "10px",
-                                  }}
-                                >
-                                  {!statusArray.includes(task.status) &&
-                                  task.createdBy === username ? (
-                                    <>
-                                      {!task.isAccepted && (
-                                        <Button style={{ ...buttonStyles }}>
-                                          <SwipeableTemporaryDrawer
-                                            buttons={["Edit"]}
-                                            task={task && task}
-                                          />
-                                        </Button>
-                                      )}
+                                  {!task.isAccepted && (
+                                    <Button style={{ ...buttonStyles }}>
+                                      <SwipeableTemporaryDrawer
+                                        buttons={["Edit"]}
+                                        task={task && task}
+                                      />
+                                    </Button>
+                                  )}
+                                  <>
+                                    {task.isAccepted && (
                                       <>
-                                        {task.isAccepted && (
-                                          <>
-                                            <Button
-                                              style={{ ...buttonStyles }}
-                                              onClick={() =>
-                                                handleAssignerSubmit(task.id)
-                                              }
-                                            >
-                                              Approve
-                                            </Button>
-                                            <Button
-                                              style={{ ...buttonStyles }}
-                                              onClick={handleOpen}
-                                            >
-                                              Reject
-                                            </Button>
-                                          </>
-                                        )}
-                                      </>
-                                    </>
-                                  ) : (
-                                    <>
-                                      {!task.isAccepted &&
-                                      !statusArray.includes(task.status) ? (
                                         <Button
                                           style={{ ...buttonStyles }}
                                           onClick={() =>
-                                            handleAcceptTask(task.id)
+                                            handleAssignerSubmit(task.id)
                                           }
                                         >
-                                          Accept
+                                          Approve
                                         </Button>
-                                      ) : (
-                                        ""
-                                      )}
-                                      {(!task.isObjected || !task.isAccepted) &&
-                                      !task.isAccepted &&
-                                      !statusArray.includes(task.status) ? (
                                         <Button
                                           style={{ ...buttonStyles }}
                                           onClick={handleOpen}
                                         >
-                                          Object
+                                          Reject
                                         </Button>
-                                      ) : (
-                                        ""
-                                      )}
-                                      {task.isAccepted &&
-                                      !task.isAssignedEmpSubmit &&
-                                      !statusArray.includes(task.status) ? (
-                                        <Button
-                                          style={{ ...buttonStyles }}
-                                          onClick={handleOpen}
-                                        >
-                                          Submit
-                                        </Button>
-                                      ) : (
-                                        ""
-                                      )}
-                                    </>
+                                      </>
+                                    )}
+                                  </>
+                                </>
+                              ) : (
+                                <>
+                                  {!task.isAccepted &&
+                                  !statusArray.includes(task.status) ? (
+                                    <Button
+                                      style={{ ...buttonStyles }}
+                                      onClick={() => handleAcceptTask(task.id)}
+                                    >
+                                      Accept
+                                    </Button>
+                                  ) : (
+                                    ""
                                   )}
-                                </div>
+                                  {(!task.isObjected || !task.isAccepted) &&
+                                  !task.isAccepted &&
+                                  !statusArray.includes(task.status) ? (
+                                    <Button
+                                      style={{ ...buttonStyles }}
+                                      onClick={handleOpen}
+                                    >
+                                      Object
+                                    </Button>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {task.isAccepted &&
+                                  !task.isAssignedEmpSubmit &&
+                                  !statusArray.includes(task.status) ? (
+                                    <Button
+                                      style={{ ...buttonStyles }}
+                                      onClick={handleOpen}
+                                    >
+                                      Submit
+                                    </Button>
+                                  ) : (
+                                    ""
+                                  )}
+                                </>
                               )}
-                            </>
+                            </div>
                           )}
                         </TableCell>
                       );
