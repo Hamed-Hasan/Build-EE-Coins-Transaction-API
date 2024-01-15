@@ -1,5 +1,29 @@
 import * as api from "./api";
 
+// GET
+
+export const getEmployeeCoins = async (queryParams) => {
+  try {
+    const response = await api.fetchEmployeeCoins(queryParams);
+    // Add any additional business logic if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching employee coins:", error);
+    throw error;
+  }
+};
+
+export const getCoinsTransactionsList = async (queryParams) => {
+  try {
+    const response = await api.fetchCoinsTransactionsList(queryParams);
+    // Add any additional business logic if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching coins transactions list:", error);
+    throw error;
+  }
+};
+
 export const getEmployeeList = async (queryParams) => {
   try {
     const response = await api.fetchEmployeeList(queryParams);
@@ -52,6 +76,30 @@ export const getUserDropdownList = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching user dropdown list:", error);
+    throw error;
+  }
+};
+
+// POST
+
+export const postAddToCoinsAfterManagerReview = async (formData) => {
+  try {
+    const response = await api.sendAddToCoinsAfterManagerReview(formData);
+    // Additional business logic can be added here
+    return response.data;
+  } catch (error) {
+    console.error("Error sending coins after manger review:", error);
+    throw error;
+  }
+};
+
+export const postManagerUpdateCoinInCoinTable = async (formData) => {
+  try {
+    const response = await api.sendManagerUpdateCoinInCoinTable(formData);
+    // Additional business logic can be added here
+    return response.data;
+  } catch (error) {
+    console.error("Error sending update coin in coin table:", error);
     throw error;
   }
 };
