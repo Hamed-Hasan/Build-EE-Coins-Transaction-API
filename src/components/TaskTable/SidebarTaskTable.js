@@ -265,148 +265,148 @@ return (
   content={modalContent}
 />
     <TaskTabs />
-    <TableContainer sx={{ maxHeight: 440 }}>
-      <Table stickyHeader aria-label="sticky table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center" colSpan={4}>
-              <Paper
-                component="form"
-                sx={{ display: "flex", alignItems: "center", width: 250 }}
-              >
-                <InputBase
-                  sx={{ ml: 1, flex: 1 }}
-                  placeholder="Search..."
-                  inputProps={{ "aria-label": "search" }}
-                  // value={searchTerm}
-                  // onChange={handleInputChange}
-                  // onKeyDown={handleKeyDown}
-                />
-                <IconButton sx={{ p: "10px" }} aria-label="search">
-                  <SearchIcon />
-                </IconButton>
-              </Paper>
-            </TableCell>
+<TableContainer sx={{ maxHeight: 440 }}>
+<Table stickyHeader aria-label="sticky table">
+<TableHead>
+<TableRow>
+<TableCell align="center" colSpan={4}>
+<Paper
+component="form"
+sx={{ display: "flex", alignItems: "center", width: 250 }}
+>
+<InputBase
+sx={{ ml: 1, flex: 1 }}
+placeholder="Search..."
+inputProps={{ "aria-label": "search" }}
+// value={searchTerm}
+// onChange={handleInputChange}
+// onKeyDown={handleKeyDown}
+/>
+<IconButton sx={{ p: "10px" }} aria-label="search">
+<SearchIcon />
+</IconButton>
+</Paper>
+</TableCell>
 
-            <TableCell align="center" colSpan={3} sx={{ padding: "0px" }}>
-              <SwipeableTemporaryDrawer buttons={["Add Task"]} />
-              <SwipeableTemporaryDrawer buttons={["Add Category"]} />
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            {columns.map((column) => (
-              <TableCell
-                key={column.id}
-                align={column.align}
-                style={{ top: 57, minWidth: column.minWidth }}
-              >
-                {column.label}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {tasks.length >= 1 &&
-            tasks.map((task) => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={task.code}>
-                  {columns.map((column, i) => {
-                    const value = task[column.id];
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {i !== columns.length - 1 ? (
-                          <>
-                            {column.id === "id" ? (
-                              <Link
-                                href={`/${userRole}/tasks-coins-management/${task.id}`}
-                              >
-                                <VisibilityIcon />
-                              </Link>
-                            ) : (
-                              value
-                            )}
-                          </>
-                        ) : (
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "10px",
-                            }}
-                          >
-                            {!statusArray.includes(task.status) &&
-                            task.createdBy === username ? (
-                              <>
-                                {!task.isAccepted && (
-                                  <Button style={{ ...buttonStyles }}>
-                                    <SwipeableTemporaryDrawer
-                                      buttons={["Edit"]}
-                                      task={task && task}
-                                    />
-                                  </Button>
-                                )}
-                                <>
-                                  {task.isAccepted && (
-                                    <>
-                                      <Button
-                                        style={{ ...buttonStyles }}
-                                        onClick={() =>
-                                          handleAssignerSubmit(task.id)
-                                        }
-                                      >
-                                        Approve
-                                      </Button>
-                                      <Button style={{ ...buttonStyles }} onClick={() => handleButtonClick('Reject')}>
-                                            Reject
-                                          </Button>
-                                    </>
-                                  )}
-                                </>
-                              </>
-                            ) : (
-                              <>
-                                {!task.isAccepted &&
-                                !statusArray.includes(task.status) ? (
-                                  <Button
-                                    style={{ ...buttonStyles }}
-                                    onClick={() => handleAcceptTask(task.id)}
-                                  >
-                                    Accept
-                                  </Button>
-                                ) : (
-                                  ""
-                                )}
-                                {(!task.isObjected || !task.isAccepted) &&
-                                !task.isAccepted &&
-                                !statusArray.includes(task.status) ? (
-                                  <Button style={{ ...buttonStyles }} onClick={() => handleButtonClick('Object')}>
-                                  Object
-                                </Button>
-                                ) : (
-                                  ""
-                                )}
-                                {task.isAccepted &&
-                                !task.isAssignedEmpSubmit &&
-                                !statusArray.includes(task.status) ? (
-                                  <Button style={{ ...buttonStyles }} onClick={() => handleButtonClick('Submit')}>
-                                  Submit
-                                </Button>
-                                ) : (
-                                  ""
-                                )}
-                              </>
-                            )}
-                          </div>
-                        )}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-        </TableBody>
-      </Table>
-    </TableContainer>
+<TableCell align="center" colSpan={3} sx={{ padding: "0px" }}>
+<SwipeableTemporaryDrawer buttons={["Add Task"]} />
+<SwipeableTemporaryDrawer buttons={["Add Category"]} />
+</TableCell>
+</TableRow>
+<TableRow>
+{columns.map((column) => (
+<TableCell
+key={column.id}
+align={column.align}
+style={{ top: 57, minWidth: column.minWidth }}
+>
+{column.label}
+</TableCell>
+))}
+</TableRow>
+</TableHead>
+<TableBody>
+{tasks.length >= 1 &&
+tasks.map((task) => {
+return (
+<TableRow hover role="checkbox" tabIndex={-1} key={task.code}>
+{columns.map((column, i) => {
+  const value = task[column.id];
+  return (
+    <TableCell key={column.id} align={column.align}>
+      {i !== columns.length - 1 ? (
+        <>
+          {column.id === "id" ? (
+            <Link
+              href={`/${userRole}/tasks-coins-management/${task.id}`}
+            >
+              <VisibilityIcon />
+            </Link>
+          ) : (
+            value
+          )}
+        </>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+          }}
+        >
+          {!statusArray.includes(task.status) &&
+          task.createdBy === username ? (
+            <>
+              {!task.isAccepted && (
+                <Button style={{ ...buttonStyles }}>
+                  <SwipeableTemporaryDrawer
+                    buttons={["Edit"]}
+                    task={task && task}
+                  />
+                </Button>
+              )}
+              <>
+                {task.isAccepted && (
+                  <>
+                    <Button
+                      style={{ ...buttonStyles }}
+                      onClick={() =>
+                        handleAssignerSubmit(task.id)
+                      }
+                    >
+                      Approve
+                    </Button>
+                    <Button style={{ ...buttonStyles }} onClick={() => handleButtonClick('Reject')}>
+                          Reject
+                        </Button>
+                  </>
+                )}
+              </>
+            </>
+          ) : (
+            <>
+              {!task.isAccepted &&
+              !statusArray.includes(task.status) ? (
+                <Button
+                  style={{ ...buttonStyles }}
+                  onClick={() => handleAcceptTask(task.id)}
+                >
+                  Accept
+                </Button>
+              ) : (
+                ""
+              )}
+              {(!task.isObjected || !task.isAccepted) &&
+              !task.isAccepted &&
+              !statusArray.includes(task.status) ? (
+                <Button style={{ ...buttonStyles }} onClick={() => handleButtonClick('Object')}>
+                Object
+              </Button>
+              ) : (
+                ""
+              )}
+              {task.isAccepted &&
+              !task.isAssignedEmpSubmit &&
+              !statusArray.includes(task.status) ? (
+                <Button style={{ ...buttonStyles }} onClick={() => handleButtonClick('Submit')}>
+                Submit
+              </Button>
+              ) : (
+                ""
+              )}
+            </>
+          )}
+        </div>
+      )}
+    </TableCell>
+  );
+})}
+</TableRow>
+);
+})}
+</TableBody>
+</Table>
+</TableContainer>
     <TablePagination
       rowsPerPageOptions={[10, 20, 50]}
       component="div"
