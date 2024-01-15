@@ -1,6 +1,5 @@
 import dollar from "@/assets/dollar.png";
 import { getTaskDetail } from "@/services/businessLogic";
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import { Box, Button, Divider, Grid, Paper, Typography } from "@mui/material";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -13,8 +12,6 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-
-
 
 const DetailsPage = () => {
   const [taskDetails, setTaskDetails] = useState(null);
