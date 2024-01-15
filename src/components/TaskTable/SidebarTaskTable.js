@@ -9,7 +9,7 @@ postManagerUpdateTaskCoin,
 } from "@/services/businessLogic";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Button, IconButton, InputBase, TextField } from "@mui/material";
+import { Button, FormControl, IconButton, InputBase, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import TaskTabs from "../TaskTabs/TaskTabs";
 import SwipeableTemporaryDrawer from "./SwipeableTemporaryDrawer";
 import ReusableModal from "../AlertDialogSlide/ReusableModal";
-import { createModalContent } from "@/utils/modalUtils";
+
 
 const VisuallyHiddenInput = styled("input")({
 clip: "rect(0 0 0 0)",
@@ -129,20 +129,9 @@ const [cusSearch, setCusSearch] = useState("");
 const [modalOpen, setModalOpen] = useState(false);
 const [modalContent, setModalContent] = useState(null);
 const [modalTitle, setModalTitle] = useState('');
-
-const handleModalOpen = (content, title) => {
-  setModalContent(content);
-  setModalTitle(title);
-  setModalOpen(true);
-};
-
-const handleModalClose = () => {
-  setModalOpen(false);
-};
-
-const handleButtonClick = (buttonType) => {
-  createModalContent(buttonType, handleModalOpen);
-};
+const [fileData, setFileData] = useState(null);
+const [currentSubmitHandler, setCurrentSubmitHandler] = useState(null);
+console.log(fileData)
 
 
 
@@ -209,16 +198,7 @@ const handleAssignerSubmit = async (taskId) => {
   fetchData();
 };
 
-const handleAssignerReject = async (taskId, assignerTaskId) => {
-  const formData = new FormData();
-  formData.append("taskId", taskId);
-  formData.append("assignerTaskId", assignerTaskId);
-  formData.append("terminateReason", terminateReason);
-  formData.append("assignerStatus", rejectStatus);
-  const res = await postAssignerEmpObjectTask(formData);
-  console.log(res);
-  fetchData();
-};
+
 
 const handleAcceptTask = async (assignTaskId) => {
   const formData = new FormData();
@@ -229,14 +209,28 @@ const handleAcceptTask = async (assignTaskId) => {
   fetchData();
 };
 
-const handleSubmitTask = async (assignTaskId, assignerTaskId, file) => {
+
+const handleAssignerReject = async (taskId, assignerTaskId) => {
+
   const formData = new FormData();
-  formData.append("assignTaskId", assignTaskId);
+  formData.append("taskId", taskId);
   formData.append("assignerTaskId", assignerTaskId);
+  formData.append("terminateReason", terminateReason);
+  formData.append("assignerStatus", rejectStatus);
+  const res = await postAssignerEmpObjectTask(formData);
+  console.log(res);
+  fetchData();
+};
+
+const handleSubmitTask = async (assignTaskId, assignerTaskId,file) => {
+  const formData = new FormData();
+  // formData.append("assignTaskId", assignTaskId);
+  // formData.append("assignerTaskId", assignerTaskId);
   formData.append("isAssignedEmpSubmit", true);
   formData.append("uploadFile", file);
-  const res = await postAssignedEmpSubmitTask(formData);
-  console.log(res);
+  console.log("Submitted File Data:", formData.get("uploadFile"));
+  // const res = await postAssignedEmpSubmitTask(formData);
+  // console.log(res);
   setTimeout(() => {
     handleClose();
   }, 1000);
@@ -256,11 +250,112 @@ const handleObjectTask = async (assignTaskId) => {
   fetchData();
 };
 
+
+
+
+
+
+const handleModalOpen = (content, title) => {
+  setModalContent(content);
+  setModalTitle(title);
+  setModalOpen(true);
+};
+
+const handleModalClose = () => {
+  setModalOpen(false);
+// setCurrentSubmitHandler(null); // Resetting the submit handler
+};
+
+const handleButtonClick = (buttonType) => {
+  switch (buttonType) {
+    case 'Submit':
+      setCurrentSubmitHandler(() => () => handleSubmitTask( fileData));
+      handleModalOpen(
+        <div>
+         <TextField
+        autoFocus
+        margin="dense"
+        id="file"
+        label="Upload File"
+        type="file"
+        fullWidth
+        onChange={(e) => setFileData(e.target.files[0])}
+      />
+        </div>,
+        'Submit Task'
+      );
+      break;
+    case 'Object':
+      handleModalOpen(
+        <TextField
+          autoFocus
+          margin="dense"
+          id="object"
+          label="Object Reason"
+          type="text"
+          fullWidth
+        />,
+        'Object Task'
+      );
+      break;
+      case 'Reject':
+        return handleModalOpen(<RejectModalContent />, 'Reject Task');
+  
+      default:
+        return null;
+  }
+};
+
+const RejectModalContent = () => {
+  const [action, setAction] = useState('');
+  const [showTextArea, setShowTextArea] = useState(false);
+
+  const handleSelectChange = (event) => {
+    const selectedAction = event.target.value;
+    setAction(selectedAction);
+    setShowTextArea(selectedAction === 'Terminate');
+  };
+
+  return (
+    <div>
+      <FormControl fullWidth margin="normal">
+        <InputLabel id="reject-action-label">Action</InputLabel>
+        <Select
+          labelId="reject-action-label"
+          id="reject-action"
+          value={action}
+          label="Action"
+          onChange={handleSelectChange}
+        >
+          <MenuItem value="Revise">Revise</MenuItem>
+          <MenuItem value="Terminate">Terminate</MenuItem>
+        </Select>
+      </FormControl>
+      {showTextArea && (
+        <TextField
+          autoFocus
+          margin="dense"
+          id="terminateReason"
+          label="Termination Reason"
+          placeholder='Please Write Your Reason!'
+          type="text"
+          fullWidth
+          multiline
+          rows={4}
+        />
+      )}
+    </div>
+  );
+};
+
+
+
 return (
   <Paper sx={{ width: "100%" }}>
-    <ReusableModal
+<ReusableModal
   open={modalOpen}
   handleClose={handleModalClose}
+  handleOk={currentSubmitHandler}
   title={modalTitle}
   content={modalContent}
 />
