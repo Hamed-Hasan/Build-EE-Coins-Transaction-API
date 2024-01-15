@@ -1,8 +1,5 @@
 import SwipeableTemporaryDrawer from "@/components/TaskTable/SwipeableTemporaryDrawer";
-import {
-  getTasksCategoryDPList,
-  postAddOrEditCategory,
-} from "@/services/businessLogic";
+import { getTasksCategoryDPList } from "@/services/businessLogic";
 import { Button } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -32,14 +29,6 @@ const columns = [
 
 const CategoriesManagement = () => {
   const [categories, setCategories] = useState([]);
-
-  const handleEditCategory = async (id) => {
-    const formData = new FormData();
-    formData.append("id", id);
-    formData.append("name", name);
-    formData.append("coins", coins);
-    const res = await postAddOrEditCategory(formData);
-  };
 
   const fetchData = async () => {
     const res = await getTasksCategoryDPList();

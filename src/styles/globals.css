@@ -126,3 +126,6 @@ span {
   cursor: pointer;
   color: red;
 }
+._status-icon {
+  color: rgba(255, 255, 255, 0.568);
+}

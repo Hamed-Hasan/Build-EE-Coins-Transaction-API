@@ -21,7 +21,6 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import SimpleModal from "../SimpleModal/Modal";
 import TaskTabs from "../TaskTabs/TaskTabs";
 import SwipeableTemporaryDrawer from "./SwipeableTemporaryDrawer";
 
@@ -372,12 +371,6 @@ export default function SidebarTaskTable({ userRole }) {
                                       onClick={handleOpen}
                                     >
                                       Submit
-                                      {open && (
-                                        <SimpleModal
-                                          type="SUBMIT_MODAL"
-                                          setOpen={setOpen}
-                                        />
-                                      )}
                                     </Button>
                                   ) : (
                                     ""
