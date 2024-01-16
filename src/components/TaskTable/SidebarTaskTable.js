@@ -127,7 +127,7 @@ export default function SidebarTaskTable({ userRole }) {
   const username = "Sayed Imam";
   const [task, setTask] = useState({});
   const [loading, setLoading] = useState(false);
-  const [statusID, setStatusID] = useState(1);
+  const [statusID, setStatusID] = useState(0);
   const [tasks, setTasks] = useState([]);
   const [pageSize, setPageSize] = useState(10);
   const [rowsPerPage, setRowsPerPage] = useState(pageSize);
@@ -148,6 +148,7 @@ export default function SidebarTaskTable({ userRole }) {
   const [currentSubmitHandler, setCurrentSubmitHandler] = useState(null);
   const [objectReason, setObjectReason] = useState("");
   const [fileData, setFileData] = useState(null);
+  const [coins, setCoins] = useState(0);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -204,7 +205,6 @@ export default function SidebarTaskTable({ userRole }) {
     formData.append("assignTaskId", assignTaskId);
     formData.append("objectReason", objectReason);
     formData.append("isObjected", true);
-    console.log(formData.get("objectReason"));
     const res = await postAssignedEmpObjectTask(formData);
     console.log(res);
     setTimeout(() => {
@@ -323,11 +323,13 @@ export default function SidebarTaskTable({ userRole }) {
           <TextField
             autoFocus
             margin="dense"
-            id="object"
+            id="objectReason"
             label="Object Reason"
+            placeholder="Please Write Your Reason!"
             type="text"
             fullWidth
-            value={objectReason}
+            multiline
+            rows={4}
             onChange={(e) => setObjectReason(e.target.value)}
           />,
           "Object Task"
@@ -470,7 +472,7 @@ export default function SidebarTaskTable({ userRole }) {
                               }}
                             >
                               {!statusArray.includes(task.status) &&
-                              task.createdBy ? (
+                              task.createdBy === username ? (
                                 <>
                                   {!task.isAccepted && (
                                     <Button style={{ ...buttonStyles }}>
