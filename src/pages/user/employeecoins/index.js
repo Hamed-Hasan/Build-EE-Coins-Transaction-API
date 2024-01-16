@@ -8,13 +8,19 @@ import {
   TablePagination,
   TextField,
   TableRow,
+  Button,
+  IconButton,
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { getEmployeeCoins } from '@/services/businessLogic';
+import ReusableModal from '@/components/AlertDialogSlide/ReusableModal';
+
 
 const columns = [
   { id: 'id', label: 'ID' },
   { id: 'employeeName', label: 'Employee Name' },
   { id: 'totalCoins', label: 'Total Coins' },
+  { id: 'actions', label: 'Actions' },
 ];
 
 function EmployeeCoinsPage() {
@@ -23,6 +29,10 @@ function EmployeeCoinsPage() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterText, setFilterText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // State to keep track of the selected row data for the modal
+  const [selectedRowData, setSelectedRowData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,6 +41,7 @@ function EmployeeCoinsPage() {
         const queryParams = 'sortBy=employeeId&order=asc';
         const response = await getEmployeeCoins(queryParams);
         setData(response.data);
+        // console.log(response.data)
       } catch (error) {
         console.error('Error fetching employee coins:', error);
       }
@@ -58,8 +69,18 @@ function EmployeeCoinsPage() {
     setPage(0);
   };
 
+  const handleOpenModal = (rowData) => {
+    setSelectedRowData(rowData);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedRowData(null);
+  };
+
   return (
-    <div style={{padding: '200px'}}>
+    <div style={{ padding: '200px' }}>
       <TextField
         label="Filter"
         variant="outlined"
@@ -82,9 +103,20 @@ function EmployeeCoinsPage() {
               .map((row, index) => (
                 <TableRow key={row.id}>
                   <TableCell>{`#${index + 1}`}</TableCell>
-                  {columns.slice(1).map((column) => (
-                    <TableCell key={column.id}>{row[column.id]}</TableCell>
-                  ))}
+                  {columns
+                    .slice(1, columns.length - 1) // Exclude Actions column
+                    .map((column) => (
+                      <TableCell key={column.id}>{row[column.id]}</TableCell>
+                    ))}
+                  <TableCell>
+                  <IconButton
+                        color="primary"
+                        onClick={() => handleOpenModal(row)}
+                        aria-label="Add Coins"
+                    >
+                        <AddIcon />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
@@ -99,6 +131,46 @@ function EmployeeCoinsPage() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+
+      {/* Reusable Modal */}
+      {selectedRowData && (
+  <ReusableModal
+    open={modalOpen}
+    handleClose={handleCloseModal}
+    handleOk={() => {
+      // Handle your modal action here
+      // Example: console.log(selectedRowData)
+      handleCloseModal();
+    }}
+    title="Modal Title"
+    content={
+      <div>
+        <TextField
+        //   label="Specific Item Coins"
+          variant="outlined"
+          fullWidth
+          value={selectedRowData.totalCoins} // Use the correct field from your data
+          disabled
+          margin="normal"
+        />
+        <TextField
+          label="Second Field"
+          variant="outlined"
+          fullWidth
+          // Add the value and other properties for the second field
+          margin="normal"
+        />
+        <TextField
+          label="Third Field"
+          variant="outlined"
+          fullWidth
+          // Add the value and other properties for the third field
+          margin="normal"
+        />
+      </div>
+    }
+  />
+)}
     </div>
   );
 }
