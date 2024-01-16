@@ -127,15 +127,15 @@ export default function SidebarTaskTable({ userRole }) {
   const username = "Sayed Imam";
   const [task, setTask] = useState({});
   const [loading, setLoading] = useState(false);
+  const [statusID, setStatusID] = useState(1);
   const [tasks, setTasks] = useState([]);
   const [pageSize, setPageSize] = useState(10);
   const [rowsPerPage, setRowsPerPage] = useState(pageSize);
   const [count, setCount] = useState(0);
-  const [statusID, setStatusID] = useState(1);
-  const [startDate, setStartDate] = useState(new Date());
-  const [dueDate, setDueDate] = useState(new Date());
-  const [assignedUserId, setAssignedUserId] = useState(0);
-  const [createdUserId, setCreatedUserId] = useState(0);
+  const [startDate, setStartDate] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [assignedUserId, setAssignedUserId] = useState("");
+  const [createdUserId, setCreatedUserId] = useState("");
   const [page, setPage] = useState(0);
   const [orderBy, setOrderBy] = useState("");
   const [filter, setFilter] = useState("");
@@ -160,7 +160,11 @@ export default function SidebarTaskTable({ userRole }) {
   };
 
   const fetchData = async () => {
-    let url = `Page=${page + 1}&PageSize=${rowsPerPage}`;
+    let url = `Page=${page + 1}&PageSize=${rowsPerPage}&StartDate=${
+      startDate && startDate
+    }&DueDate=${
+      dueDate && dueDate
+    }&AssignedUserId=${assignedUserId}&CreatedUserId=${createdUserId}&OrderBy=${orderBy}&Filter=${filter}&cusSearch=${cusSearch}`;
     let res;
     if (userRole !== "admin") {
       res = await getEmployeeList(url);
@@ -419,7 +423,9 @@ export default function SidebarTaskTable({ userRole }) {
 
               <TableCell align="center" colSpan={3} sx={{ padding: "0px" }}>
                 <SwipeableTemporaryDrawer buttons={["Add Task"]} />
-                <SwipeableTemporaryDrawer buttons={["Add Category"]} />
+                {userRole === "admin" && (
+                  <SwipeableTemporaryDrawer buttons={["Add Category"]} />
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -464,7 +470,7 @@ export default function SidebarTaskTable({ userRole }) {
                               }}
                             >
                               {!statusArray.includes(task.status) &&
-                              task.createdBy === username ? (
+                              task.createdBy ? (
                                 <>
                                   {!task.isAccepted && (
                                     <Button style={{ ...buttonStyles }}>

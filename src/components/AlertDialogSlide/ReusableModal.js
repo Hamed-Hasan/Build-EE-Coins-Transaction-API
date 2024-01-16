@@ -1,6 +1,18 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 
-export default function ReusableModal({ open, handleClose, handleOk, title, content }) {
+export default function ReusableModal({
+  open,
+  handleClose,
+  handleOk,
+  title,
+  content,
+}) {
   return (
     <Dialog
       open={open}
@@ -10,18 +22,15 @@ export default function ReusableModal({ open, handleClose, handleOk, title, cont
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">{title}</DialogTitle>
-      <DialogContent>
-        {content}
-      </DialogContent>
+      <DialogContent>{content}</DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
         <Button onClick={handleOk} color="primary">
           OK
-       
-          </Button>
-     </DialogActions>
-   </Dialog>
- );
-  }
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
