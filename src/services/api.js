@@ -3,7 +3,7 @@ import axiosInstance from "./axiosInstance";
 // Fetch
 
 export const fetchEmployeeCoins = (queryParams) => {
-  return axiosInstance.get(`/Coins/getemployeecoins?${queryParams}`);
+  return axiosInstance.get(`/Coins/getadmincoins?${queryParams}`);
 };
 
 

@@ -30,7 +30,9 @@ function EmployeeCoinsPage() {
   const [filterText, setFilterText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [coinsToAdd, setCoinsToAdd] = useState(0);
+  const [coinsToAdd, setCoinsToAdd] = useState('');
+  const [inputError, setInputError] = useState('');
+  
 
   // State to keep track of the selected row data for the modal
   const [selectedRowData, setSelectedRowData] = useState(null);
@@ -70,15 +72,11 @@ function EmployeeCoinsPage() {
     setPage(0);
   };
 
-//   const handleOpenModal = (rowData) => {
-//     setSelectedRowData(rowData);
-//     setModalOpen(true);
-//   };
 
 const handleOpenModal = (rowData) => {
     setSelectedRowData(rowData);
     setModalOpen(true);
-    setCoinsToAdd(0); 
+    setCoinsToAdd(1); 
   };
   
   const handleCloseModal = () => {
@@ -86,20 +84,33 @@ const handleOpenModal = (rowData) => {
     setSelectedRowData(null);
   };
 
-
   const handleAddCoins = async () => {
     try {
+      const coinsToAddValue = Number(coinsToAdd);
+  
+      if (isNaN(coinsToAddValue) || coinsToAddValue <= 0) {
+        setInputError('Please enter a valid positive number greater than 0.');
+        return; // Don't proceed if the input is invalid
+      }
+  
       const formData = new FormData();
       formData.append('CoinsId', selectedRowData.id);
-      formData.append('CoinAmount', coinsToAdd);
+      formData.append('CoinAmount', coinsToAddValue);
   
       const response = await postManagerUpdateCoinInCoinTable(formData);
-      console.log(response); 
+      console.log(response); // Log the response for debugging
+  
+      // Clear the input field and error message after successfully adding coins
+      setCoinsToAdd('');
+      setInputError('');
+      
+      // Close the modal after successfully adding coins
       handleCloseModal();
     } catch (error) {
       console.error('Error adding coins:', error);
     }
   };
+  
   
 
   return (
@@ -162,7 +173,7 @@ const handleOpenModal = (rowData) => {
     open={modalOpen}
     handleClose={handleCloseModal}
     handleOk={handleAddCoins}
-    title="Modal Title"
+    title="Add Coins"
     content={
       <div>
         <TextField
@@ -173,22 +184,27 @@ const handleOpenModal = (rowData) => {
           disabled
           margin="normal"
         />
-        <TextField
-            label="Add Coins"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={coinsToAdd}
-            onChange={(e) => setCoinsToAdd(Number(e.target.value))}
-            />
+<TextField
+  label="Add Coins"
+  variant="outlined"
+  fullWidth
+  margin="normal"
+  value={coinsToAdd}
+  onChange={(e) => {
+    setCoinsToAdd(e.target.value);
+    setInputError(''); // Clear the error message when the user starts typing
+  }}
+  error={Boolean(inputError)}
+  helperText={inputError}
+/>
 
-        <TextField
+        {/* <TextField
           label="Third Field"
           variant="outlined"
           fullWidth
           // Add the value and other properties for the third field
           margin="normal"
-        />
+        /> */}
       </div>
     }
   />
