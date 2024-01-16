@@ -12,7 +12,7 @@ import {
   IconButton,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { getEmployeeCoins } from '@/services/businessLogic';
+import { getEmployeeCoins, postManagerUpdateCoinInCoinTable } from '@/services/businessLogic';
 import ReusableModal from '@/components/AlertDialogSlide/ReusableModal';
 
 
@@ -30,6 +30,7 @@ function EmployeeCoinsPage() {
   const [filterText, setFilterText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [coinsToAdd, setCoinsToAdd] = useState(0);
 
   // State to keep track of the selected row data for the modal
   const [selectedRowData, setSelectedRowData] = useState(null);
@@ -69,15 +70,37 @@ function EmployeeCoinsPage() {
     setPage(0);
   };
 
-  const handleOpenModal = (rowData) => {
+//   const handleOpenModal = (rowData) => {
+//     setSelectedRowData(rowData);
+//     setModalOpen(true);
+//   };
+
+const handleOpenModal = (rowData) => {
     setSelectedRowData(rowData);
     setModalOpen(true);
+    setCoinsToAdd(0); 
   };
-
+  
   const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedRowData(null);
   };
+
+
+  const handleAddCoins = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('CoinsId', selectedRowData.id);
+      formData.append('CoinAmount', coinsToAdd);
+  
+      const response = await postManagerUpdateCoinInCoinTable(formData);
+      console.log(response); 
+      handleCloseModal();
+    } catch (error) {
+      console.error('Error adding coins:', error);
+    }
+  };
+  
 
   return (
     <div style={{ padding: '200px' }}>
@@ -110,12 +133,13 @@ function EmployeeCoinsPage() {
                     ))}
                   <TableCell>
                   <IconButton
-                        color="primary"
-                        onClick={() => handleOpenModal(row)}
-                        aria-label="Add Coins"
+                    color="primary"
+                    onClick={() => handleOpenModal(row)}
+                    aria-label="Add Coins"
                     >
-                        <AddIcon />
+                    <AddIcon />
                     </IconButton>
+
                   </TableCell>
                 </TableRow>
               ))}
@@ -137,11 +161,7 @@ function EmployeeCoinsPage() {
   <ReusableModal
     open={modalOpen}
     handleClose={handleCloseModal}
-    handleOk={() => {
-      // Handle your modal action here
-      // Example: console.log(selectedRowData)
-      handleCloseModal();
-    }}
+    handleOk={handleAddCoins}
     title="Modal Title"
     content={
       <div>
@@ -154,12 +174,14 @@ function EmployeeCoinsPage() {
           margin="normal"
         />
         <TextField
-          label="Second Field"
-          variant="outlined"
-          fullWidth
-          // Add the value and other properties for the second field
-          margin="normal"
-        />
+            label="Add Coins"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={coinsToAdd}
+            onChange={(e) => setCoinsToAdd(Number(e.target.value))}
+            />
+
         <TextField
           label="Third Field"
           variant="outlined"
