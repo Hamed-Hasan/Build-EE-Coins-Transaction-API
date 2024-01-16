@@ -129,9 +129,12 @@ const [cusSearch, setCusSearch] = useState("");
 const [modalOpen, setModalOpen] = useState(false);
 const [modalContent, setModalContent] = useState(null);
 const [modalTitle, setModalTitle] = useState('');
-const [fileData, setFileData] = useState(null);
 const [currentSubmitHandler, setCurrentSubmitHandler] = useState(null);
-console.log(fileData)
+const [objectReason, setObjectReason] = useState('');
+const [terminateReason, setTerminateReason] = useState('');
+const [rejectStatus, setRejectStatus] = useState('');
+const [fileData, setFileData] = useState(null);
+// console.log(fileData)
 
 
 
@@ -174,12 +177,12 @@ const style = {
   p: 4,
 };
 
-const [rejectStatus, setRejectStatus] = useState("");
-const [terminateReason, setTerminateReason] = useState("");
+// const [rejectStatus, setRejectStatus] = useState("");
+// const [terminateReason, setTerminateReason] = useState("");
 
-const handleChangeRejectStatus = (e) => {
-  setRejectStatus(e.target.value);
-};
+// const handleChangeRejectStatus = (e) => {
+//   setRejectStatus(e.target.value);
+// };
 
 const handleApproveTask = async (assignerTaskId, assignerStatus) => {
   const formData = new FormData();
@@ -237,13 +240,15 @@ const handleSubmitTask = async (assignTaskId, assignerTaskId,file) => {
   fetchData();
 };
 
-const handleObjectTask = async (assignTaskId) => {
+const handleObjectTask = async () => {
+
   const formData = new FormData();
-  formData.append("assignTaskId", assignTaskId);
+  // formData.append("assignTaskId", assignTaskId);
   formData.append("objectReason", objectReason);
   formData.append("isObjected", true);
-  const res = await postAssignedEmpObjectTask(formData);
-  console.log(res);
+  console.log(formData)
+  // const res = await postAssignedEmpObjectTask(formData);
+  // console.log(res);
   setTimeout(() => {
     handleClose();
   }, 1000);
@@ -285,22 +290,25 @@ const handleButtonClick = (buttonType) => {
         'Submit Task'
       );
       break;
-    case 'Object':
-      handleModalOpen(
-        <TextField
-          autoFocus
-          margin="dense"
-          id="object"
-          label="Object Reason"
-          type="text"
-          fullWidth
-        />,
-        'Object Task'
-      );
+      case 'Object':
+        setCurrentSubmitHandler(() => handleObjectTask);
+        handleModalOpen(
+          <TextField
+            autoFocus
+            margin="dense"
+            id="object"
+            label="Object Reason"
+            type="text"
+            fullWidth
+            onChange={(e) => setObjectReason(e.target.value)}
+          />,
+          'Object Task'
+        );
       break;
       case 'Reject':
-        return handleModalOpen(<RejectModalContent />, 'Reject Task');
-  
+        setCurrentSubmitHandler(() => handleAssignerReject);
+        handleModalOpen(<RejectModalContent />, 'Reject Task');
+        break;
       default:
         return null;
   }
@@ -314,6 +322,7 @@ const RejectModalContent = () => {
     const selectedAction = event.target.value;
     setAction(selectedAction);
     setShowTextArea(selectedAction === 'Terminate');
+    setRejectStatus(selectedAction)
   };
 
   return (
@@ -342,6 +351,7 @@ const RejectModalContent = () => {
           fullWidth
           multiline
           rows={4}
+          onChange={(e) => setTerminateReason(e.target.value)}
         />
       )}
     </div>
