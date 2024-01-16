@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import { useState } from "react";
 
-export const createModalContent = (buttonType, handleModalOpen) => {
+export const createModalContent = (
+  buttonType,
+  handleModalOpen,
+  handleChange
+) => {
   switch (buttonType) {
-    case 'Submit':
+    case "Submit":
       return handleModalOpen(
         <div>
           <TextField
@@ -17,12 +21,13 @@ export const createModalContent = (buttonType, handleModalOpen) => {
             label="Upload File"
             type="file"
             fullWidth
+            onChange={(e) => handleChange(e.target.value)}
           />
         </div>,
-        'Submit Task'
+        "Submit Task"
       );
 
-    case 'Object':
+    case "Object":
       return handleModalOpen(
         <TextField
           autoFocus
@@ -32,18 +37,43 @@ export const createModalContent = (buttonType, handleModalOpen) => {
           type="text"
           fullWidth
         />,
-        'Object Task'
+        "Object Task"
       );
 
-    case 'Reject':
+    case "Reject":
+      return handleModalOpen(
+        <TextField
+          autoFocus
+          margin="dense"
+          id="reject"
+          label="Reject Reason"
+          type="text"
+          fullWidth
+        />,
+        "Reject Task"
+      );
+
+    case "Update Task Coins":
+      return handleModalOpen(
+        <TextField
+          autoFocus
+          margin="dense"
+          id="number"
+          label="Update Task Coins"
+          type="number"
+          fullWidth
+        />,
+        "Update Task Coins"
+      );
+    case "Reject":
       const RejectModalContent = () => {
-        const [action, setAction] = useState('');
+        const [action, setAction] = useState("");
         const [showTextArea, setShowTextArea] = useState(false);
 
         const handleSelectChange = (event) => {
           const selectedAction = event.target.value;
           setAction(selectedAction);
-          setShowTextArea(selectedAction === 'Terminate');
+          setShowTextArea(selectedAction === "Terminate");
         };
 
         return (
@@ -67,7 +97,7 @@ export const createModalContent = (buttonType, handleModalOpen) => {
                 margin="dense"
                 id="terminateReason"
                 label="Termination Reason"
-                placeholder='Please Write Your Reason!'
+                placeholder="Please Write Your Reason!"
                 type="text"
                 fullWidth
                 multiline
@@ -78,7 +108,7 @@ export const createModalContent = (buttonType, handleModalOpen) => {
         );
       };
 
-      return handleModalOpen(<RejectModalContent />, 'Reject Task');
+      return handleModalOpen(<RejectModalContent />, "Reject Task");
 
     default:
       return null;

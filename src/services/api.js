@@ -16,7 +16,7 @@ export const fetchEmployeeList = (queryParams) => {
 };
 
 export const fetchAdminList = (queryParams) => {
-  return axiosInstance.get(`/Tasks/getadminlist??${queryParams}`);
+  return axiosInstance.get(`/Tasks/getadminlist?${queryParams}`);
 };
 
 export const fetchTaskDetail = (taskId) => {

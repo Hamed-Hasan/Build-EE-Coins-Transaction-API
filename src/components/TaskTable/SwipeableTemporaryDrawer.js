@@ -4,9 +4,9 @@ import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import * as React from "react";
+import ReusableModal from "../AlertDialogSlide/ReusableModal";
 import CategoryForm from "../TaskForm/CategoryForm";
 import TaskForm from "../TaskForm/TaskForm";
-import ReusableModal from "../AlertDialogSlide/ReusableModal";
 
 export default function SwipeableTemporaryDrawer({ buttons, task, category }) {
   const [state, setState] = React.useState({
