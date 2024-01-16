@@ -35,9 +35,9 @@ export const getEmployeeList = async (queryParams) => {
   }
 };
 
-export const getAdminList = async () => {
+export const getAdminList = async (queryParams) => {
   try {
-    const response = await api.fetchAdminList();
+    const response = await api.fetchAdminList(queryParams);
     // Add any additional business logic if needed
     return response.data;
   } catch (error) {
