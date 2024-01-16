@@ -1,21 +1,10 @@
-import React from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Slide from '@mui/material/Slide';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
-export default function ReusableModal({ open, handleClose, title, content }) {
+export default function ReusableModal({ open, handleClose, handleOk, title, content }) {
   return (
     <Dialog
       open={open}
-      TransitionComponent={Transition}
+      // TransitionComponent={Transition}
       keepMounted
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
@@ -28,10 +17,11 @@ export default function ReusableModal({ open, handleClose, title, content }) {
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handleOk} color="primary">
           OK
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-}
+       
+          </Button>
+     </DialogActions>
+   </Dialog>
+ );
+  }
