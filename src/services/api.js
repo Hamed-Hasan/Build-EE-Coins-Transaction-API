@@ -2,12 +2,13 @@ import axiosInstance from "./axiosInstance";
 
 // Fetch
 
-export const fetchEmployeeCoins = () => {
-  return axiosInstance.get("/Coins/getemployeecoins");
+export const fetchEmployeeCoins = (queryParams) => {
+  return axiosInstance.get(`/Coins/getemployeecoins?${queryParams}`);
 };
 
-export const fetchCoinsTransactionsList = () => {
-  return axiosInstance.get("/Coins/getcoinstransactionslist");
+
+export const fetchCoinsTransactionsList = (queryParams) => {
+  return axiosInstance.get(`/Coins/getcoinstransactionslist?${queryParams}`);
 };
 
 export const fetchEmployeeList = (queryParams) => {

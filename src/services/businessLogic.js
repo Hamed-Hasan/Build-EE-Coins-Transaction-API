@@ -1,5 +1,30 @@
 import * as api from "./api";
 
+export const getEmployeeCoins = async (queryParams) => {
+  try {
+    // Pass the queryParams to the API call
+    const response = await api.fetchEmployeeCoins(queryParams);
+    // Add any additional business logic if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching employee coins:", error);
+    throw error;
+  }
+};
+
+
+export const getCoinsTransactionsList = async (queryParams) => {
+  try {
+    // Pass queryParams to the API call
+    const response = await api.fetchCoinsTransactionsList(queryParams);
+    // Add any additional business logic if needed
+    return response.data;
+  } catch (error){
+    console.error("Error fetching coins transactions list:", error);
+    throw error;
+    }
+    };
+
 export const getEmployeeList = async (queryParams) => {
   try {
     const response = await api.fetchEmployeeList(queryParams);
