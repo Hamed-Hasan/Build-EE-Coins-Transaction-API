@@ -21,7 +21,6 @@ export default function SwipeableTemporaryDrawer({ buttons, task, category }) {
     return (
       <>
         <ListItem>
-          {anchor === "Submit Task" && task ? <TaskForm task={task} /> : ""}
           {anchor === "Edit" && task ? <ReusableModal task={task} /> : ""}
           {anchor === "Edit" && task ? <TaskForm task={task} /> : ""}
           {anchor === "Add Task" && <TaskForm />}
