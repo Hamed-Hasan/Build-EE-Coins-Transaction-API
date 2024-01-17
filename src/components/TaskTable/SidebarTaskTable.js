@@ -32,6 +32,7 @@ import { styled } from "@mui/material/styles";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ReusableModal from "../AlertDialogSlide/ReusableModal";
+import TaskTabs from "../TaskTabs/TaskTabs";
 import SwipeableTemporaryDrawer from "./SwipeableTemporaryDrawer";
 
 const VisuallyHiddenInput = styled("input")({
@@ -47,7 +48,6 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const columns = [
-  { id: "id", label: "ID", minWidth: 170 },
   { id: "title", label: "Task Name", minWidth: 170 },
   { id: "createdBy", label: "Created By", minWidth: 100 },
   {
@@ -93,7 +93,7 @@ const columns = [
     format: (value) => value.toFixed(2),
   },
   {
-    id: "view",
+    id: "id",
     label: "View",
     minWidth: 170,
     align: "right",
@@ -146,7 +146,7 @@ export default function SidebarTaskTable({ userRole }) {
   const [modalContent, setModalContent] = useState(null);
   const [modalTitle, setModalTitle] = useState("");
   const [currentSubmitHandler, setCurrentSubmitHandler] = useState(null);
-  const [objectReason, setObjectReason] = useState("");
+  const [objectReason, setObjectReason] = useState(null);
   const [fileData, setFileData] = useState(null);
   const [coins, setCoins] = useState(0);
 
@@ -182,11 +182,11 @@ export default function SidebarTaskTable({ userRole }) {
     fetchData();
   }, [page, pageSize, rowsPerPage]);
 
+  console.log(objectReason);
   const handleClose = () => {
     setModalOpen(false);
     setCurrentSubmitHandler(null);
     setFileData(null);
-    setObjectReason("");
     setRejectStatus("Revise");
     setTerminateReason("");
   };
@@ -277,7 +277,7 @@ export default function SidebarTaskTable({ userRole }) {
 
   const handleButtonClick = (buttonType, task) => {
     switch (buttonType) {
-      case "Approve":
+      case "Update Coins":
         setCurrentSubmitHandler(
           () => () => handleManagerUpdateTaskCoin(task?.id)
         );
@@ -330,6 +330,7 @@ export default function SidebarTaskTable({ userRole }) {
             fullWidth
             multiline
             rows={4}
+            value={objectReason}
             onChange={(e) => setObjectReason(e.target.value)}
           />,
           "Object Task"
@@ -399,6 +400,7 @@ export default function SidebarTaskTable({ userRole }) {
         title={modalTitle}
         content={modalContent}
       />
+      <TaskTabs />
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -452,7 +454,7 @@ export default function SidebarTaskTable({ userRole }) {
                         <TableCell key={column.id} align={column.align}>
                           {i !== columns.length - 1 ? (
                             <>
-                              {column.id === "view" ? (
+                              {column.id === "id" ? (
                                 <Link
                                   href={`/${userRole}/tasks-coins-management/${task.id}`}
                                 >
@@ -470,21 +472,20 @@ export default function SidebarTaskTable({ userRole }) {
                                 gap: "10px",
                               }}
                             >
-                              {userRole === "admin" ? (
+                              {!statusArray.includes(task.status) &&
+                              task.createdBy === username ? (
                                 <>
-                                  {!statusArray.includes(task.status) &&
-                                    task.createdBy === username &&
-                                    !task.isAccepted && (
-                                      <Button style={{ ...buttonStyles }}>
-                                        <SwipeableTemporaryDrawer
-                                          buttons={["Edit"]}
-                                          task={task && task}
-                                        />
-                                      </Button>
-                                    )}
-                                  {!statusArray.includes(task.status) &&
-                                    task.isAccepted &&
-                                    task.isAssignedEmpSubmit && (
+                                  {!task.isAccepted && (
+                                    <Button style={{ ...buttonStyles }}>
+                                      <SwipeableTemporaryDrawer
+                                        buttons={["Edit"]}
+                                        task={task && task}
+                                      />
+                                    </Button>
+                                  )}
+                                  <>
+                                    {task.isAccepted &&
+                                    task.isAssignedEmpSubmit ? (
                                       <>
                                         <Button
                                           style={{ ...buttonStyles }}
@@ -492,7 +493,7 @@ export default function SidebarTaskTable({ userRole }) {
                                             handleAssignerSubmit(task.id)
                                           }
                                         >
-                                          Accept
+                                          Approve
                                         </Button>
                                         <Button
                                           style={{ ...buttonStyles }}
@@ -503,95 +504,52 @@ export default function SidebarTaskTable({ userRole }) {
                                           Reject
                                         </Button>
                                       </>
+                                    ) : (
+                                      ""
                                     )}
+                                  </>
                                 </>
                               ) : (
                                 <>
-                                  {!statusArray.includes(task.status) &&
-                                  task.createdBy === username ? (
-                                    <>
-                                      {!task.isAccepted && (
-                                        <Button style={{ ...buttonStyles }}>
-                                          <SwipeableTemporaryDrawer
-                                            buttons={["Edit"]}
-                                            task={task && task}
-                                          />
-                                        </Button>
-                                      )}
-                                      <>
-                                        {task.isAccepted &&
-                                        task.isAssignedEmpSubmit ? (
-                                          <>
-                                            <Button
-                                              style={{ ...buttonStyles }}
-                                              onClick={() =>
-                                                handleAssignerSubmit(task.id)
-                                              }
-                                            >
-                                              Accept
-                                            </Button>
-                                            <Button
-                                              style={{ ...buttonStyles }}
-                                              onClick={() =>
-                                                handleButtonClick(
-                                                  "Reject",
-                                                  task
-                                                )
-                                              }
-                                            >
-                                              Reject
-                                            </Button>
-                                          </>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </>
-                                    </>
+                                  {!task.isAccepted &&
+                                  !statusArray.includes(task.status) ? (
+                                    <Button
+                                      style={{ ...buttonStyles }}
+                                      onClick={() => handleAcceptTask(task.id)}
+                                    >
+                                      Accept
+                                    </Button>
                                   ) : (
-                                    <>
-                                      {!task.isAccepted &&
-                                      !statusArray.includes(task.status) ? (
-                                        <Button
-                                          style={{ ...buttonStyles }}
-                                          onClick={() =>
-                                            handleAcceptTask(task.id)
-                                          }
-                                        >
-                                          Accept
-                                        </Button>
-                                      ) : (
-                                        ""
-                                      )}
-                                      {(!task.isObjected || !task.isAccepted) &&
-                                      !task.isAccepted &&
-                                      !statusArray.includes(task.status) ? (
-                                        <Button
-                                          style={{ ...buttonStyles }}
-                                          onClick={() =>
-                                            handleButtonClick("Object", task)
-                                          }
-                                        >
-                                          Object
-                                        </Button>
-                                      ) : (
-                                        ""
-                                      )}
-                                      {task.isAccepted &&
-                                      !task.isAssignedEmpSubmit &&
-                                      !statusArray.includes(task.status) ? (
-                                        <Button
-                                          style={{ ...buttonStyles }}
-                                          onClick={() => {
-                                            console.log(task);
-                                            handleButtonClick("Submit", task);
-                                          }}
-                                        >
-                                          Submit
-                                        </Button>
-                                      ) : (
-                                        ""
-                                      )}
-                                    </>
+                                    ""
+                                  )}
+                                  {(!task.isObjected || !task.isAccepted) &&
+                                  !task.isAccepted &&
+                                  !statusArray.includes(task.status) ? (
+                                    <Button
+                                      style={{ ...buttonStyles }}
+                                      onClick={() =>
+                                        handleButtonClick("Object", task)
+                                      }
+                                    >
+                                      Object
+                                    </Button>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {task.isAccepted &&
+                                  !task.isAssignedEmpSubmit &&
+                                  !statusArray.includes(task.status) ? (
+                                    <Button
+                                      style={{ ...buttonStyles }}
+                                      onClick={() => {
+                                        console.log(task);
+                                        handleButtonClick("Submit", task);
+                                      }}
+                                    >
+                                      Submit
+                                    </Button>
+                                  ) : (
+                                    ""
                                   )}
                                 </>
                               )}
