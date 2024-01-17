@@ -84,9 +84,13 @@ const formatDate = (dateString) => {
             {column.id === 'id' ? `#${row[column.id]}` : column.id === 'createdAt' ? formatDate(row[column.id]) : (
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 {row[column.id]}
-                {column.id === 'afterTotalCoins' && row.beforeTotalCoins < row.afterTotalCoins && (
+                {column.id === 'afterTotalCoins' && (
                   <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <MovingIcon style={{ color: 'green' }} />
+                    {row.beforeTotalCoins < row.afterTotalCoins ? (
+                      <MovingIcon style={{ color: 'green' }} />
+                    ) : (
+                      <MovingIcon style={{ color: 'red', transform: 'rotate(190deg)' }} />
+                    )}
                   </div>
                 )}
               </div>
@@ -96,6 +100,7 @@ const formatDate = (dateString) => {
       </TableRow>
     ))}
 </TableBody>
+
 
 
 
