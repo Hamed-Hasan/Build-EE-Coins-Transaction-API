@@ -188,7 +188,7 @@ function EmployeeCoinsPage() {
                     >
                       <RemoveRedEyeIcon />
                     </IconButton> */}
-                  <Link href={`/employeecoins/${row.employeeId}`}>
+                  <Link href={`user/employeecoins/${row.employeeId}`}>
                 <IconButton color="primary" aria-label="View Coins History">
                   <RemoveRedEyeIcon />
                 </IconButton>
