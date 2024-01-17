@@ -12,6 +12,8 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import { getAdminCoinsTransactionsList } from '@/services/businessLogic';
+import MovingIcon from '@mui/icons-material/Moving';
+
 
 const columns = [
   { id: 'id', label: 'ID' },
@@ -73,18 +75,30 @@ const formatDate = (dateString) => {
             </TableRow>
           </TableHead>
           <TableBody>
-          {data
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((row) => (
-              <TableRow key={row.id}>
-                {columns.map((column) => (
-                  <TableCell key={column.id}>
-                    {column.id === 'id' ? `#${row[column.id]}` : column.id === 'createdAt' ? formatDate(row[column.id]) : row[column.id]}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-        </TableBody>
+  {data
+    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    .map((row) => (
+      <TableRow key={row.id}>
+        {columns.map((column) => (
+          <TableCell key={column.id}>
+            {column.id === 'id' ? `#${row[column.id]}` : column.id === 'createdAt' ? formatDate(row[column.id]) : (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {row[column.id]}
+                {column.id === 'afterTotalCoins' && row.beforeTotalCoins < row.afterTotalCoins && (
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <MovingIcon style={{ color: 'green' }} />
+                  </div>
+                )}
+              </div>
+            )}
+          </TableCell>
+        ))}
+      </TableRow>
+    ))}
+</TableBody>
+
+
+
 
         </Table>
       </TableContainer>
