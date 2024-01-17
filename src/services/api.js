@@ -2,6 +2,10 @@ import axiosInstance from "./axiosInstance";
 
 // Fetch
 
+export const fetchAdminCoinsTransactionsList = (queryParams) => {
+  return axiosInstance.get(`/Coins/getAdmincoinstransactionslist?${queryParams}`);
+};
+
 export const fetchEmployeeCoins = (queryParams) => {
   return axiosInstance.get(`/Coins/getadmincoins?${queryParams}`);
 };
