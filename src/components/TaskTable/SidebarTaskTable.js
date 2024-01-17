@@ -48,6 +48,7 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const columns = [
+  { id: "id", label: "ID", minWidth: 170 },
   { id: "title", label: "Task Name", minWidth: 170 },
   { id: "createdBy", label: "Created By", minWidth: 100 },
   {
@@ -93,7 +94,7 @@ const columns = [
     format: (value) => value.toFixed(2),
   },
   {
-    id: "id",
+    id: "view",
     label: "View",
     minWidth: 170,
     align: "right",
@@ -453,7 +454,7 @@ export default function SidebarTaskTable({ userRole }) {
                         <TableCell key={column.id} align={column.align}>
                           {i !== columns.length - 1 ? (
                             <>
-                              {column.id === "id" ? (
+                              {column.id === "view" ? (
                                 <Link
                                   href={`/${userRole}/tasks-coins-management/${task.id}`}
                                 >
@@ -473,7 +474,38 @@ export default function SidebarTaskTable({ userRole }) {
                             >
                               {userRole === "admin" ? (
                                 <>
-                                  <button>admin</button>
+                                  {!statusArray.includes(task.status) &&
+                                    task.createdBy === username &&
+                                    !task.isAccepted && (
+                                      <Button style={{ ...buttonStyles }}>
+                                        <SwipeableTemporaryDrawer
+                                          buttons={["Edit"]}
+                                          task={task && task}
+                                        />
+                                      </Button>
+                                    )}
+                                  {!statusArray.includes(task.status) &&
+                                    task.isAccepted &&
+                                    task.isAssignedEmpSubmit && (
+                                      <>
+                                        <Button
+                                          style={{ ...buttonStyles }}
+                                          onClick={() =>
+                                            handleAssignerSubmit(task.id)
+                                          }
+                                        >
+                                          Accept
+                                        </Button>
+                                        <Button
+                                          style={{ ...buttonStyles }}
+                                          onClick={() =>
+                                            handleButtonClick("Reject", task)
+                                          }
+                                        >
+                                          Reject
+                                        </Button>
+                                      </>
+                                    )}
                                 </>
                               ) : (
                                 <>
@@ -498,7 +530,7 @@ export default function SidebarTaskTable({ userRole }) {
                                                 handleAssignerSubmit(task.id)
                                               }
                                             >
-                                              Approve
+                                              Accept
                                             </Button>
                                             <Button
                                               style={{ ...buttonStyles }}

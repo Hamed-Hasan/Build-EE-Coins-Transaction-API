@@ -1,5 +1,16 @@
 import * as api from "./api";
 
+export const getMyCoins = async () => {
+  try {
+    const response = await api.fetchMyCoins();
+    // Additional business logic can be added here if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching admin coins transactions list:", error);
+    throw error;
+  }
+};
+
 export const getAdminCoinsTransactionsList = async (queryParams) => {
   try {
     const response = await api.fetchAdminCoinsTransactionsList(queryParams);
@@ -23,18 +34,17 @@ export const getEmployeeCoins = async (queryParams) => {
   }
 };
 
-
 export const getCoinsTransactionsList = async (queryParams) => {
   try {
     // Pass queryParams to the API call
     const response = await api.fetchCoinsTransactionsList(queryParams);
     // Add any additional business logic if needed
     return response.data;
-  } catch (error){
+  } catch (error) {
     console.error("Error fetching coins transactions list:", error);
     throw error;
-    }
-    };
+  }
+};
 
 export const getEmployeeList = async (queryParams) => {
   try {
