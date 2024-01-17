@@ -1,3 +1,4 @@
+import { username } from "@/constant";
 import {
   getAdminList,
   getEmployeeList,
@@ -10,16 +11,7 @@ import {
 } from "@/services/businessLogic";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import {
-  Button,
-  FormControl,
-  IconButton,
-  InputBase,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Button, IconButton, InputBase } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -28,24 +20,12 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { styled } from "@mui/material/styles";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import ReusableModal from "../AlertDialogSlide/ReusableModal";
-import TaskTabs from "../TaskTabs/TaskTabs";
+import ObjectTaskModal from "../Modales/ObjectTaskModal";
+import RejectTaskModal from "../Modales/RejectTaskModal";
+import SubmitTaskModal from "../Modales/SubmitTaskModal";
 import SwipeableTemporaryDrawer from "./SwipeableTemporaryDrawer";
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
 
 const columns = [
   { id: "title", label: "Task Name", minWidth: 170 },
@@ -124,8 +104,8 @@ const buttonStyles = {
 };
 
 export default function SidebarTaskTable({ userRole }) {
-  const username = "Sayed Imam";
   const [task, setTask] = useState({});
+  const [searchTerm, setSearchTerm] = useState(null);
   const [loading, setLoading] = useState(false);
   const [statusID, setStatusID] = useState(0);
   const [tasks, setTasks] = useState([]);
@@ -181,15 +161,6 @@ export default function SidebarTaskTable({ userRole }) {
   useEffect(() => {
     fetchData();
   }, [page, pageSize, rowsPerPage]);
-
-  console.log(objectReason);
-  const handleClose = () => {
-    setModalOpen(false);
-    setCurrentSubmitHandler(null);
-    setFileData(null);
-    setRejectStatus("Revise");
-    setTerminateReason("");
-  };
 
   const handleAcceptTask = async (assignTaskId) => {
     const formData = new FormData();
@@ -262,145 +233,8 @@ export default function SidebarTaskTable({ userRole }) {
     fetchData();
   };
 
-  console.log(tasks);
-
-  const handleModalOpen = (content, title) => {
-    setModalContent(content);
-    setModalTitle(title);
-    setModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setModalOpen(false);
-    setCurrentSubmitHandler(null);
-  };
-
-  const handleButtonClick = (buttonType, task) => {
-    switch (buttonType) {
-      case "Update Coins":
-        setCurrentSubmitHandler(
-          () => () => handleManagerUpdateTaskCoin(task?.id)
-        );
-        handleModalOpen(
-          <div>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="coins"
-              label="Update Coins"
-              type="number"
-              fullWidth
-              value={coins}
-              onChange={(e) => setCoins(e.target.value)}
-            />
-          </div>,
-          "Approve Task"
-        );
-        break;
-      case "Submit":
-        setCurrentSubmitHandler(
-          () => () => handleSubmitTask(task?.id, task?.id, fileData)
-        );
-        handleModalOpen(
-          <div>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="file"
-              label="Upload File"
-              type="file"
-              fullWidth
-              value={fileData}
-              onChange={(e) => setFileData(e.target.files[0])}
-            />
-          </div>,
-          "Submit Task"
-        );
-        break;
-      case "Object":
-        setCurrentSubmitHandler(() => () => handleObjectTask(task?.id));
-        handleModalOpen(
-          <TextField
-            autoFocus
-            margin="dense"
-            id="objectReason"
-            label="Object Reason"
-            placeholder="Please Write Your Reason!"
-            type="text"
-            fullWidth
-            multiline
-            rows={4}
-            value={objectReason}
-            onChange={(e) => setObjectReason(e.target.value)}
-          />,
-          "Object Task"
-        );
-        break;
-      case "Reject":
-        setCurrentSubmitHandler(
-          () => () => handleAssignerReject(task.id, task.id)
-        );
-        handleModalOpen(<RejectModalContent />, "Reject Task");
-        break;
-      default:
-        return null;
-    }
-  };
-
-  const RejectModalContent = () => {
-    const [action, setAction] = useState("Revise");
-    const [showTextArea, setShowTextArea] = useState(false);
-
-    const handleSelectChange = (e) => {
-      const selectedAction = e.target.value;
-      setAction(selectedAction);
-      setRejectStatus(selectedAction);
-      setShowTextArea(selectedAction === "Terminate");
-    };
-
-    return (
-      <div>
-        <FormControl fullWidth margin="normal">
-          <InputLabel id="reject-action-label">Action</InputLabel>
-          <Select
-            labelId="reject-action-label"
-            id="reject-action"
-            value={action}
-            label="Action"
-            onChange={(e) => handleSelectChange(e)}
-          >
-            <MenuItem value="Revise">Revise</MenuItem>
-            <MenuItem value="Terminate">Terminate</MenuItem>
-          </Select>
-        </FormControl>
-        {showTextArea && (
-          <TextField
-            autoFocus
-            margin="dense"
-            id="terminateReason"
-            label="Termination Reason"
-            placeholder="Please Write Your Reason!"
-            type="text"
-            fullWidth
-            multiline
-            rows={4}
-            onChange={(e) => setTerminateReason(e.target.value)}
-          />
-        )}
-      </div>
-    );
-  };
-
   return (
     <Paper sx={{ width: "100%" }}>
-      <ReusableModal
-        open={modalOpen}
-        handleClose={handleModalClose}
-        handleOk={currentSubmitHandler}
-        title={modalTitle}
-        content={modalContent}
-      />
-      <TaskTabs />
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -414,7 +248,9 @@ export default function SidebarTaskTable({ userRole }) {
                     sx={{ ml: 1, flex: 1 }}
                     placeholder="Search..."
                     inputProps={{ "aria-label": "search" }}
-                    // value={searchTerm}
+                    // value={""}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                     // onChange={handleInputChange}
                     // onKeyDown={handleKeyDown}
                   />
@@ -495,14 +331,7 @@ export default function SidebarTaskTable({ userRole }) {
                                         >
                                           Approve
                                         </Button>
-                                        <Button
-                                          style={{ ...buttonStyles }}
-                                          onClick={() =>
-                                            handleButtonClick("Reject", task)
-                                          }
-                                        >
-                                          Reject
-                                        </Button>
+                                        <RejectTaskModal />
                                       </>
                                     ) : (
                                       ""
@@ -525,29 +354,14 @@ export default function SidebarTaskTable({ userRole }) {
                                   {(!task.isObjected || !task.isAccepted) &&
                                   !task.isAccepted &&
                                   !statusArray.includes(task.status) ? (
-                                    <Button
-                                      style={{ ...buttonStyles }}
-                                      onClick={() =>
-                                        handleButtonClick("Object", task)
-                                      }
-                                    >
-                                      Object
-                                    </Button>
+                                    <ObjectTaskModal task={task} />
                                   ) : (
                                     ""
                                   )}
                                   {task.isAccepted &&
                                   !task.isAssignedEmpSubmit &&
                                   !statusArray.includes(task.status) ? (
-                                    <Button
-                                      style={{ ...buttonStyles }}
-                                      onClick={() => {
-                                        console.log(task);
-                                        handleButtonClick("Submit", task);
-                                      }}
-                                    >
-                                      Submit
-                                    </Button>
+                                    <SubmitTaskModal task={task} />
                                   ) : (
                                     ""
                                   )}
