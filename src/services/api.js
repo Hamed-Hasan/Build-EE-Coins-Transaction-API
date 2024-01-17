@@ -3,7 +3,7 @@ import axiosInstance from "./axiosInstance";
 // Fetch
 
 export const fetchMyCoins = () => {
-  return axiosInstance.get("/Coins/getmecoins");
+  return axiosInstance.get("/Coins/getmycoins");
 };
 
 export const fetchAdminCoinsTransactionsList = (queryParams) => {
