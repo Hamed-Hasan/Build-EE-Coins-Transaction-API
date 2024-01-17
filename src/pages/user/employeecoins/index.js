@@ -11,7 +11,8 @@ import {
   Button,
   IconButton,
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { getEmployeeCoins, postManagerUpdateCoinInCoinTable } from '@/services/businessLogic';
 import ReusableModal from '@/components/AlertDialogSlide/ReusableModal';
 
@@ -87,26 +88,26 @@ function EmployeeCoinsPage() {
   const handleAddCoins = async () => {
     try {
       const coinsToAddValue = Number(coinsToAdd);
-  
+
       if (isNaN(coinsToAddValue) || coinsToAddValue === 0) {
         setInputError('Please enter a valid number (not equal to 0).');
         return; // Don't proceed if the input is invalid
       }
-  
+
       const formData = new FormData();
       formData.append('CoinsId', selectedRowData.id);
       formData.append('CoinAmount', coinsToAddValue);
-  
+
       const response = await postManagerUpdateCoinInCoinTable(formData);
       console.log(response); // Log the response for debugging
-  
+
       // Clear the input field and error message after successfully adding coins
       setCoinsToAdd('');
       setInputError('');
-  
+
       // Close the modal after successfully adding coins
       handleCloseModal();
-  
+
       // Update the data state with the updated values from the server
       const updatedData = data.map((item) => {
         if (item.id === selectedRowData.id) {
@@ -116,7 +117,7 @@ function EmployeeCoinsPage() {
         }
         return item;
       });
-  
+
       setData(updatedData);
     } catch (error) {
       console.error('Error adding coins:', error);
@@ -135,8 +136,8 @@ function EmployeeCoinsPage() {
     return calculatedTotalCoins >= 0 ? calculatedTotalCoins : 0;
   };
 
-  
-  
+
+
 
 
   return (
@@ -169,12 +170,20 @@ function EmployeeCoinsPage() {
                       <TableCell key={column.id}>{row[column.id]}</TableCell>
                     ))}
                   <TableCell>
+                   
                     <IconButton
                       color="primary"
                       onClick={() => handleOpenModal(row)}
                       aria-label="Add Coins"
                     >
-                      <AddIcon />
+                      <CurrencyExchangeIcon />
+                    </IconButton>
+                    <IconButton
+                      color="primary"
+                      onClick={() => handleOpenModal(row)}
+                      aria-label="Add Coins"
+                    >
+                      <RemoveRedEyeIcon />
                     </IconButton>
 
                   </TableCell>
@@ -223,14 +232,14 @@ function EmployeeCoinsPage() {
                 error={Boolean(inputError)}
                 helperText={inputError}
               />
-             <TextField
+              <TextField
                 variant="outlined"
                 fullWidth
                 value={calculateTotalCoinsInstant()} // Calculate total coins instantly
                 disabled
                 margin="normal"
               />
-            
+
             </div>
           }
         />
