@@ -1,42 +1,42 @@
-import { useEffect, useState } from 'react';
+import ReusableModal from "@/components/AlertDialogSlide/ReusableModal";
 import {
+  getEmployeeCoins,
+  postManagerUpdateCoinInCoinTable,
+} from "@/services/businessLogic";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import {
+  IconButton,
   Table,
-  TableHead,
   TableBody,
   TableCell,
   TableContainer,
+  TableHead,
   TablePagination,
-  TextField,
   TableRow,
-  Button,
-  IconButton,
-} from '@mui/material';
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { getEmployeeCoins, postManagerUpdateCoinInCoinTable } from '@/services/businessLogic';
-import ReusableModal from '@/components/AlertDialogSlide/ReusableModal';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-
+  TextField,
+} from "@mui/material";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const columns = [
-  { id: 'id', label: 'ID' },
-  { id: 'employeeName', label: 'Employee Name' },
-  { id: 'totalCoins', label: 'Total Coins' },
-  { id: 'actions', label: 'Actions' },
+  { id: "id", label: "ID" },
+  { id: "employeeName", label: "Employee Name" },
+  { id: "totalCoins", label: "Total Coins" },
+  { id: "actions", label: "Actions" },
 ];
 
 function EmployeeCoinsPage() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [filterText, setFilterText] = useState('');
+  const [filterText, setFilterText] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [coinsToAdd, setCoinsToAdd] = useState('');
-  const [inputError, setInputError] = useState('');
+  const [coinsToAdd, setCoinsToAdd] = useState("");
+  const [inputError, setInputError] = useState("");
   const router = useRouter();
-
 
   // State to keep track of the selected row data for the modal
   const [selectedRowData, setSelectedRowData] = useState(null);
@@ -45,12 +45,12 @@ function EmployeeCoinsPage() {
     const fetchData = async () => {
       try {
         // Set your query parameters here, for example:
-        const queryParams = 'sortBy=employeeId&order=asc';
+        const queryParams = "sortBy=employeeId&order=asc";
         const response = await getEmployeeCoins(queryParams);
         setData(response.data);
-        console.log(response.data)
+        console.log(response.data);
       } catch (error) {
-        console.error('Error fetching employee coins:', error);
+        console.error("Error fetching employee coins:", error);
       }
     };
 
@@ -76,7 +76,6 @@ function EmployeeCoinsPage() {
     setPage(0);
   };
 
-
   const handleOpenModal = (rowData) => {
     setSelectedRowData(rowData);
     setModalOpen(true);
@@ -93,20 +92,20 @@ function EmployeeCoinsPage() {
       const coinsToAddValue = Number(coinsToAdd);
 
       if (isNaN(coinsToAddValue) || coinsToAddValue === 0) {
-        setInputError('Please enter a valid number (not equal to 0).');
+        setInputError("Please enter a valid number (not equal to 0).");
         return; // Don't proceed if the input is invalid
       }
 
       const formData = new FormData();
-      formData.append('CoinsId', selectedRowData.id);
-      formData.append('CoinAmount', coinsToAddValue);
+      formData.append("CoinsId", selectedRowData.id);
+      formData.append("CoinAmount", coinsToAddValue);
 
       const response = await postManagerUpdateCoinInCoinTable(formData);
       console.log(response); // Log the response for debugging
 
       // Clear the input field and error message after successfully adding coins
-      setCoinsToAdd('');
-      setInputError('');
+      setCoinsToAdd("");
+      setInputError("");
 
       // Close the modal after successfully adding coins
       handleCloseModal();
@@ -116,20 +115,23 @@ function EmployeeCoinsPage() {
         if (item.id === selectedRowData.id) {
           // Update the totalCoins for the selected row
           const newTotalCoins = item.totalCoins + coinsToAddValue;
-          return { ...item, totalCoins: newTotalCoins >= 0 ? newTotalCoins : 0 };
+          return {
+            ...item,
+            totalCoins: newTotalCoins >= 0 ? newTotalCoins : 0,
+          };
         }
         return item;
       });
 
       setData(updatedData);
     } catch (error) {
-      console.error('Error adding coins:', error);
+      console.error("Error adding coins:", error);
     }
   };
 
   const calculateTotalCoinsInstant = () => {
     if (!selectedRowData || isNaN(coinsToAdd)) {
-      return '';
+      return "";
     }
 
     const currentTotalCoins = selectedRowData.totalCoins;
@@ -139,12 +141,8 @@ function EmployeeCoinsPage() {
     return calculatedTotalCoins >= 0 ? calculatedTotalCoins : 0;
   };
 
-
-
-
-
   return (
-    <div style={{ padding: '200px' }}>
+    <div style={{ padding: "200px" }}>
       <TextField
         label="Filter"
         variant="outlined"
@@ -173,7 +171,6 @@ function EmployeeCoinsPage() {
                       <TableCell key={column.id}>{row[column.id]}</TableCell>
                     ))}
                   <TableCell>
-                   
                     <IconButton
                       color="primary"
                       onClick={() => handleOpenModal(row)}
@@ -188,14 +185,14 @@ function EmployeeCoinsPage() {
                     >
                       <RemoveRedEyeIcon />
                     </IconButton> */}
-                  <Link href={`/employeecoins/${row.employeeId}`}>
-                <IconButton color="primary" aria-label="View Coins History">
-                  <RemoveRedEyeIcon />
-                </IconButton>
-              </Link>
-
-
-
+                    <Link href={`/user/employeecoins/${row.employeeId}`}>
+                      <IconButton
+                        color="primary"
+                        aria-label="View Coins History"
+                      >
+                        <RemoveRedEyeIcon />
+                      </IconButton>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}
@@ -237,7 +234,7 @@ function EmployeeCoinsPage() {
                 value={coinsToAdd}
                 onChange={(e) => {
                   setCoinsToAdd(e.target.value);
-                  setInputError(''); // Clear the error message when the user starts typing
+                  setInputError(""); // Clear the error message when the user starts typing
                 }}
                 error={Boolean(inputError)}
                 helperText={inputError}
@@ -249,7 +246,6 @@ function EmployeeCoinsPage() {
                 disabled
                 margin="normal"
               />
-
             </div>
           }
         />
