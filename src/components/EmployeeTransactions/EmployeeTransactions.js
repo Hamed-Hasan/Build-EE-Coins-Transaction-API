@@ -93,17 +93,22 @@ function EmployeeTransactions() {
                           }}
                         >
                           {row[column.id]}
-                          {column.id === "afterTotalCoins" &&
-                            row.beforeTotalCoins < row.afterTotalCoins && (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                }}
-                              >
+                          {column.id === "afterTotalCoins" && (
+                            <div
+                              style={{ display: "flex", alignItems: "center" }}
+                            >
+                              {row.beforeTotalCoins < row.afterTotalCoins ? (
                                 <MovingIcon style={{ color: "green" }} />
-                              </div>
-                            )}
+                              ) : (
+                                <MovingIcon
+                                  style={{
+                                    color: "red",
+                                    transform: "rotate(190deg)",
+                                  }}
+                                />
+                              )}
+                            </div>
+                          )}
                         </div>
                       )}
                     </TableCell>

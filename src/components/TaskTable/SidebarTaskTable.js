@@ -32,7 +32,6 @@ import { styled } from "@mui/material/styles";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ReusableModal from "../AlertDialogSlide/ReusableModal";
-import TaskTabs from "../TaskTabs/TaskTabs";
 import SwipeableTemporaryDrawer from "./SwipeableTemporaryDrawer";
 
 const VisuallyHiddenInput = styled("input")({
@@ -400,7 +399,6 @@ export default function SidebarTaskTable({ userRole }) {
         title={modalTitle}
         content={modalContent}
       />
-      <TaskTabs />
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
