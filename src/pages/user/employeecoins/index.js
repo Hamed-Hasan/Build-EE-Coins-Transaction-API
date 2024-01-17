@@ -15,6 +15,8 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { getEmployeeCoins, postManagerUpdateCoinInCoinTable } from '@/services/businessLogic';
 import ReusableModal from '@/components/AlertDialogSlide/ReusableModal';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 
 const columns = [
@@ -33,6 +35,7 @@ function EmployeeCoinsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [coinsToAdd, setCoinsToAdd] = useState('');
   const [inputError, setInputError] = useState('');
+  const router = useRouter();
 
 
   // State to keep track of the selected row data for the modal
@@ -45,7 +48,7 @@ function EmployeeCoinsPage() {
         const queryParams = 'sortBy=employeeId&order=asc';
         const response = await getEmployeeCoins(queryParams);
         setData(response.data);
-        // console.log(response.data)
+        console.log(response.data)
       } catch (error) {
         console.error('Error fetching employee coins:', error);
       }
@@ -178,13 +181,20 @@ function EmployeeCoinsPage() {
                     >
                       <CurrencyExchangeIcon />
                     </IconButton>
-                    <IconButton
+                    {/* <IconButton
                       color="primary"
-                      onClick={() => handleOpenModal(row)}
-                      aria-label="Add Coins"
+                      onClick={() => router.push(`/getAdmincoinstransactionslist?employeeId=${row.employeeId}`)}
+                      aria-label="View Coins History"
                     >
                       <RemoveRedEyeIcon />
-                    </IconButton>
+                    </IconButton> */}
+                  <Link href={`/employeecoins/${row.employeeId}`}>
+                <IconButton color="primary" aria-label="View Coins History">
+                  <RemoveRedEyeIcon />
+                </IconButton>
+              </Link>
+
+
 
                   </TableCell>
                 </TableRow>
