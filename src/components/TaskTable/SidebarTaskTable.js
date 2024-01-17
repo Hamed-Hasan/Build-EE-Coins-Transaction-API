@@ -471,84 +471,97 @@ export default function SidebarTaskTable({ userRole }) {
                                 gap: "10px",
                               }}
                             >
-                              {!statusArray.includes(task.status) &&
-                              task.createdBy === username ? (
+                              {userRole === "admin" ? (
                                 <>
-                                  {!task.isAccepted && (
-                                    <Button style={{ ...buttonStyles }}>
-                                      <SwipeableTemporaryDrawer
-                                        buttons={["Edit"]}
-                                        task={task && task}
-                                      />
-                                    </Button>
-                                  )}
-                                  <>
-                                    {task.isAccepted &&
-                                    task.isAssignedEmpSubmit ? (
-                                      <>
-                                        <Button
-                                          style={{ ...buttonStyles }}
-                                          onClick={() =>
-                                            handleAssignerSubmit(task.id)
-                                          }
-                                        >
-                                          Approve
-                                        </Button>
-                                        <Button
-                                          style={{ ...buttonStyles }}
-                                          onClick={() =>
-                                            handleButtonClick("Reject", task)
-                                          }
-                                        >
-                                          Reject
-                                        </Button>
-                                      </>
-                                    ) : (
-                                      ""
-                                    )}
-                                  </>
+                                  <button>admin</button>
                                 </>
                               ) : (
                                 <>
-                                  {!task.isAccepted &&
-                                  !statusArray.includes(task.status) ? (
-                                    <Button
-                                      style={{ ...buttonStyles }}
-                                      onClick={() => handleAcceptTask(task.id)}
-                                    >
-                                      Accept
-                                    </Button>
+                                  {!statusArray.includes(task.status) &&
+                                  task.createdBy === username ? (
+                                    <>
+                                      {!task.isAccepted && (
+                                        <Button style={{ ...buttonStyles }}>
+                                          <SwipeableTemporaryDrawer
+                                            buttons={["Edit"]}
+                                            task={task && task}
+                                          />
+                                        </Button>
+                                      )}
+                                      <>
+                                        {task.isAccepted &&
+                                        task.isAssignedEmpSubmit ? (
+                                          <>
+                                            <Button
+                                              style={{ ...buttonStyles }}
+                                              onClick={() =>
+                                                handleAssignerSubmit(task.id)
+                                              }
+                                            >
+                                              Approve
+                                            </Button>
+                                            <Button
+                                              style={{ ...buttonStyles }}
+                                              onClick={() =>
+                                                handleButtonClick(
+                                                  "Reject",
+                                                  task
+                                                )
+                                              }
+                                            >
+                                              Reject
+                                            </Button>
+                                          </>
+                                        ) : (
+                                          ""
+                                        )}
+                                      </>
+                                    </>
                                   ) : (
-                                    ""
-                                  )}
-                                  {(!task.isObjected || !task.isAccepted) &&
-                                  !task.isAccepted &&
-                                  !statusArray.includes(task.status) ? (
-                                    <Button
-                                      style={{ ...buttonStyles }}
-                                      onClick={() =>
-                                        handleButtonClick("Object", task)
-                                      }
-                                    >
-                                      Object
-                                    </Button>
-                                  ) : (
-                                    ""
-                                  )}
-                                  {task.isAccepted &&
-                                  !task.isAssignedEmpSubmit &&
-                                  !statusArray.includes(task.status) ? (
-                                    <Button
-                                      style={{ ...buttonStyles }}
-                                      onClick={() => {
-                                        console.log(task);
-                                        handleButtonClick("Submit", task);
-                                      }}
-                                    >
-                                      Submit
-                                    </Button>
-                                  ) : (
-                                    ""
+                                    <>
+                                      {!task.isAccepted &&
+                                      !statusArray.includes(task.status) ? (
+                                        <Button
+                                          style={{ ...buttonStyles }}
+                                          onClick={() =>
+                                            handleAcceptTask(task.id)
+                                          }
+                                        >
+                                          Accept
+                                        </Button>
+                                      ) : (
+                                        ""
+                                      )}
+                                      {(!task.isObjected || !task.isAccepted) &&
+                                      !task.isAccepted &&
+                                      !statusArray.includes(task.status) ? (
+                                        <Button
+                                          style={{ ...buttonStyles }}
+                                          onClick={() =>
+                                            handleButtonClick("Object", task)
+                                          }
+                                        >
+                                          Object
+                                        </Button>
+                                      ) : (
+                                        ""
+                                      )}
+                                      {task.isAccepted &&
+                                      !task.isAssignedEmpSubmit &&
+                                      !statusArray.includes(task.status) ? (
+                                        <Button
+                                          style={{ ...buttonStyles }}
+                                          onClick={() => {
+                                            console.log(task);
+                                            handleButtonClick("Submit", task);
+                                          }}
+                                        >
+                                          Submit
+                                        </Button>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </>
                                   )}
                                 </>
                               )}
