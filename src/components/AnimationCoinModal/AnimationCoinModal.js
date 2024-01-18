@@ -5,7 +5,8 @@ import { CardActions, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 function AnimationCoinModal() {
   const [modalClass, setModalClass] = useState("");
   const [isActive, setIsActive] = useState(false);
@@ -47,68 +48,100 @@ function AnimationCoinModal() {
         <div className="modal-background">
           <div className="modal">
             <div className="modal-content">
+
+
               <div>
                 <div>
                   <Typography component="div">
                     <span
                       style={{
                         color: "red",
+
                       }}
                     >
                       1
                     </span>{" "}
-                    Coin ={" "}
+                    <span>Coin = </span>
                     <span
                       style={{
                         color: "green",
+                        fontWeight: 'bold'
                       }}
                     >
                       {0.5}
                     </span>{" "}
-                    SAR
+                    <span>SAR</span>
                   </Typography>
                   <Typography component="div">
-                    Total Coins:{" "}
-                    <span
-                      style={{
-                        color: "orange",
-                      }}
-                    >
-                      {totalCoins}
-                    </span>
+                    <div style={{ padding: '5px 0px' }}>
+                      <span>Total Coins:</span>
+                      <span
+                        style={{
+                          color: "orange",
+                          fontWeight: 'bold'
+                        }}
+                      >
+                        {totalCoins}
+                      </span>
+                    </div>
                   </Typography>
                   <Typography component="div">
-                    Equal in SAR:{" "}
+                    <span>Equal in SAR:</span>
                     <span
                       style={{
                         color: "purple",
+                        fontWeight: 'bold'
                       }}
                     >
                       {totalCoins * 0.5}
                     </span>
                   </Typography>
                 </div>
-                <CardActions>
-                  <Link
-                    href={`${
-                      userRole === "admin"
-                        ? `/${userRole}/tasks-coins-management`
-                        : `/${userRole}/tasks-coins-management`
-                    }`}
-                    size="small"
-                  >
-                    Tasks
-                  </Link>
-                  <Link
-                    href={`${
-                      userRole === "admin"
-                        ? `/${userRole}/employeecoins`
-                        : `/${userRole}/employeecoins`
-                    }`}
-                    size="small"
-                  >
-                    Coins
-                  </Link>
+                <CardActions sx={{ paddingTop: '40px', display: 'flex', marginLeft: '-40px', gap: '16px' }}>
+
+                  <div style={{ display: 'flex', alignContent: 'center', gap: '4px' }}>
+                    <Link
+                      href={`${userRole === "admin"
+                          ? `/${userRole}/tasks-coins-management`
+                          : `/${userRole}/tasks-coins-management`
+                        }`}
+                      size="small"
+                      style={{ textDecoration: 'none', fontWeight: 'bold', color: 'black', display: 'flex', alignContent: 'center', gap: '5px' }}
+
+                    >
+                      Tasks
+
+                      <span>
+                        <PlaylistAddCheckIcon />
+                      </span>
+                    </Link>
+
+
+                  </div>
+                  <div style={{ display: 'flex', alignContent: 'center', gap: '4px' }}>
+
+
+
+
+
+                    <Link
+                      href={`${userRole === "admin"
+                          ? `/${userRole}/employeecoins`
+                          : `/${userRole}/employeecoins`
+                        }`}
+                      size="small"
+                      style={{ textDecoration: 'none', fontWeight: 'bold', color: 'black', display: 'flex', alignContent: 'center', gap: '5px' }}
+
+                    >
+                      Coins
+
+                      <span>
+                        <PriceCheckIcon />
+                      </span>
+                    </Link>
+
+
+                  </div>
                 </CardActions>
               </div>
             </div>

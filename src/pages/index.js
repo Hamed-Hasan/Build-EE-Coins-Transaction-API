@@ -8,6 +8,7 @@ const HomePage = () => {
       <AnimationCoinModal/>
       <CoinsButton />
       <ReusableModal />
+      
     </div>
   );
 };
