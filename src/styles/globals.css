@@ -143,17 +143,6 @@ body.modal-active {
   transform: scale(0);
   z-index: 1;
 }
-.modal-content {
-  width: 248px;
-  height: 300px;
-  position: absolute;
-  left: 0;
-  z-index: -99999999;
-  top: 23px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 #modal-container.seven {
   transform: scale(1);
 }
@@ -167,48 +156,45 @@ body.modal-active {
   background: rgba(0, 0, 0, 0);
   animation: fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
-
-.modal-svg {
-  background-image: url("../assets/dollar.png");
-  background-size: cover;
-  background-position: center;
-}
 #modal-container.seven .modal-background .modal {
   height: 75px;
   width: 75px;
   border-radius: 50%;
   overflow: hidden;
-  animation: bondJamesBond 2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  animation: bondJamesBond 10s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
 
 .modal-svg {
   background-image: url("../assets/dollar.png");
   background-size: cover;
   background-position: center;
-  height: 30px !important; /* Size for the circle animation */
-  width: 30px !important; /* Size for the circle animation */
   border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
   overflow: hidden;
   opacity: 0.2;
-}
-
-#modal-container.modal-active .modal-svg {
-  height: 100px !important; /* Smaller size for the modal image */
-  width: 100px !important; /* Smaller size for the modal image */
-  opacity: 0.7;
-  position: relative;
-  z-index: -1000;
-  animation: slowInfiniteRotate 0.5s linear infinite;
+  width: 100%;
+  height: 100%;
 }
 
 /* Activating the rotation when the modal is active */
 #modal-container.modal-active .modal-svg {
-  animation: slowInfiniteRotate 10s linear infinite; /* 10s for a slow rotation, change as needed */
+  opacity: 0.7;
+  z-index: -1000;
+  animation: slowInfiniteRotate 10s linear infinite,
+    returnImageToMainSize 1s 11s linear both; /* 10s for a slow rotation, change as needed */
 }
 
+/* 
+    width: 100px;
+    height: 100px;
+    left: 40%;
+    top: 10%;
+
+*/
+
 #modal-container.seven .modal-background .modal {
-  width: 500px !important;
-  height: 500px !important;
   background-color: red;
   border-radius: 12px;
   background-color: white;
@@ -216,8 +202,9 @@ body.modal-active {
 .modal-content {
   width: 50% !important;
   height: 50% !important;
+  position: absolute;
   left: 50%;
-  top: 50%;
+  top: 65%;
   transform: translate(-50%, -50%);
 }
 #modal-container.seven .modal-background .modal h2,
@@ -266,13 +253,6 @@ body.modal-active {
 #modal-container .modal-background .modal p {
   font-size: 18px;
   line-height: 22px;
-}
-#modal-container .modal-background .modal .modal-svg {
-  position: absolute;
-  top: 30px;
-  left: 40%;
-  height: 100%;
-  width: 100%;
 }
 #modal-container .modal-background .modal .modal-svg rect {
   stroke: #fff;
@@ -563,6 +543,18 @@ body.modal-active {
     top: -20px;
   }
 }
+@keyframes returnImageToMainSize {
+  0% {
+    width: 100%;
+    height: 100%;
+  }
+  100% {
+    width: 100px;
+    height: 100px;
+    left: 15px;
+    top: 15px;
+  }
+}
 
 /* Keyframes for infinite slow rotation */
 @keyframes slowInfiniteRotate {
@@ -593,8 +585,8 @@ body.modal-active {
   100% {
     transform: translateX(0px) rotate(360deg);
     border-radius: 3px;
-    height: 162px;
-    width: 227px;
+    height: 300px;
+    width: 300px;
   }
 }
 
