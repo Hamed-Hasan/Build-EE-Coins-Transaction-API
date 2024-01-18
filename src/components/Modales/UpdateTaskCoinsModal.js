@@ -23,15 +23,29 @@ const formStyle = {
   gap: "20px",
 };
 
-export default function ObjectTaskModal({ task, handleObjectTask }) {
-  const [objectReason, setObjectReason] = React.useState(null);
+export default function UpdateTaskCoinsModal({ task }) {
+  const [beforeCoins, setBeforeCoins] = React.useState();
+  const [afterCoins, setAfterCoins] = React.useState(0);
+  const [amount, setAmount] = React.useState(0);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  React.useEffect(() => {
+    if (task) {
+      setBeforeCoins(task?.totalCoins);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    setAfterCoins(Number(beforeCoins) + Number(amount));
+  }, [amount]);
+  console.log("beforeCoins", beforeCoins);
+  console.log("amount", amount);
+  console.log("afterCoins", afterCoins);
   return (
     <div>
-      <Button onClick={handleOpen}>Object</Button>
+      <Button onClick={handleOpen}>+</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -43,16 +57,30 @@ export default function ObjectTaskModal({ task, handleObjectTask }) {
             <TextField
               required
               fullWidth
-              multiline
-              rows={4}
-              id="objectReason"
+              id="beforeCoins"
               type="text"
-              label="Object Reason"
+              label="Before Coins"
               placeholder="Please type object Reason"
-              value={objectReason}
-              onChange={(e) => {
-                setObjectReason(e.target.value);
-              }}
+              value={beforeCoins}
+            />
+            <TextField
+              required
+              fullWidth
+              id="amount"
+              type="number"
+              label="Amount"
+              placeholder="Please type object Reason"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+            <TextField
+              required
+              fullWidth
+              id="amount"
+              type="text"
+              label="Amount"
+              placeholder="Please type object Reason"
+              value={afterCoins}
             />
             <div>
               <Button variant="text" onClick={handleClose}>
@@ -60,7 +88,7 @@ export default function ObjectTaskModal({ task, handleObjectTask }) {
               </Button>
               <Button
                 variant="contained"
-                onClick={() => handleObjectTask(task?.id, objectReason)}
+                onClick={() => handleSubmitTask(task?.id, task?.id, file)}
               >
                 Send
               </Button>

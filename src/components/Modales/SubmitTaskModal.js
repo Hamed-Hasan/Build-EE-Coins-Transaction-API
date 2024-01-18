@@ -28,7 +28,14 @@ const style = {
   p: 4,
 };
 
-export default function SubmitTaskModal() {
+const formStyle = {
+  textAlign: "center",
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
+};
+
+export default function SubmitTaskModal({ task, handleSubmitTask }) {
   const [file, setFile] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -44,23 +51,32 @@ export default function SubmitTaskModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div style={{ textAlign: "center" }}>
+          <form style={formStyle}>
             <Button
               component="label"
               variant="contained"
               startIcon={<CloudUploadIcon />}
             >
               Upload file
-              <VisuallyHiddenInput type="file" />
+              <VisuallyHiddenInput
+                type="file"
+                required
+                onChange={(e) => setFile(e.target.files[0])}
+              />
             </Button>
             {file?.name && <p>{file.name}</p>}
-          </div>
-          <Button variant="text" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="contained" onClick={handleClose}>
-            Send
-          </Button>
+            <div>
+              <Button variant="text" onClick={handleClose}>
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => handleSubmitTask(task?.id, task?.id, file)}
+              >
+                Send
+              </Button>
+            </div>
+          </form>
         </Box>
       </Modal>
     </div>

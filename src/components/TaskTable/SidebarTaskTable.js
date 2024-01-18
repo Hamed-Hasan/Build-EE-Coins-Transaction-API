@@ -1,4 +1,4 @@
-import { username } from "@/constant";
+import { username, userRole } from "@/constant";
 import {
   getAdminList,
   getEmployeeList,
@@ -25,6 +25,7 @@ import { useEffect, useState } from "react";
 import ObjectTaskModal from "../Modales/ObjectTaskModal";
 import RejectTaskModal from "../Modales/RejectTaskModal";
 import SubmitTaskModal from "../Modales/SubmitTaskModal";
+import UpdateTaskCoinsModal from "../Modales/UpdateTaskCoinsModal";
 import SwipeableTemporaryDrawer from "./SwipeableTemporaryDrawer";
 
 const columns = [
@@ -103,7 +104,7 @@ const buttonStyles = {
   cursor: "pointer",
 };
 
-export default function SidebarTaskTable({ userRole }) {
+export default function SidebarTaskTable() {
   const [task, setTask] = useState({});
   const [searchTerm, setSearchTerm] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -126,8 +127,6 @@ export default function SidebarTaskTable({ userRole }) {
   const [modalContent, setModalContent] = useState(null);
   const [modalTitle, setModalTitle] = useState("");
   const [currentSubmitHandler, setCurrentSubmitHandler] = useState(null);
-  const [objectReason, setObjectReason] = useState(null);
-  const [fileData, setFileData] = useState(null);
   const [coins, setCoins] = useState(0);
 
   const handleChangePage = (event, newPage) => {
@@ -171,16 +170,13 @@ export default function SidebarTaskTable({ userRole }) {
     fetchData();
   };
 
-  const handleObjectTask = async (assignTaskId) => {
+  const handleObjectTask = async (assignTaskId, objectReason) => {
     const formData = new FormData();
     formData.append("assignTaskId", assignTaskId);
     formData.append("objectReason", objectReason);
     formData.append("isObjected", true);
     const res = await postAssignedEmpObjectTask(formData);
     console.log(res);
-    setTimeout(() => {
-      handleClose();
-    }, 1000);
     fetchData();
   };
 
@@ -192,9 +188,6 @@ export default function SidebarTaskTable({ userRole }) {
     formData.append("uploadFile", file);
     const res = await postAssignedEmpSubmitTask(formData);
     console.log(res);
-    setTimeout(() => {
-      handleClose();
-    }, 1000);
     fetchData();
   };
 
@@ -207,7 +200,12 @@ export default function SidebarTaskTable({ userRole }) {
     fetchData();
   };
 
-  const handleAssignerReject = async (taskId, assignerTaskId) => {
+  const handleAssignerReject = async (
+    taskId,
+    assignerTaskId,
+    rejectStatus,
+    terminateReason
+  ) => {
     const formData = new FormData();
     formData.append("taskId", taskId);
     formData.append("assignerTaskId", assignerTaskId);
@@ -215,9 +213,6 @@ export default function SidebarTaskTable({ userRole }) {
     formData.append("terminateReason", terminateReason);
     const res = await postAssignerEmpObjectTask(formData);
     console.log(res);
-    setTimeout(() => {
-      handleClose();
-    }, 1000);
     fetchData();
   };
 
@@ -227,9 +222,6 @@ export default function SidebarTaskTable({ userRole }) {
     formData.append("taskCoin", taskCoin);
     const res = await postManagerUpdateTaskCoin(formData);
     console.log(res);
-    setTimeout(() => {
-      handleClose();
-    }, 1000);
     fetchData();
   };
 
@@ -308,20 +300,25 @@ export default function SidebarTaskTable({ userRole }) {
                                 gap: "10px",
                               }}
                             >
-                              {!statusArray.includes(task.status) &&
-                              task.createdBy === username ? (
+                              {userRole === "admin" ? (
                                 <>
-                                  {!task.isAccepted && (
-                                    <Button style={{ ...buttonStyles }}>
-                                      <SwipeableTemporaryDrawer
-                                        buttons={["Edit"]}
-                                        task={task && task}
-                                      />
-                                    </Button>
-                                  )}
-                                  <>
-                                    {task.isAccepted &&
-                                    task.isAssignedEmpSubmit ? (
+                                  {<UpdateTaskCoinsModal task={task} />}
+                                  {!statusArray.includes(task.status) &&
+                                    task.createdBy === username &&
+                                    (!task.isAccepted ||
+                                      !task.isObjected ||
+                                      task.isObjected) && (
+                                      <Button style={{ ...buttonStyles }}>
+                                        <SwipeableTemporaryDrawer
+                                          buttons={["Edit"]}
+                                          task={task && task}
+                                        />
+                                      </Button>
+                                    )}
+                                  {task.isAccepted &&
+                                    task.isAssignedEmpSubmit &&
+                                    !statusArray.includes(task.status) &&
+                                    task.createdBy === username && (
                                       <>
                                         <Button
                                           style={{ ...buttonStyles }}
@@ -329,41 +326,90 @@ export default function SidebarTaskTable({ userRole }) {
                                             handleAssignerSubmit(task.id)
                                           }
                                         >
-                                          Approve
+                                          Accept
                                         </Button>
-                                        <RejectTaskModal />
+                                        <RejectTaskModal
+                                          task={task}
+                                          handleAssignerReject={
+                                            handleAssignerReject
+                                          }
+                                        />
                                       </>
-                                    ) : (
-                                      ""
                                     )}
-                                  </>
                                 </>
                               ) : (
                                 <>
-                                  {!task.isAccepted &&
-                                  !statusArray.includes(task.status) ? (
-                                    <Button
-                                      style={{ ...buttonStyles }}
-                                      onClick={() => handleAcceptTask(task.id)}
-                                    >
-                                      Accept
-                                    </Button>
+                                  {!statusArray.includes(task.status) &&
+                                  task.createdBy === username ? (
+                                    <>
+                                      {!task.isAccepted && (
+                                        <Button style={{ ...buttonStyles }}>
+                                          <SwipeableTemporaryDrawer
+                                            buttons={["Edit"]}
+                                            task={task && task}
+                                          />
+                                        </Button>
+                                      )}
+                                      <>
+                                        {task.isAccepted &&
+                                        task.isAssignedEmpSubmit ? (
+                                          <>
+                                            <Button
+                                              style={{ ...buttonStyles }}
+                                              onClick={() =>
+                                                handleAssignerSubmit(task.id)
+                                              }
+                                            >
+                                              Accept
+                                            </Button>
+                                            <RejectTaskModal
+                                              task={task}
+                                              handleAssignerReject={
+                                                handleAssignerReject
+                                              }
+                                            />
+                                          </>
+                                        ) : (
+                                          ""
+                                        )}
+                                      </>
+                                    </>
                                   ) : (
-                                    ""
-                                  )}
-                                  {(!task.isObjected || !task.isAccepted) &&
-                                  !task.isAccepted &&
-                                  !statusArray.includes(task.status) ? (
-                                    <ObjectTaskModal task={task} />
-                                  ) : (
-                                    ""
-                                  )}
-                                  {task.isAccepted &&
-                                  !task.isAssignedEmpSubmit &&
-                                  !statusArray.includes(task.status) ? (
-                                    <SubmitTaskModal task={task} />
-                                  ) : (
-                                    ""
+                                    <>
+                                      {!task.isAccepted &&
+                                      !statusArray.includes(task.status) ? (
+                                        <Button
+                                          style={{ ...buttonStyles }}
+                                          onClick={() =>
+                                            handleAcceptTask(task.id)
+                                          }
+                                        >
+                                          Accept
+                                        </Button>
+                                      ) : (
+                                        ""
+                                      )}
+                                      {(!task.isObjected || !task.isAccepted) &&
+                                      !task.isAccepted &&
+                                      !statusArray.includes(task.status) ? (
+                                        <ObjectTaskModal
+                                          task={task}
+                                          handleObjectTask={handleObjectTask}
+                                        />
+                                      ) : (
+                                        ""
+                                      )}
+                                      {task.isAccepted &&
+                                      !task.isAssignedEmpSubmit &&
+                                      !statusArray.includes(task.status) ? (
+                                        <SubmitTaskModal
+                                          task={task}
+                                          handleSubmitTask={handleSubmitTask}
+                                        />
+                                      ) : (
+                                        ""
+                                      )}
+                                    </>
                                   )}
                                 </>
                               )}

@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import * as React from "react";
+import { useState } from "react";
 
 const style = {
   position: "absolute",
@@ -22,13 +23,22 @@ const style = {
   p: 4,
 };
 
-export default function RejectTaskModal() {
+const formStyle = {
+  textAlign: "center",
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
+};
+
+export default function RejectTaskModal({ task, handleAssignerReject }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const [action, setAction] = useState("Revise");
   const [showTextArea, setShowTextArea] = useState(false);
+  const [rejectStatus, setRejectStatus] = useState("Revise");
+  const [terminateReason, setTerminateReason] = useState(false);
 
   const handleSelectChange = (e) => {
     const selectedAction = e.target.value;
@@ -47,10 +57,11 @@ export default function RejectTaskModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div style={{ textAlign: "center" }}>
+          <form style={formStyle}>
             <FormControl fullWidth margin="normal">
               <InputLabel id="reject-action-label">Action</InputLabel>
               <Select
+                required
                 labelId="reject-action-label"
                 id="reject-action"
                 value={action}
@@ -63,6 +74,7 @@ export default function RejectTaskModal() {
             </FormControl>
             {showTextArea && (
               <TextField
+                required
                 autoFocus
                 margin="dense"
                 id="terminateReason"
@@ -75,13 +87,25 @@ export default function RejectTaskModal() {
                 onChange={(e) => setTerminateReason(e.target.value)}
               />
             )}
-          </div>
-          <Button variant="text" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="contained" onClick={handleClose}>
-            Send
-          </Button>
+            <div>
+              <Button variant="text" onClick={handleClose}>
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() =>
+                  handleAssignerReject(
+                    task?.id,
+                    task?.id,
+                    rejectStatus,
+                    terminateReason
+                  )
+                }
+              >
+                Send
+              </Button>
+            </div>
+          </form>
         </Box>
       </Modal>
     </div>
