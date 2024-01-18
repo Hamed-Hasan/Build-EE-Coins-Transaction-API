@@ -23,10 +23,13 @@ const formStyle = {
   gap: "20px",
 };
 
-export default function UpdateTaskCoinsModal({ task }) {
-  const [beforeCoins, setBeforeCoins] = React.useState();
+export default function UpdateTaskCoinsModal({
+  task,
+  handleManagerUpdateTaskCoin,
+}) {
+  const [beforeCoins, setBeforeCoins] = React.useState(0);
   const [afterCoins, setAfterCoins] = React.useState(0);
-  const [amount, setAmount] = React.useState(0);
+  const [amount, setAmount] = React.useState(1);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -40,9 +43,7 @@ export default function UpdateTaskCoinsModal({ task }) {
   React.useEffect(() => {
     setAfterCoins(Number(beforeCoins) + Number(amount));
   }, [amount]);
-  console.log("beforeCoins", beforeCoins);
-  console.log("amount", amount);
-  console.log("afterCoins", afterCoins);
+
   return (
     <div>
       <Button onClick={handleOpen}>+</Button>
@@ -88,7 +89,7 @@ export default function UpdateTaskCoinsModal({ task }) {
               </Button>
               <Button
                 variant="contained"
-                onClick={() => handleSubmitTask(task?.id, task?.id, file)}
+                onClick={() => handleManagerUpdateTaskCoin(task?.id, amount)}
               >
                 Send
               </Button>

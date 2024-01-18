@@ -224,7 +224,6 @@ export default function SidebarTaskTable() {
     console.log(res);
     fetchData();
   };
-
   return (
     <Paper sx={{ width: "100%" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -302,7 +301,14 @@ export default function SidebarTaskTable() {
                             >
                               {userRole === "admin" ? (
                                 <>
-                                  {<UpdateTaskCoinsModal task={task} />}
+                                  {!task.isManagerApproved && (
+                                    <UpdateTaskCoinsModal
+                                      task={task}
+                                      handleManagerUpdateTaskCoin={
+                                        handleManagerUpdateTaskCoin
+                                      }
+                                    />
+                                  )}
                                   {!statusArray.includes(task.status) &&
                                     task.createdBy === username &&
                                     (!task.isAccepted ||
