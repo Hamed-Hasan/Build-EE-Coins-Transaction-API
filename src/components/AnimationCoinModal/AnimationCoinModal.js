@@ -1,7 +1,7 @@
 import dollar from "@/assets/dollar.png";
 import { userRole } from "@/constant";
 import { getMyCoins } from "@/services/businessLogic";
-import { Card, CardActions, CardContent, Typography } from "@mui/material";
+import { CardActions, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -47,8 +47,8 @@ function AnimationCoinModal() {
         <div className="modal-background">
           <div className="modal">
             <div className="modal-content">
-              <Card>
-                <CardContent>
+              <div>
+                <div>
                   <Typography component="div">
                     <span
                       style={{
@@ -74,7 +74,7 @@ function AnimationCoinModal() {
                         color: "orange",
                       }}
                     >
-                      {500}
+                      {totalCoins}
                     </span>
                   </Typography>
                   <Typography component="div">
@@ -84,10 +84,10 @@ function AnimationCoinModal() {
                         color: "purple",
                       }}
                     >
-                      {250}
+                      {totalCoins * 0.5}
                     </span>
                   </Typography>
-                </CardContent>
+                </div>
                 <CardActions>
                   <Link
                     href={`${
@@ -110,7 +110,7 @@ function AnimationCoinModal() {
                     Coins
                   </Link>
                 </CardActions>
-              </Card>
+              </div>
             </div>
             <div className="modal-svg"></div> {/* Existing Image */}
             <div className="new-modal-image"></div> {/* New Image */}
