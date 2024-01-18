@@ -1,35 +1,119 @@
-import React from 'react';
-// import './AnimationCoinModal.css'; 
+import { userRole } from '@/constant';
+import { Card, CardActions, CardContent, Typography } from '@mui/material';
+import Link from 'next/link';
+import React, { useState } from 'react';
+import dollar from "@/assets/dollar.png";
+import Image from 'next/image';
 
-const AnimationCoinModal = () => {
+function AnimationCoinModal() {
+    const [modalClass, setModalClass] = useState('');
+    const [isActive, setIsActive] = useState(false);
+
+    const handleButtonClick = (buttonId) => {
+        setModalClass(buttonId);
+        setIsActive(true);
+      
+        // Set a timeout matching the duration of the circle animation
+        setTimeout(() => {
+          // Logic to display the new image
+          // For example, you might toggle a new state or modify the class of the image
+        }, 1500); // Assuming 1.5s is the duration of your circle animation
+      };
+      
+    const handleModalClick = () => {
+        setModalClass(prevClass => prevClass + ' out');
+        setIsActive(false);
+    };
 
     return (
-        <>
-            <div id="modal-container">
-                <div className="modal-background">
-                    <div className="modal">
-                        <h2>I'm a Modal</h2>
-                        <p>Hear me roar.</p>
-                        <svg className="modal-svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
-                            <rect x="0" y="0" fill="none" width="226" height="162" rx="3" ry="3"></rect>
-                        </svg>
+        <div>
+            <div id="modal-container" className={`${modalClass} ${isActive ? 'modal-active' : ''}`} onClick={handleModalClick}>
+            <div className="modal-background">
+                <div className="modal">
+                    <div className='modal-content'>
+               
+ <Card>
+      <CardContent>
+        <Typography component="div">
+          <span
+            style={{
+              color: "red",
+            }}
+          >
+            1
+          </span>{" "}
+          Coin ={" "}
+          <span
+            style={{
+              color: "green",
+            }}
+          >
+            {0.5}
+          </span>{" "}
+          SAR
+        </Typography>
+        <Typography component="div">
+          Total Coins:{" "}
+          <span
+            style={{
+              color: "orange",
+            }}
+          >
+            {500}
+          </span>
+        </Typography>
+        <Typography component="div">
+          Equal in SAR:{" "}
+          <span
+            style={{
+              color: "purple",
+            }}
+          >
+            {250}
+          </span>
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Link
+          href={`${
+            userRole === "admin"
+              ? `/${userRole}/tasks-coins-management`
+              : `/${userRole}/tasks-coins-management`
+          }`}
+          size="small"
+        >
+          Tasks
+        </Link>
+        <Link
+          href={`${
+            userRole === "admin"
+              ? `/${userRole}/employeecoins`
+              : `/${userRole}/employeecoins`
+          }`}
+          size="small"
+        >
+          Coins
+        </Link>
+      </CardActions>
+    </Card>
+
+
+                    </div>
+                    <div className="modal-svg"></div> {/* Existing Image */}
+                    <div className="new-modal-image"></div> {/* New Image */}
+                </div>
+                </div>
+
+            </div>
+            <div className="content">
+                <div className="buttons">
+                    <div id="seven" className="button" onClick={() => handleButtonClick('seven')}>
+                    <Image className="spin-image " src={dollar} alt="" />
                     </div>
                 </div>
             </div>
-            <div className="content">
-                <h1>Modal Animations</h1>
-                <div className="buttons">
-                    <div id="one" className="button">Unfolding</div>
-                    <div id="two" className="button">Revealing</div>
-                    <div id="three" className="button">Uncovering</div>
-                    <div id="four" className="button">Blow Up</div><br/>
-                    <div id="five" className="button">Meep Meep</div>
-                    <div id="six" className="button">Sketch</div>
-                    <div id="seven" className="button">Bond</div>
-                </div>
-            </div>
-        </>
+        </div>
     );
-};
+}
 
 export default AnimationCoinModal;
