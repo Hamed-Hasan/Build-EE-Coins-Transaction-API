@@ -129,17 +129,8 @@ span {
 ._status-icon {
   color: rgba(255, 255, 255, 0.568);
 }
-
-
-
-
-
-
-
-
-
-
-html.modal-active, body.modal-active {
+html.modal-active,
+body.modal-active {
   overflow: hidden;
 }
 #modal-container {
@@ -159,17 +150,26 @@ html.modal-active, body.modal-active {
   left: 0;
   z-index: -99999999;
   top: 23px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #modal-container.seven {
   transform: scale(1);
 }
+.css-bhp9pd-MuiPaper-root-MuiCard-root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 #modal-container.seven .modal-background {
-  background: rgba(0, 0, 0, .0);
+  background: rgba(0, 0, 0, 0);
   animation: fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
 
 .modal-svg {
-  background-image: url('../assets/dollar.png');
+  background-image: url("../assets/dollar.png");
   background-size: cover;
   background-position: center;
 }
@@ -181,38 +181,47 @@ html.modal-active, body.modal-active {
   animation: bondJamesBond 2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
 
-
 .modal-svg {
-  background-image: url('../assets/dollar.png');
+  background-image: url("../assets/dollar.png");
   background-size: cover;
   background-position: center;
   height: 30px !important; /* Size for the circle animation */
-  width: 30px !important;  /* Size for the circle animation */
-  border-radius: 50%; 
+  width: 30px !important; /* Size for the circle animation */
+  border-radius: 50%;
   overflow: hidden;
-  opacity: .2;
+  opacity: 0.2;
 }
 
 #modal-container.modal-active .modal-svg {
   height: 100px !important; /* Smaller size for the modal image */
-  width: 100px !important;  /* Smaller size for the modal image */
+  width: 100px !important; /* Smaller size for the modal image */
   opacity: 0.7;
   position: relative;
   z-index: -1000;
-  animation: slowInfiniteRotate .5s linear infinite; 
+  animation: slowInfiniteRotate 0.5s linear infinite;
 }
-
-
-
 
 /* Activating the rotation when the modal is active */
 #modal-container.modal-active .modal-svg {
   animation: slowInfiniteRotate 10s linear infinite; /* 10s for a slow rotation, change as needed */
 }
 
-
-
-#modal-container.seven .modal-background .modal h2, #modal-container.seven .modal-background .modal p {
+#modal-container.seven .modal-background .modal {
+  width: 500px !important;
+  height: 500px !important;
+  background-color: red;
+  border-radius: 12px;
+  background-color: white;
+}
+.modal-content {
+  width: 50% !important;
+  height: 50% !important;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+#modal-container.seven .modal-background .modal h2,
+#modal-container.seven .modal-background .modal p {
   opacity: 0;
   position: relative;
   animation: modalContentFadeIn 0.5s 1.4s linear forwards;
@@ -221,7 +230,7 @@ html.modal-active, body.modal-active {
   animation: slowFade 0.5s 1.5s linear forwards;
 }
 #modal-container.seven.out .modal-background {
-  background-color: rgba(0, 0, 0, .7);
+  background-color: rgba(0, 0, 0, 0.7);
   animation: fadeToRed 2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
 #modal-container.seven.out .modal-background .modal {
@@ -230,12 +239,14 @@ html.modal-active, body.modal-active {
   width: 227px;
   animation: killShot 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
-#modal-container.seven.out .modal-background .modal h2, #modal-container.seven.out .modal-background .modal p {
-  animation: modalContentFadeOut 0.5s 0.5 cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+#modal-container.seven.out .modal-background .modal h2,
+#modal-container.seven.out .modal-background .modal p {
+  animation: modalContentFadeOut 0.5s 0.5 cubic-bezier(0.165, 0.84, 0.44, 1)
+    forwards;
 }
 #modal-container .modal-background {
   display: table-cell;
-  background: rgba(0, 0, 0, .8);
+  background: rgba(0, 0, 0, 0.8);
   text-align: center;
   vertical-align: middle;
 }
@@ -246,7 +257,6 @@ html.modal-active, body.modal-active {
   border-radius: 3px;
   font-weight: 300;
   position: relative;
-  
 }
 #modal-container .modal-background .modal h2 {
   font-size: 25px;
@@ -259,11 +269,10 @@ html.modal-active, body.modal-active {
 }
 #modal-container .modal-background .modal .modal-svg {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 30px;
+  left: 40%;
   height: 100%;
   width: 100%;
-  border-radius: 3px;
 }
 #modal-container .modal-background .modal .modal-svg rect {
   stroke: #fff;
@@ -309,250 +318,250 @@ html.modal-active, body.modal-active {
 @keyframes unfoldIn {
   0% {
     transform: scaleY(0.005) scaleX(0);
- }
+  }
   50% {
     transform: scaleY(0.005) scaleX(1);
- }
+  }
   100% {
     transform: scaleY(1) scaleX(1);
- }
+  }
 }
 @keyframes unfoldOut {
   0% {
     transform: scaleY(1) scaleX(1);
- }
+  }
   50% {
     transform: scaleY(0.005) scaleX(1);
- }
+  }
   100% {
     transform: scaleY(0.005) scaleX(0);
- }
+  }
 }
 @keyframes zoomIn {
   0% {
     transform: scale(0);
- }
+  }
   100% {
     transform: scale(1);
- }
+  }
 }
 @keyframes zoomOut {
   0% {
     transform: scale(1);
- }
+  }
   100% {
     transform: scale(0);
- }
+  }
 }
 @keyframes fadeIn {
   0% {
-    background: rgba(0, 0, 0, .0);
- }
+    background: rgba(0, 0, 0, 0);
+  }
   100% {
-    background: rgba(0, 0, 0, .7);
- }
+    background: rgba(0, 0, 0, 0.7);
+  }
 }
 @keyframes fadeOut {
   0% {
-    background: rgba(0, 0, 0, .7);
- }
+    background: rgba(0, 0, 0, 0.7);
+  }
   100% {
-    background: rgba(0, 0, 0, .0);
- }
+    background: rgba(0, 0, 0, 0);
+  }
 }
 @keyframes scaleUp {
   0% {
     transform: scale(0.8) translateY(1000px);
     opacity: 0;
- }
+  }
   100% {
     transform: scale(1) translateY(0px);
     opacity: 1;
- }
+  }
 }
 @keyframes scaleDown {
   0% {
     transform: scale(1) translateY(0px);
     opacity: 1;
- }
+  }
   100% {
     transform: scale(0.8) translateY(1000px);
     opacity: 0;
- }
+  }
 }
 @keyframes scaleBack {
   0% {
     transform: scale(1);
- }
+  }
   100% {
     transform: scale(0.85);
- }
+  }
 }
 @keyframes scaleForward {
   0% {
     transform: scale(0.85);
- }
+  }
   100% {
     transform: scale(1);
- }
+  }
 }
 @keyframes quickScaleDown {
   0% {
     transform: scale(1);
- }
+  }
   99.9% {
     transform: scale(1);
- }
+  }
   100% {
     transform: scale(0);
- }
+  }
 }
 @keyframes slideUpLarge {
   0% {
     transform: translateY(0%);
- }
+  }
   100% {
     transform: translateY(-100%);
- }
+  }
 }
 @keyframes slideDownLarge {
   0% {
     transform: translateY(-100%);
- }
+  }
   100% {
     transform: translateY(0%);
- }
+  }
 }
 @keyframes moveUp {
   0% {
     transform: translateY(150px);
- }
+  }
   100% {
     transform: translateY(0);
- }
+  }
 }
 @keyframes moveDown {
   0% {
     transform: translateY(0px);
- }
+  }
   100% {
     transform: translateY(150px);
- }
+  }
 }
 @keyframes blowUpContent {
   0% {
     transform: scale(1);
     opacity: 1;
- }
+  }
   99.9% {
     transform: scale(2);
     opacity: 0;
- }
+  }
   100% {
     transform: scale(0);
- }
+  }
 }
 @keyframes blowUpContentTwo {
   0% {
     transform: scale(2);
     opacity: 0;
- }
+  }
   100% {
     transform: scale(1);
     opacity: 1;
- }
+  }
 }
 @keyframes blowUpModal {
   0% {
     transform: scale(0);
- }
+  }
   100% {
     transform: scale(1);
- }
+  }
 }
 @keyframes blowUpModalTwo {
   0% {
     transform: scale(1);
     opacity: 1;
- }
+  }
   100% {
     transform: scale(0);
     opacity: 0;
- }
+  }
 }
 @keyframes roadRunnerIn {
   0% {
     transform: translateX(-1500px) skewX(30deg) scaleX(1.3);
- }
+  }
   70% {
     transform: translateX(30px) skewX(0deg) scaleX(0.9);
- }
+  }
   100% {
     transform: translateX(0px) skewX(0deg) scaleX(1);
- }
+  }
 }
 @keyframes roadRunnerOut {
   0% {
     transform: translateX(0px) skewX(0deg) scaleX(1);
- }
+  }
   30% {
     transform: translateX(-30px) skewX(-5deg) scaleX(0.9);
- }
+  }
   100% {
     transform: translateX(1500px) skewX(30deg) scaleX(1.3);
- }
+  }
 }
 @keyframes sketchIn {
   0% {
     stroke-dashoffset: 778;
- }
+  }
   100% {
     stroke-dashoffset: 0;
- }
+  }
 }
 @keyframes sketchOut {
   0% {
     stroke-dashoffset: 0;
- }
+  }
   100% {
     stroke-dashoffset: 778;
- }
+  }
 }
 @keyframes modalFadeIn {
   0% {
     background-color: transparent;
- }
+  }
   100% {
     background-color: white;
- }
+  }
 }
 @keyframes modalFadeOut {
   0% {
     background-color: white;
- }
+  }
   100% {
     background-color: transparent;
- }
+  }
 }
 @keyframes modalContentFadeIn {
   0% {
     opacity: 0;
     top: -20px;
- }
+  }
   100% {
     opacity: 1;
     top: 0;
- }
+  }
 }
 @keyframes modalContentFadeOut {
   0% {
     opacity: 1;
     top: 0px;
- }
+  }
   100% {
     opacity: 0;
     top: -20px;
- }
+  }
 }
 
 /* Keyframes for infinite slow rotation */
@@ -567,7 +576,7 @@ html.modal-active, body.modal-active {
 
 @keyframes bondJamesBond {
   0% {
-    transform: translateX(1000px) rotate(0deg); 
+    transform: translateX(1000px) rotate(0deg);
   }
   80% {
     transform: translateX(0px) rotate(180deg);
@@ -576,7 +585,7 @@ html.modal-active, body.modal-active {
     width: 75px;
   }
   90% {
-    transform: rotate(270deg); 
+    transform: rotate(270deg);
     border-radius: 3px;
     height: 182px;
     width: 247px;
@@ -589,39 +598,37 @@ html.modal-active, body.modal-active {
   }
 }
 
-
-
 @keyframes killShot {
   0% {
     transform: translateY(0) rotate(0deg);
     opacity: 1;
- }
+  }
   100% {
     transform: translateY(300px) rotate(45deg);
     opacity: 0;
- }
+  }
 }
 @keyframes fadeToRed {
   0% {
-    background-color: rgba(0, 0, 0, .6);
- }
+    background-color: rgba(0, 0, 0, 0.6);
+  }
   100% {
     /* background-color: rgba(231, 216, 0, 0.8); */
     /* background-image: url('https://usagif.com/wp-content/uploads/gif/confetti-17.gif'); */
-    background-image: url('https://usagif.com/wp-content/uploads/gif/confetti-38.gif');
+    background-image: url("https://usagif.com/wp-content/uploads/gif/confetti-38.gif");
     background-size: cover;
     background-position: center;
- }
+  }
 }
 @keyframes slowFade {
   0% {
     opacity: 1;
- }
+  }
   99.9% {
     opacity: 0;
     transform: scale(1);
- }
+  }
   100% {
     transform: scale(0);
- }
+  }
 }
