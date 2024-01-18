@@ -6,7 +6,7 @@ export const getMyCoins = async () => {
     // Additional business logic can be added here if needed
     return response.data;
   } catch (error) {
-    console.error("Error fetching admin coins transactions list:", error);
+    console.error("Error fetching my coins:", error);
     throw error;
   }
 };

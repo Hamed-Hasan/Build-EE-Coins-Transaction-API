@@ -1,6 +1,6 @@
 import EmployeeTransactions from "@/components/EmployeeTransactions/EmployeeTransactions";
 
-const EmployeeTransactionsPage = () => {
+const EmployeeTransactionsPAge = () => {
   return (
     <>
       <EmployeeTransactions />
@@ -8,4 +8,4 @@ const EmployeeTransactionsPage = () => {
   );
 };
 
-export default EmployeeTransactionsPage;
+export default EmployeeTransactionsPAge;

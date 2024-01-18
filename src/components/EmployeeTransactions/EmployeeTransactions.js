@@ -30,14 +30,30 @@ function EmployeeTransactions() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [employeeName, setEmployeeName] = useState("");
+  const [typeId, setTypeId] = useState("");
+  const [typeName, setTypeName] = useState("");
+  const [beforeAmount, setBeforeAmount] = useState("");
+  const [amount, setAmount] = useState("");
+  const [afterAmount, setAfterAmount] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [orderBy, setOrderBy] = useState("");
+  const [filter, setFilter] = useState("");
+  const [cusSearch, setCusSearch] = useState("");
 
   useEffect(() => {
+    let url = `Page=${page + 1}&PageSize=${rowsPerPage}&StartDate=${
+      startDate && startDate
+    }&DueDate=${
+      dueDate && dueDate
+    }&OrderBy=${orderBy}&Filter=${filter}&cusSearch=${cusSearch}&EmployeeId=${employeeId}&EmployeeName=${employeeName}&TypeId=${typeId}&TypeName=${typeName}&BeforeAmount=${beforeAmount}&Amount=${amount}&AfterAmount=${afterAmount}`;
     if (employeeId) {
       // Fetch employee details based on the employeeId
-      const queryParams = `EmployeeId=${employeeId}`;
-      getAdminCoinsTransactionsList(queryParams)
+      getAdminCoinsTransactionsList(url)
         .then((response) => {
           setData(response.data);
+          console.log(response.data);
         })
         .catch((error) => {
           console.error("Error fetching employee details:", error);
@@ -119,7 +135,7 @@ function EmployeeTransactions() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 50]}
+        rowsPerPageOptions={[10, 20, 50]}
         component="div"
         count={data.length}
         rowsPerPage={rowsPerPage}

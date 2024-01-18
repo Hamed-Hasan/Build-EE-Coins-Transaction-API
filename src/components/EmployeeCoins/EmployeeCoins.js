@@ -220,7 +220,7 @@ function EmployeeCoins() {
           content={
             <div>
               <TextField
-                //   label="Specific Item Coins"
+                label="Specific Item Coins"
                 variant="outlined"
                 fullWidth
                 value={selectedRowData.totalCoins} // Use the correct field from your data

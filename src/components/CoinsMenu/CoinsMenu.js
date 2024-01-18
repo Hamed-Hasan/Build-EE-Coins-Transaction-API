@@ -10,7 +10,7 @@ const CoinsMenu = ({ isOpen, setIsOpen }) => {
 
   const fetchData = async () => {
     const res = await getMyCoins();
-    console.log(res);
+    setTotalCoins(res?.totalCoins);
   };
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const CoinsMenu = ({ isOpen, setIsOpen }) => {
               color: "orange",
             }}
           >
-            {500}
+            {totalCoins}
           </span>
         </Typography>
         <Typography component="div">
@@ -54,7 +54,7 @@ const CoinsMenu = ({ isOpen, setIsOpen }) => {
               color: "purple",
             }}
           >
-            {250}
+            {totalCoins * 0.5}
           </span>
         </Typography>
       </CardContent>

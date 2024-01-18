@@ -1,11 +1,7 @@
 import EmployeeCoins from "@/components/EmployeeCoins/EmployeeCoins";
 
 const EmployeeCoinsPage = () => {
-  return (
-    <>
-      <EmployeeCoins />
-    </>
-  );
+  return <EmployeeCoins />;
 };
 
 export default EmployeeCoinsPage;
