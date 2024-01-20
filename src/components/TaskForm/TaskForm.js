@@ -92,8 +92,9 @@ const TaskForm = ({ defaultValues, onSubmitProp, task }) => {
       if (task) {
         formData.append("taskId", task.id);
         res = await postEditTask(formData);
+      } else {
+        res = await postAddTask(formData);
       }
-      res = await postAddTask(formData);
       if (res) {
         console.log("Response:", res);
       }

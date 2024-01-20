@@ -2,12 +2,22 @@ import axiosInstance from "./axiosInstance";
 
 // Fetch
 
-export const fetchEmployeeCoins = () => {
-  return axiosInstance.get("/Coins/getemployeecoins");
+export const fetchMyCoins = () => {
+  return axiosInstance.get(`/Coins/getmycoins`);
 };
 
-export const fetchCoinsTransactionsList = () => {
-  return axiosInstance.get("/Coins/getcoinstransactionslist");
+export const fetchAdminCoinsTransactionsList = (queryParams) => {
+  return axiosInstance.get(
+    `/Coins/getAdmincoinstransactionslist?${queryParams}`
+  );
+};
+
+export const fetchEmployeeCoins = (queryParams) => {
+  return axiosInstance.get(`/Coins/getadmincoins?${queryParams}`);
+};
+
+export const fetchCoinsTransactionsList = (queryParams) => {
+  return axiosInstance.get(`/Coins/getcoinstransactionslist?${queryParams}`);
 };
 
 export const fetchEmployeeList = (queryParams) => {
@@ -15,7 +25,7 @@ export const fetchEmployeeList = (queryParams) => {
 };
 
 export const fetchAdminList = (queryParams) => {
-  return axiosInstance.get(`/Tasks/getadminlist??${queryParams}`);
+  return axiosInstance.get(`/Tasks/getadminlist?${queryParams}`);
 };
 
 export const fetchTaskDetail = (taskId) => {
@@ -69,9 +79,9 @@ export const sendAssignedEmpSubmitTask = (formData) => {
 };
 
 export const sendAssignerEmpSubmitTask = (formData) => {
-  return axiosInstance.post("/Tasks/assignerempsubmittask", formData);
+  return axiosInstance.post("/Tasks/assignrdempsubmittask", formData);
 };
 
 export const sendAssignerEmpObjectTask = (formData) => {
-  return axiosInstance.post("/Tasks/assignerempobjecttask", formData);
+  return axiosInstance.post("/Tasks/assignrdemprejecttask", formData);
 };

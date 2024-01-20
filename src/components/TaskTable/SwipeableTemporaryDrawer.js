@@ -4,10 +4,11 @@ import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import * as React from "react";
+import ReusableModal from "../AlertDialogSlide/ReusableModal";
 import CategoryForm from "../TaskForm/CategoryForm";
 import TaskForm from "../TaskForm/TaskForm";
 
-export default function SwipeableTemporaryDrawer({ buttons, task }) {
+export default function SwipeableTemporaryDrawer({ buttons, task, category }) {
   const [state, setState] = React.useState({
     right: false,
   });
@@ -20,9 +21,15 @@ export default function SwipeableTemporaryDrawer({ buttons, task }) {
     return (
       <>
         <ListItem>
-          {anchor === "Edit" && <TaskForm task={task} />}
+          {anchor === "Edit" && task ? <ReusableModal task={task} /> : ""}
+          {anchor === "Edit" && task ? <TaskForm task={task} /> : ""}
           {anchor === "Add Task" && <TaskForm />}
           {anchor === "Add Category" && <CategoryForm />}
+          {anchor === "Edit" && category ? (
+            <CategoryForm category={category} />
+          ) : (
+            ""
+          )}
         </ListItem>
       </>
     );

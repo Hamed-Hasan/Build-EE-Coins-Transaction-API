@@ -1,48 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { TextField, Grid, Alert } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
-import CategoryIcon from '@mui/icons-material/Category';
-import { postAddOrEditCategory } from '@/services/businessLogic';
-import { useAlert } from '@/hooks/useAlert';
+import { useAlert } from "@/hooks/useAlert";
+import { postAddOrEditCategory } from "@/services/businessLogic";
+import CategoryIcon from "@mui/icons-material/Category";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Alert, Grid, TextField } from "@mui/material";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
-const CategoryForm = ({ defaultValues, onFormFocus }) => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+const CategoryForm = ({ defaultValues, onFormFocus, category }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setValue,
+  } = useForm({
     defaultValues: defaultValues || {
-      name: '',
+      name: "",
       coins: 0,
-    }
+    },
   });
 
   const [loading, setLoading] = useState(false);
   const { alert, setSuccess, setError, clearAlert } = useAlert();
 
   const onSubmit = async (data) => {
+    console.log(category);
+    console.log(data);
+
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append('Name', data.name);
-      formData.append('Coins', data.coins);
-
-      const response = await postAddOrEditCategory(formData);
-      console.log('Server Response:', response);
-
-      // Call setSuccess only when the request is successful.
-      setSuccess('Category successfully saved!');
+      formData.append("name", data.name);
+      formData.append("coins", data.coins);
+      let res;
+      if (category) {
+        formData.append("id", category.id);
+        res = await postAddOrEditCategory(formData);
+      } else {
+        res = await postAddOrEditCategory(formData);
+      }
+      console.log("Server Response:", res);
       reset();
     } catch (error) {
-      console.error('Error submitting category:', error);
+      console.error("Error submitting category:", error);
 
       // Call setError with the specific error message.
-      setError('Failed to save category. Please try again.');
+      setError("Failed to save category. Please try again.");
     } finally {
       // Remove the setSuccess call from here
       setTimeout(() => {
         setLoading(false);
+        setSuccess("Category successfully saved!");
       }, 2000);
     }
   };
-
 
   useEffect(() => {
     if (alert.message && !loading) {
@@ -53,11 +65,19 @@ const CategoryForm = ({ defaultValues, onFormFocus }) => {
     }
   }, [alert, loading, clearAlert]);
 
+  useEffect(() => {
+    if (category) {
+      setValue("id", category.id);
+      setValue("name", category.name);
+      setValue("coins", category.coins);
+    }
+  }, [category]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
       {!loading && alert.message && (
         <Grid item xs={12}>
-          <Alert severity={alert.severity} style={{ marginBottom: '20px' }}>
+          <Alert severity={alert.severity} style={{ marginBottom: "20px" }}>
             {alert.message}
           </Alert>
         </Grid>
@@ -69,8 +89,9 @@ const CategoryForm = ({ defaultValues, onFormFocus }) => {
               required: "Name is required",
               pattern: {
                 value: /^[a-zA-Z0-9\s_-]*$/,
-                message: "Name can only include letters, digits, spaces, hyphens, slashes, and underscores"
-              }
+                message:
+                  "Name can only include letters, digits, spaces, hyphens, slashes, and underscores",
+              },
             })}
             label="Name"
             variant="outlined"
@@ -78,29 +99,28 @@ const CategoryForm = ({ defaultValues, onFormFocus }) => {
             error={!!errors.name}
             helperText={errors.name ? errors.name.message : ""}
           />
-
-
         </Grid>
         <Grid item xs={12}>
-        <TextField
-        {...register("coins", {
-          required: "Coins are required",
-          valueAsNumber: true,
-          validate: value => {
-            // This regex allows only positive integers without leading zeros and disallows '0'
-            const isValid = /^[1-9]\d*$/.test(value);
-            return isValid || "Coins should be a positive integer without leading zeros";
-          }
-        })}
-        label="Coins"
-        variant="outlined"
-        fullWidth
-        type="number"
-        error={!!errors.coins}
-        helperText={errors.coins ? errors.coins.message : ""}
-      />
-
-
+          <TextField
+            {...register("coins", {
+              required: "Coins are required",
+              valueAsNumber: true,
+              validate: (value) => {
+                // This regex allows only positive integers without leading zeros and disallows '0'
+                const isValid = /^[1-9]\d*$/.test(value);
+                return (
+                  isValid ||
+                  "Coins should be a positive integer without leading zeros"
+                );
+              },
+            })}
+            label="Coins"
+            variant="outlined"
+            fullWidth
+            type="number"
+            error={!!errors.coins}
+            helperText={errors.coins ? errors.coins.message : ""}
+          />
         </Grid>
         <Grid item xs={12}>
           <LoadingButton
@@ -114,6 +134,11 @@ const CategoryForm = ({ defaultValues, onFormFocus }) => {
           >
             Save Category
           </LoadingButton>
+        </Grid>
+        <Grid>
+          <Link href={"/admin/categories-management"}>
+            Categories Management
+          </Link>
         </Grid>
       </Grid>
     </form>

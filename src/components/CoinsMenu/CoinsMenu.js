@@ -1,11 +1,21 @@
+import { userRole } from "@/constant";
+import { getMyCoins } from "@/services/businessLogic";
 import { Card, CardActions, CardContent, Typography } from "@mui/material";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { useUser } from "@/context/UserContext";
 
-const CoinsMenu = ({ isOpen }) => {
-  // const userRole = "admin";
-  const { userRole, setUserRole } = useUser();
+const CoinsMenu = ({ isOpen, setIsOpen }) => {
+  const [totalCoins, setTotalCoins] = useState(0);
+
+  const fetchData = async () => {
+    const res = await getMyCoins();
+    setTotalCoins(res?.totalCoins);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <Card className={`${styles.coinsMenu} ${isOpen && styles.animate}`}>
       <CardContent>
@@ -34,7 +44,7 @@ const CoinsMenu = ({ isOpen }) => {
               color: "orange",
             }}
           >
-            {500}
+            {totalCoins}
           </span>
         </Typography>
         <Typography component="div">
@@ -44,7 +54,7 @@ const CoinsMenu = ({ isOpen }) => {
               color: "purple",
             }}
           >
-            {250}
+            {totalCoins * 0.5}
           </span>
         </Typography>
       </CardContent>
@@ -57,7 +67,17 @@ const CoinsMenu = ({ isOpen }) => {
           }`}
           size="small"
         >
-          All Of Tasks
+          Tasks
+        </Link>
+        <Link
+          href={`${
+            userRole === "admin"
+              ? `/${userRole}/employeecoins`
+              : `/${userRole}/employeecoins`
+          }`}
+          size="small"
+        >
+          Coins
         </Link>
       </CardActions>
     </Card>
