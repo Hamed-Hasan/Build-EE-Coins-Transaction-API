@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
+import CountUp from "react-countup";
+
 function AnimationCoinModal() {
   const [modalClass, setModalClass] = useState("");
   const [isActive, setIsActive] = useState(false);
@@ -14,12 +16,11 @@ function AnimationCoinModal() {
   const handleButtonClick = (buttonId) => {
     setModalClass(buttonId);
     setIsActive(true);
-
     // Set a timeout matching the duration of the circle animation
     setTimeout(() => {
       // Logic to display the new image
       // For example, you might toggle a new state or modify the class of the image
-    }, 1500); // Assuming 1.5s is the duration of your circle animation
+    }, 1500); 
   };
 
   const handleModalClick = () => {
@@ -39,7 +40,7 @@ function AnimationCoinModal() {
   }, []);
 
   return (
-    <div>
+    <div className="wave-container">
       <div
         id="modal-container"
         className={`${modalClass} ${isActive ? "modal-active" : ""}`}
@@ -47,9 +48,22 @@ function AnimationCoinModal() {
       >
         <div className="modal-background">
           <div className="modal">
+            <div class="wave"> </div>
+            <div>
+              <CountUp
+                className="count-up"
+                style={{
+                  color: "#ffff",
+                  fontSize: "40px",
+                  marginTop: "60px",
+                  position: 'absolute',
+                  top: '-52px'
+                }}
+                end={554}
+                duration={45}
+              />
+            </div>
             <div className="modal-content">
-
-
               <div>
                 <div>
                   <Typography component="div">
@@ -97,37 +111,28 @@ function AnimationCoinModal() {
                     </span>
                   </Typography>
                 </div>
-                <CardActions sx={{ paddingTop: '40px', display: 'flex', marginLeft: '-40px', gap: '16px' }}>
-
+                <CardActions sx={{ paddingTop: '40px', display: 'flex', marginLeft: '-55px', gap: '36px' }}>
                   <div style={{ display: 'flex', alignContent: 'center', gap: '4px' }}>
                     <Link
                       href={`${userRole === "admin"
-                          ? `/${userRole}/tasks-coins-management`
-                          : `/${userRole}/tasks-coins-management`
+                        ? `/${userRole}/tasks-coins-management`
+                        : `/${userRole}/tasks-coins-management`
                         }`}
                       size="small"
                       style={{ textDecoration: 'none', fontWeight: 'bold', color: 'black', display: 'flex', alignContent: 'center', gap: '5px' }}
 
                     >
                       Tasks
-
                       <span>
                         <PlaylistAddCheckIcon />
                       </span>
                     </Link>
-
-
                   </div>
                   <div style={{ display: 'flex', alignContent: 'center', gap: '4px' }}>
-
-
-
-
-
                     <Link
                       href={`${userRole === "admin"
-                          ? `/${userRole}/employeecoins`
-                          : `/${userRole}/employeecoins`
+                        ? `/${userRole}/employeecoins`
+                        : `/${userRole}/employeecoins`
                         }`}
                       size="small"
                       style={{ textDecoration: 'none', fontWeight: 'bold', color: 'black', display: 'flex', alignContent: 'center', gap: '5px' }}
@@ -139,8 +144,6 @@ function AnimationCoinModal() {
                         <PriceCheckIcon />
                       </span>
                     </Link>
-
-
                   </div>
                 </CardActions>
               </div>
@@ -150,12 +153,13 @@ function AnimationCoinModal() {
           </div>
         </div>
       </div>
+
       <div className="content">
         <div className="buttons">
           <div
-            id="seven"
+            id="coin_animation_modal"
             className="button"
-            onClick={() => handleButtonClick("seven")}
+            onClick={() => handleButtonClick("coin_animation_modal")}
           >
             <Image className="spin-image " src={dollar} alt="" />
           </div>
