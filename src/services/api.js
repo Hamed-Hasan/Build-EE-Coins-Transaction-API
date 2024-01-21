@@ -2,6 +2,18 @@ import axiosInstance from "./axiosInstance";
 
 // Fetch
 
+
+export const fetchLocationsDropdown = () => {
+  return axiosInstance.get("/Locations/locationsdropdown");
+};
+
+
+export const fetchProjectsDropdown = () => {
+  return axiosInstance.get("/Projects/projectsdropdown");
+};
+
+
+
 export const fetchMyCoins = () => {
   return axiosInstance.get(`/Coins/getmycoins`);
 };

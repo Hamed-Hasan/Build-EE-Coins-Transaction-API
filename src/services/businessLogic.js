@@ -1,5 +1,31 @@
 import * as api from "./api";
 
+
+export const getLocationsDropdown = async () => {
+  try {
+    const response = await api.fetchLocationsDropdown();
+    // Additional business logic can be added here if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching locations dropdown:", error);
+    throw error;
+  }
+};
+
+
+
+export const getProjectsDropdown = async () => {
+  try {
+    const response = await api.fetchProjectsDropdown();
+    // Additional business logic can be added here if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching projects dropdown:", error);
+    throw error;
+  }
+};
+
+
 export const getMyCoins = async () => {
   try {
     const response = await api.fetchMyCoins();
