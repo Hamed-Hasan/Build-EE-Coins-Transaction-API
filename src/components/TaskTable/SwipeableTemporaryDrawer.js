@@ -30,12 +30,7 @@ export default function SwipeableTemporaryDrawer({ buttons, task, category, coin
     );
   };
 
-  const handleRequestMoney = (event) => {
-    event.preventDefault();
-    // Add logic to handle the form submission
-    console.log("Submitting Request Money form for Coins ID:", coinsId);
-    // Implement the actual submission logic here
-  };
+
 
   const list = (anchor) => (
     <Box
