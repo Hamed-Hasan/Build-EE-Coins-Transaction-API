@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { TextField, Button, MenuItem, FormControl, InputLabel, Select } from '@mui/material';
+import { TextField, Button, MenuItem, FormControl, InputLabel, Select, Typography } from '@mui/material';
 import { getLocationsDropdown, getProjectsDropdown, postRequestMoneyByCoins } from '@/services/businessLogic';
 
 const RequestMoneyForm = ({ coinsId }) => {
@@ -51,7 +51,11 @@ const RequestMoneyForm = ({ coinsId }) => {
 
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <>
+         <Typography variant="h5" component="h1" style={{ marginTop: 20, paddingBottom: '20px' }}>
+                Add Request Money
+            </Typography>
+        <form onSubmit={handleSubmit(onSubmit)} style={{padding: '0px 10px'}}>
             <TextField
                 label="Total Converted Coins"
                 variant="outlined"
@@ -107,10 +111,23 @@ const RequestMoneyForm = ({ coinsId }) => {
                     )}
                 />
             </FormControl>
-            <Button type="submit" variant="contained" color="primary" style={{ marginTop: 20 }}>
-                Submit
-            </Button>
+            <Button 
+                    type="submit" 
+                    variant="outlined" 
+                    fullWidth
+                    style={{ 
+                        marginTop: 20,
+                        padding: '6px 16px',
+                        backgroundColor: 'rgba(0, 0, 0, 0)', // Or any other color
+                        color: 'purple', // Text color
+                        border: '1px solid purple', // Border color
+                        borderRadius: 5,
+                    }}
+                >
+                    Submit
+                </Button>
         </form>
+        </>
     );
 };
 

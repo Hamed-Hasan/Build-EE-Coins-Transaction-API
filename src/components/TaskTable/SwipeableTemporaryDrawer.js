@@ -30,22 +30,38 @@ export default function SwipeableTemporaryDrawer({ buttons, task, category, coin
     );
   };
 
+  const getButtonStyles = (buttonLabel) => {
+    if (buttonLabel === "Request Money") {
+      return {
+        color: 'black',
+        fontWeight: 'bold'
+      };
+    }
+    // Return default style or an empty object if no specific style is needed
+    return {}; 
+  };
 
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 550 }}
+      sx={{
+        width: anchor === "top" || anchor === "bottom" ? "auto" : 
+              anchor === "Request Money" ? 390 : 550
+      }}
       role="presentation"
     >
       <List>{renderListItems(anchor)}</List>
     </Box>
   );
+  
 
   return (
     <div>
       {[...buttons].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+          <Button onClick={toggleDrawer(anchor, true)}
+          style={getButtonStyles(anchor)}
+          >{anchor}</Button>
           <SwipeableDrawer
             anchor={"right"}
             open={state[anchor]}

@@ -75,7 +75,11 @@ function AnimationCoinModal() {
             </div>
             <div className="modal-content">
               <div>
-                <div>
+                <div style={{
+                  position: 'relative',
+                  top: '13px',
+                  left:'6px'
+                }}>
                   <Typography component="div">
                     <span
                       style={{
@@ -121,7 +125,7 @@ function AnimationCoinModal() {
                     </span>
                   </Typography>
                 </div>
-                <CardActions sx={{ paddingTop: '25px', display: 'flex', marginLeft: '-55px', gap: '36px' }}>
+                <CardActions sx={{ paddingTop: '15px', display: 'flex', marginLeft: '-75px', gap: '36px' }}>
                   <div style={{ display: 'flex', alignContent: 'center', gap: '4px' }}>
                     <Link
                       href={`${userRole === "admin"
@@ -139,7 +143,7 @@ function AnimationCoinModal() {
                     </Link>
                   </div>
 
-                  <div style={{ display: 'flex', alignContent: 'center', marginLeft: '-14px' }}>
+                  <div style={{ display: 'flex', alignContent: 'center', marginLeft: '-7px', marginTop: '15px' }}>
                     <div>
                     <SwipeableTemporaryDrawer
                       buttons={["Request Money"]}
