@@ -54,6 +54,12 @@ export const fetchUserDropdownList = () => {
 
 // Post
 
+
+export const sendRequestMoneyByCoins = (formData) => {
+  return axiosInstance.post("/Coins/requestmoneybycoins", formData);
+};
+
+
 export const sendAddToCoinsAfterManagerReview = (formData) => {
   return axiosInstance.post("/Coins/addtocoinsaftermanagerreview", formData);
 };

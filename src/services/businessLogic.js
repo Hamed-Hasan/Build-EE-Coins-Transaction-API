@@ -130,6 +130,19 @@ export const getUserDropdownList = async () => {
 
 // POST
 
+
+export const postRequestMoneyByCoins = async (formData) => {
+  try {
+    const response = await api.sendRequestMoneyByCoins(formData);
+    // Additional business logic can be added here if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error sending request money by coins:", error);
+    throw error;
+  }
+};
+
+
 export const postAddToCoinsAfterManagerReview = async (formData) => {
   try {
     const response = await api.sendAddToCoinsAfterManagerReview(formData);
