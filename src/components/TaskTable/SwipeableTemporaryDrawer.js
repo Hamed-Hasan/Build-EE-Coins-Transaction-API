@@ -1,38 +1,40 @@
-import { ListItem } from "@mui/material";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import * as React from "react";
+import React, { useState } from "react";
+import { Box, Button, List, ListItem, SwipeableDrawer, TextField, Typography } from "@mui/material";
 import ReusableModal from "../AlertDialogSlide/ReusableModal";
 import CategoryForm from "../TaskForm/CategoryForm";
 import TaskForm from "../TaskForm/TaskForm";
+import RequestMoneyForm from "../RequestMoneyForm/RequestMoneyForm";
 
-export default function SwipeableTemporaryDrawer({ buttons, task, category }) {
-  const [state, setState] = React.useState({
-    right: false,
-  });
+export default function SwipeableTemporaryDrawer({ buttons, task, category, coinsId }) {
+  const [state, setState] = useState({ right: false });
 
   const toggleDrawer = (anchor, open) => () => {
     setState({ ...state, [anchor]: open });
   };
 
   const renderListItems = (anchor) => {
+    // Handling "Request Money" action
+    if (anchor === "Request Money") {
+      return <ListItem><RequestMoneyForm coinsId={coinsId} /></ListItem>;
+    }
+
+    // Handling other actions
     return (
       <>
-        <ListItem>
-          {anchor === "Edit" && task ? <ReusableModal task={task} /> : ""}
-          {anchor === "Edit" && task ? <TaskForm task={task} /> : ""}
-          {anchor === "Add Task" && <TaskForm />}
-          {anchor === "Add Category" && <CategoryForm />}
-          {anchor === "Edit" && category ? (
-            <CategoryForm category={category} />
-          ) : (
-            ""
-          )}
-        </ListItem>
+        {anchor === "Edit" && task ? <ReusableModal task={task} /> : null}
+        {anchor === "Edit" && task ? <TaskForm task={task} /> : null}
+        {anchor === "Add Task" ? <TaskForm /> : null}
+        {anchor === "Add Category" ? <CategoryForm /> : null}
+        {anchor === "Edit" && category ? <CategoryForm category={category} /> : null}
       </>
     );
+  };
+
+  const handleRequestMoney = (event) => {
+    event.preventDefault();
+    // Add logic to handle the form submission
+    console.log("Submitting Request Money form for Coins ID:", coinsId);
+    // Implement the actual submission logic here
   };
 
   const list = (anchor) => (

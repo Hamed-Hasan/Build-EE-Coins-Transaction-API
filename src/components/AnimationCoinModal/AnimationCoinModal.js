@@ -8,10 +8,20 @@ import { useEffect, useState } from "react";
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import CountUp from "react-countup";
+import SwipeableTemporaryDrawer from "../TaskTable/SwipeableTemporaryDrawer";
 
 function AnimationCoinModal() {
   const [modalClass, setModalClass] = useState("");
   const [isActive, setIsActive] = useState(false);
+  const [coins, setCoins] = useState(0);
+  // console.log("🚀 ~ AnimationCoinModal ~ totalCoins:", coins)
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // Modify the handleButtonClick function or create a new one for the drawer
+  const handleRequestMoneyClick = () => {
+    setIsDrawerOpen(true);
+  };
 
   const handleButtonClick = (buttonId) => {
     setModalClass(buttonId);
@@ -20,7 +30,7 @@ function AnimationCoinModal() {
     setTimeout(() => {
       // Logic to display the new image
       // For example, you might toggle a new state or modify the class of the image
-    }, 1500); 
+    }, 1500);
   };
 
   const handleModalClick = () => {
@@ -28,11 +38,11 @@ function AnimationCoinModal() {
     setIsActive(false);
   };
 
-  const [totalCoins, setTotalCoins] = useState(0);
+
 
   const fetchData = async () => {
     const res = await getMyCoins();
-    setTotalCoins(res?.totalCoins);
+    setCoins(res);
   };
 
   useEffect(() => {
@@ -95,7 +105,7 @@ function AnimationCoinModal() {
                           fontWeight: 'bold'
                         }}
                       >
-                        {totalCoins}
+                        {coins?.totalCoins}
                       </span>
                     </div>
                   </Typography>
@@ -107,11 +117,11 @@ function AnimationCoinModal() {
                         fontWeight: 'bold'
                       }}
                     >
-                      {totalCoins * 0.5}
+                      {coins?.totalCoins * 0.5}
                     </span>
                   </Typography>
                 </div>
-                <CardActions sx={{ paddingTop: '40px', display: 'flex', marginLeft: '-55px', gap: '36px' }}>
+                <CardActions sx={{ paddingTop: '25px', display: 'flex', marginLeft: '-55px', gap: '36px' }}>
                   <div style={{ display: 'flex', alignContent: 'center', gap: '4px' }}>
                     <Link
                       href={`${userRole === "admin"
@@ -128,23 +138,22 @@ function AnimationCoinModal() {
                       </span>
                     </Link>
                   </div>
-                  <div style={{ display: 'flex', alignContent: 'center', gap: '4px' }}>
-                    <Link
-                      href={`${userRole === "admin"
-                        ? `/${userRole}/employeecoins`
-                        : `/${userRole}/employeecoins`
-                        }`}
-                      size="small"
-                      style={{ textDecoration: 'none', fontWeight: 'bold', color: 'black', display: 'flex', alignContent: 'center', gap: '5px' }}
 
-                    >
-                      Coins
+                  <div style={{ display: 'flex', alignContent: 'center', marginLeft: '-14px' }}>
+                    <div>
+                    <SwipeableTemporaryDrawer
+                      buttons={["Request Money"]}
+                      open={isDrawerOpen}
+                      onClose={() => setIsDrawerOpen(false)}
+                      coinsId={coins?.id} // Passing the coins ID
+                    />
 
-                      <span>
-                        <PriceCheckIcon />
-                      </span>
-                    </Link>
+                    </div>
+                    <div style={{ marginTop: '13px' }}>
+                      <PriceCheckIcon />
+                    </div>
                   </div>
+
                 </CardActions>
               </div>
             </div>

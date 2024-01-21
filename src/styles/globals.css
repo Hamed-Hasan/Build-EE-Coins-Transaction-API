@@ -764,7 +764,7 @@ box-shadow: inset 0px -1px 6px 0px rgba(66, 68, 90, 1); */
   position: absolute;
   height: 100px;
   width: 100%;
-  background: #73BA24;
+  background: #9C66FE;
   /* bottom: 0; */
   left: 0;
   top: 0;
@@ -788,7 +788,7 @@ box-shadow: inset 0px -1px 6px 0px rgba(66, 68, 90, 1); */
 .wave::after {
   width: 55%;
   height: 100%;
-  background-color: #73BA24;
+  background-color: #9C66FE;
   left: -1.5%;
   top: 40%;
 }
