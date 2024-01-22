@@ -4,11 +4,11 @@ import { TextField, Button, MenuItem, FormControl, InputLabel, Select, Typograph
 import { getLocationsDropdown, getProjectsDropdown, postRequestMoneyByCoins } from '@/services/businessLogic';
 
 const RequestMoneyForm = ({ coinsId }) => {
-    const { register, handleSubmit, control, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, watch, control, formState: { errors }, reset } = useForm();
     const [locations, setLocations] = useState([]);
     const [projects, setProjects] = useState([]);
-    //   console.log("🚀 ~ RequestMoneyForm ~ projects:", projects)
-    //   console.log("🚀 ~ RequestMoneyForm ~ locations:", locations)
+
+    const totalCoins = watch("TotalConvertedCoins");
 
     useEffect(() => {
         const fetchDropdownData = async () => {
@@ -49,6 +49,7 @@ const RequestMoneyForm = ({ coinsId }) => {
         });
     };
 
+    const convertedSAR = totalCoins * 0.5; // Assuming 1 Coin = 0.5 SAR
 
     return (
         <>
@@ -56,24 +57,23 @@ const RequestMoneyForm = ({ coinsId }) => {
                 Add Request Money
             </Typography>
         <form onSubmit={handleSubmit(onSubmit)} style={{padding: '0px 10px'}}>
-            <TextField
-                label="Total Converted Coins"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                {...register('TotalConvertedCoins', { required: true })}
-                error={!!errors.TotalConvertedCoins}
-                helperText={errors.TotalConvertedCoins ? 'Total Converted Coins is required' : ''}
-            />
-            <TextField
-                label="Request Reason"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                {...register('ReqReason', { required: true })}
-                error={!!errors.ReqReason}
-                helperText={errors.ReqReason ? 'Request Reason is required' : ''}
-            />
+        <TextField
+                    label="Total Converted Coins"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    {...register('TotalConvertedCoins', { required: true })}
+                    error={!!errors.TotalConvertedCoins}
+                    helperText={errors.TotalConvertedCoins ? 'Total Converted Coins is required' : ''}
+                />
+                <TextField
+                    label="Converted to SAR"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={convertedSAR || ''} // Show empty string if totalCoins is not defined
+                    disabled
+                />
             <FormControl fullWidth margin="normal">
                 <InputLabel>Project Name</InputLabel>
                 <Controller

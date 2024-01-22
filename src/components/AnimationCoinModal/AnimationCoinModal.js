@@ -142,7 +142,6 @@ function AnimationCoinModal() {
                       </span>
                     </Link>
                   </div>
-
                   <div style={{ display: 'flex', alignContent: 'center', marginLeft: '-7px', marginTop: '15px' }}>
                     <div>
                     <SwipeableTemporaryDrawer
