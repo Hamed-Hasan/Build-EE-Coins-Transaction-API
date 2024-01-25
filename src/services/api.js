@@ -11,11 +11,12 @@ export const requestFetchEmployeeList = (queryParams) => {
 };
 
 export const fetchAdminLeaveList = (queryParams) => {
-  // const queryString = new URLSearchParams(queryParams).toString();
   return axiosInstance.get(`/RequestLeaves/getadminlist?${queryParams}`);
 };
 
-
+export const fetchLeaveRequestDetail = (RequestId) => {
+  return axiosInstance.get(`/RequestLeaves/requestLeavearydetail?id=${RequestId}`);
+};
 
 
 

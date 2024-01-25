@@ -34,7 +34,16 @@ export const getAdminLeaveList = async (queryParams) => {
   }
 };
 
-
+export const getLeaveRequestDetail = async (RequestId) => {
+  try {
+    const response = await api.fetchLeaveRequestDetail(RequestId);
+    // Additional business logic can be added here if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching leave request detail:", error);
+    throw error;
+  }
+};
 
 
 
