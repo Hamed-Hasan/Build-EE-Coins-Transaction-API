@@ -22,6 +22,9 @@ export const sendAddRequestLeave = (formData) => {
   return axiosInstance.post("/RequestLeaves/addrequestleave", formData);
 };
 
+export const sendManagerApproveLeaveDeposit = (formData) => {
+  return axiosInstance.post("/RequestLeaves/mngapprovepodeposit", formData);
+};
 
 // ================================================================
 

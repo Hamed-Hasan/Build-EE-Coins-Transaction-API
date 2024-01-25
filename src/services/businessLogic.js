@@ -57,6 +57,18 @@ export const addRequestLeave = async (formData) => {
   }
 };
 
+
+export const managerApproveLeaveDeposit = async (formData) => {
+  try {
+    const response = await api.sendManagerApproveLeaveDeposit(formData);
+    // Additional business logic can be added here if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error approving leave deposit:", error);
+    throw error;
+  }
+};
+
 // ================================================================
 
 

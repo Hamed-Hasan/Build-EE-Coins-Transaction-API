@@ -1,7 +1,7 @@
 import ReusableModal from "@/components/AlertDialogSlide/ReusableModal";
 import AnimationCoinModal from "@/components/AnimationCoinModal/AnimationCoinModal";
 import CoinsButton from "@/components/CoinsButton/CoinsButton";
-import { sendAddRequestLeave } from "@/services/api";
+import { sendAddRequestLeave, sendManagerApproveLeaveDeposit } from "@/services/api";
 import { getAdminLeaveList, getLeaveRequestDetail, requestgetEmployeeList } from "@/services/businessLogic";
 
 const HomePage = () => {
@@ -21,13 +21,15 @@ const handleButtonClick = async () => {
   try {
     // Create a FormData object to send the form data
     const formData = new FormData();
-    formData.append("Description", "add request leave");
-    formData.append("StartTime", "1-25-2024");
-    formData.append("EndTime", "1-28-2024");
-    formData.append("CategoryId", 1);
+    formData.append("Id", "12");
+    formData.append("ManagerStatus", "Approved");
+    formData.append("ManagerComment", "fsfs");
+
+    // Log the FormData to the console
+    console.log("FormData:", formData);
 
     // Make the API request using the API function
-    const response = await sendAddRequestLeave(formData);
+    const response = await sendManagerApproveLeaveDeposit(formData);
     console.log("🚀 ~ handleButtonClick ~ response:", response)
 
   } catch (error) {
@@ -43,7 +45,7 @@ const handleButtonClick = async () => {
     <div>
 
 <button type="button" onClick={handleButtonClick}>
-        Submit API Request
+        Send API Request and Log Data
       </button>
       <AnimationCoinModal/>
       <CoinsButton />
