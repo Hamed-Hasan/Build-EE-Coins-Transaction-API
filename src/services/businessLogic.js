@@ -1,6 +1,31 @@
 import * as api from "./api";
 
 
+export const getLeaveTypesDropdown = async () => {
+  try {
+    const response = await api.fetchLeaveTypesDropdown();
+    // Additional business logic can be added here if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching leave types dropdown:", error);
+    throw error;
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const getLocationsDropdown = async () => {
   try {
     const response = await api.fetchLocationsDropdown();

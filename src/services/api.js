@@ -2,6 +2,20 @@ import axiosInstance from "./axiosInstance";
 
 // Fetch
 
+export const fetchLeaveTypesDropdown = () => {
+  return axiosInstance.get("/RequestLeaves/dropdownlist");
+};
+
+
+
+
+
+
+
+
+
+
+
 
 export const fetchLocationsDropdown = () => {
   return axiosInstance.get("/Locations/locationsdropdown");

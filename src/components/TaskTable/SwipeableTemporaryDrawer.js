@@ -14,7 +14,7 @@ export default function SwipeableTemporaryDrawer({ buttons, task, category, coin
 
   const renderListItems = (anchor) => {
     // Handling "Request Money" action
-    if (anchor === "Request Money") {
+    if (anchor === "Request") {
       return <ListItem><RequestMoneyForm coinsId={coinsId} /></ListItem>;
     }
 
@@ -31,7 +31,7 @@ export default function SwipeableTemporaryDrawer({ buttons, task, category, coin
   };
 
   const getButtonStyles = (buttonLabel) => {
-    if (buttonLabel === "Request Money") {
+    if (buttonLabel === "Request") {
       return {
         color: 'black',
         fontWeight: 'bold'
@@ -46,7 +46,7 @@ export default function SwipeableTemporaryDrawer({ buttons, task, category, coin
     <Box
       sx={{
         width: anchor === "top" || anchor === "bottom" ? "auto" : 
-              anchor === "Request Money" ? 390 : 550
+              anchor === "Request" ? 390 : 550
       }}
       role="presentation"
     >

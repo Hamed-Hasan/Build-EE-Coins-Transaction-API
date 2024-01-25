@@ -77,8 +77,8 @@ function AnimationCoinModal() {
               <div>
                 <div style={{
                   position: 'relative',
-                  top: '13px',
-                  left:'6px'
+                  top: '24px',
+                  left:'-23px'
                 }}>
                   <Typography component="div">
                     <span
@@ -125,8 +125,8 @@ function AnimationCoinModal() {
                     </span>
                   </Typography>
                 </div>
-                <CardActions sx={{ paddingTop: '15px', display: 'flex', marginLeft: '-75px', gap: '36px' }}>
-                  <div style={{ display: 'flex', alignContent: 'center', gap: '4px' }}>
+                <CardActions sx={{ paddingTop: '28px', display: 'flex', marginLeft: '-65px', gap: '36px' }}>
+                  <div style={{ display: 'flex', alignContent: 'center', gap: '4px', marginTop: '18px' }}>
                     <Link
                       href={`${userRole === "admin"
                         ? `/${userRole}/tasks-coins-management`
@@ -142,18 +142,18 @@ function AnimationCoinModal() {
                       </span>
                     </Link>
                   </div>
-                  <div style={{ display: 'flex', alignContent: 'center', marginLeft: '-7px', marginTop: '15px' }}>
+                  <div style={{ display: 'flex', alignContent: 'center', marginLeft: '-7px', marginTop: '12px' }}>
                     <div>
                     <SwipeableTemporaryDrawer
-                      buttons={["Request Money"]}
+                      buttons={["Request"]}
                       open={isDrawerOpen}
                       onClose={() => setIsDrawerOpen(false)}
                       coinsId={coins?.id} // Passing the coins ID
                     />
 
                     </div>
-                    <div style={{ marginTop: '13px' }}>
-                      <PriceCheckIcon />
+                    <div>
+                      <PriceCheckIcon style={{ marginTop: '8px' }} />
                     </div>
                   </div>
 
