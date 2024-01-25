@@ -1,5 +1,6 @@
 import * as api from "./api";
 
+// ================================================================
 
 export const getLeaveTypesDropdown = async () => {
   try {
@@ -45,8 +46,18 @@ export const getLeaveRequestDetail = async (RequestId) => {
   }
 };
 
+export const addRequestLeave = async (formData) => {
+  try {
+    const response = await api.sendAddRequestLeave(formData);
+    // Additional business logic can be added here if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error adding request leave:", error);
+    throw error;
+  }
+};
 
-
+// ================================================================
 
 
 

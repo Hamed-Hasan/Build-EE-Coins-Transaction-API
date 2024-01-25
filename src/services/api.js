@@ -1,6 +1,6 @@
 import axiosInstance from "./axiosInstance";
 
-// Fetch
+// ================================================================
 
 export const fetchLeaveTypesDropdown = () => {
   return axiosInstance.get("/RequestLeaves/dropdownlist");
@@ -18,12 +18,17 @@ export const fetchLeaveRequestDetail = (RequestId) => {
   return axiosInstance.get(`/RequestLeaves/requestLeavearydetail?id=${RequestId}`);
 };
 
+export const sendAddRequestLeave = (formData) => {
+  return axiosInstance.post("/RequestLeaves/addrequestleave", formData);
+};
+
+
+// ================================================================
 
 
 
 
-
-
+// Fetch
 export const fetchLocationsDropdown = () => {
   return axiosInstance.get("/Locations/locationsdropdown");
 };
