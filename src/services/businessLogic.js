@@ -23,7 +23,16 @@ export const requestgetEmployeeList = async (queryParams) => {
   }
 };
 
-
+export const getAdminLeaveList = async (queryParams) => {
+  try {
+    const response = await api.fetchAdminLeaveList(queryParams);
+    // Additional business logic can be added here if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching admin leave list:", error);
+    throw error;
+  }
+};
 
 
 
