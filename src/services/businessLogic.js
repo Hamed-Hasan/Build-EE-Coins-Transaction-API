@@ -12,6 +12,16 @@ export const getLeaveTypesDropdown = async () => {
   }
 };
 
+export const requestgetEmployeeList = async (queryParams) => {
+  try {
+    const response = await api.requestFetchEmployeeList(queryParams);
+    // Additional business logic can be added here if needed
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching employee list:", error);
+    throw error;
+  }
+};
 
 
 

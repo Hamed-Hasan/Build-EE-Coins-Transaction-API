@@ -6,6 +6,9 @@ export const fetchLeaveTypesDropdown = () => {
   return axiosInstance.get("/RequestLeaves/dropdownlist");
 };
 
+export const requestFetchEmployeeList = (queryParams) => {
+  return axiosInstance.get(`/RequestLeaves/getemployeelist?${queryParams}`);
+};
 
 
 
